@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Akazaki",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
