@@ -1,7 +1,11 @@
 package com.akazaki.api.infrastructure.web.controller.auth;
 
+import com.akazaki.api.application.commands.LoginCommandHandler;
 import com.akazaki.api.application.commands.RegisterUserCommandHandler;
+import com.akazaki.api.domain.ports.in.commands.LoginUserCommand;
+import com.akazaki.api.infrastructure.web.dto.auth.request.LoginRequest;
 import com.akazaki.api.infrastructure.web.dto.auth.request.RegisterUserRequest;
+import com.akazaki.api.infrastructure.web.dto.auth.response.LoginResponse;
 import com.akazaki.api.infrastructure.web.dto.auth.response.RegisterUserResponse;
 import com.akazaki.api.infrastructure.web.mapper.auth.AuthMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,12 +18,10 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,14 +30,16 @@ public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     
     private final RegisterUserCommandHandler registerUserCommandHandler;
+    private final LoginCommandHandler loginCommandHandler;
     private final AuthMapper authMapper;
 
     public AuthController(
             RegisterUserCommandHandler registerUserCommandHandler,
+            LoginCommandHandler loginCommandHandler,
             AuthMapper authMapper) {
         this.registerUserCommandHandler = registerUserCommandHandler;
+        this.loginCommandHandler = loginCommandHandler;
         this.authMapper = authMapper;
-        logger.info("AuthController initialized");
     }
 
     @Operation(
@@ -62,15 +66,27 @@ public class AuthController {
         return ResponseEntity.ok(authMapper.toResponse(user));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return ResponseEntity.badRequest().body(errors);
+    @Operation(
+            summary = "Login user",
+            description = "Authenticate a user and return a JWT token"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "User successfully authenticated",
+                    content = @Content(schema = @Schema(implementation = LoginResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid credentials",
+                    content = @Content
+            )
+    })
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        logger.info("Received login request for email: {}", request.getEmail());
+        var command = new LoginUserCommand(request.getEmail(), request.getPassword());
+        var response = loginCommandHandler.handle(command);
+        return ResponseEntity.ok(response);
     }
 } 
