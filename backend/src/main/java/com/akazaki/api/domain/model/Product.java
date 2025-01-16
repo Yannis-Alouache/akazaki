@@ -16,10 +16,20 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
-    private BigDecimal price;
+
+    @Column(nullable = false)
+    private int price;
+
+    @Column(nullable = false)
     private int stock;
+
+    @Column(nullable = false)
     private String imageUrl;
 
     @ManyToMany
@@ -28,9 +38,6 @@ public class Product {
     @OneToMany
     private List<Review> reviews;
 
-    @ManyToMany
-    @JoinTable(name = "ProductPromotion")
-    private List<Promotion> promotions;
-
-
+    @ManyToOne
+    private Promotion promotions;
 }

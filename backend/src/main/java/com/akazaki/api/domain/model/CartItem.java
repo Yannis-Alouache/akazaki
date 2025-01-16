@@ -13,10 +13,9 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int quantity;
 
-    @ManyToOne
-    private Cart cart;
+    @Column(nullable = false)
+    private int quantity;
 
     @ManyToOne
     private Product product;

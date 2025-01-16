@@ -16,15 +16,22 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private LocalDateTime date;
+
+    @Column(nullable = false)
     private String status;
-    private BigDecimal totalPrice;
+
+    @Column(nullable = false)
+    private int totalPrice;
 
     @ManyToOne
     private Address billingAddress;
 
     @ManyToOne
     private Address shippingAddress;
+
     @OneToOne
     private Payment payment;
 }

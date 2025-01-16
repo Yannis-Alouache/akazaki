@@ -15,10 +15,14 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private int rating;
+
+    @Column(nullable = false)
     private String comment;
+
+    @Column(nullable = false)
     private LocalDateTime date;
 
-    @ManyToOne
-    private Product product;
 }

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,8 +13,12 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private int quantity;
-    private BigDecimal unitPrice;
+
+    @Column(nullable = false)
+    private int unitPrice;
 
     @ManyToOne
     private Order order;

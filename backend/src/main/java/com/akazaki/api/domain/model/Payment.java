@@ -16,8 +16,14 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal amount;
+
+    @Column(nullable = false)
+    private int amount;
+
+    @Column(nullable = false)
     private LocalDateTime date;
+
+    @Column(nullable = false)
     private String method;
 
     @OneToOne
