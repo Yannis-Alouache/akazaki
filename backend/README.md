@@ -51,7 +51,7 @@ spring.datasource.password=root
 ### 1. Swagger UI
 Accédez à la documentation API via :
 ```
-http://localhost:8080/api-doc
+http://localhost:8080/api-docs
 ```
 
 ### 2. Bruno
