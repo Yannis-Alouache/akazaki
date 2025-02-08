@@ -1,4 +1,4 @@
-package com.akazaki.api.application.commands;
+package com.akazaki.api.application.commands.Login;
 
 import com.akazaki.api.domain.exceptions.InvalidCredentialsException;
 import com.akazaki.api.domain.ports.in.commands.LoginUserCommand;

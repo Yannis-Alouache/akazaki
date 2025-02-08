@@ -1,4 +1,4 @@
-package com.akazaki.api.infrastructure.web.dto.user.response;
+package com.akazaki.api.infrastructure.web.dto.response;
 
 public record UserResponse(
     Long id,

@@ -1,4 +1,4 @@
-package com.akazaki.api.infrastructure.persistence;
+package com.akazaki.api.infrastructure.persistence.User;
 
 import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.out.UserRepository;

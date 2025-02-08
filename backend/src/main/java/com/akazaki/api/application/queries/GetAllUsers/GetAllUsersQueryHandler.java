@@ -1,4 +1,4 @@
-package com.akazaki.api.application.queries;
+package com.akazaki.api.application.queries.GetAllUsers;
 
 import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.queries.GetAllUsersQuery;

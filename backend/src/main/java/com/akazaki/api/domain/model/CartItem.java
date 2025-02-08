@@ -1,3 +1,4 @@
+/*
 package com.akazaki.api.domain.model;
 
 import jakarta.persistence.*;
@@ -20,3 +21,4 @@ public class CartItem {
     @ManyToOne
     private Product product;
 }
+*/

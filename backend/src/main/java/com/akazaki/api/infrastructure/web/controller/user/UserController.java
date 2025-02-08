@@ -1,10 +1,10 @@
 package com.akazaki.api.infrastructure.web.controller.user;
 
-import com.akazaki.api.application.queries.GetAllUsersQueryHandler;
-import com.akazaki.api.application.queries.GetUserQueryHandler;
+import com.akazaki.api.application.queries.GetAllUsers.GetAllUsersQueryHandler;
+import com.akazaki.api.application.queries.GetUser.GetUserQueryHandler;
 import com.akazaki.api.domain.ports.in.queries.GetAllUsersQuery;
 import com.akazaki.api.domain.ports.in.queries.GetUserQuery;
-import com.akazaki.api.infrastructure.web.dto.user.response.UserResponse;
+import com.akazaki.api.infrastructure.web.dto.response.UserResponse;
 import com.akazaki.api.infrastructure.web.mapper.user.UserMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
