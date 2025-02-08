@@ -1,3 +1,4 @@
+/*
 package com.akazaki.api.domain.model;
 
 import jakarta.persistence.*;
@@ -19,3 +20,4 @@ public class Cart {
     @OneToMany
     private List<CartItem> cartItems;
 }
+*/

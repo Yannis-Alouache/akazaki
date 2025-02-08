@@ -1,3 +1,4 @@
+/*
 package com.akazaki.api.domain.model;
 
 import jakarta.persistence.*;
@@ -5,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -41,3 +41,4 @@ public class Product {
     @ManyToOne
     private Promotion promotions;
 }
+*/
