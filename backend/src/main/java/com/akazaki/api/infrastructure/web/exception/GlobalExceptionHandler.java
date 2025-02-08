@@ -1,5 +1,6 @@
 package com.akazaki.api.infrastructure.web.exception;
 
+import com.akazaki.api.domain.exceptions.CategoryAlreadyExistException;
 import com.akazaki.api.domain.exceptions.EmailAlreadyRegisteredException;
 import com.akazaki.api.domain.exceptions.InvalidCredentialsException;
 import com.akazaki.api.domain.exceptions.UserNotFoundException;
@@ -30,5 +31,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInvalidCredentials(InvalidCredentialsException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(CategoryAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryAlreadyExist(CategoryAlreadyExistException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
