@@ -1,7 +1,7 @@
 package com.akazaki.api.infrastructure.web.controller.auth;
 
-import com.akazaki.api.application.commands.LoginCommandHandler;
-import com.akazaki.api.application.commands.RegisterUserCommandHandler;
+import com.akazaki.api.application.commands.Login.LoginCommandHandler;
+import com.akazaki.api.application.commands.Register.RegisterUserCommandHandler;
 import com.akazaki.api.domain.ports.in.commands.LoginUserCommand;
 import com.akazaki.api.infrastructure.web.dto.auth.request.LoginRequest;
 import com.akazaki.api.infrastructure.web.dto.auth.request.RegisterUserRequest;

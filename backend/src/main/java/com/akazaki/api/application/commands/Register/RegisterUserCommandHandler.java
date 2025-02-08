@@ -1,4 +1,4 @@
-package com.akazaki.api.application.commands;
+package com.akazaki.api.application.commands.Register;
 
 import com.akazaki.api.domain.exceptions.EmailAlreadyRegisteredException;
 import com.akazaki.api.domain.model.User;

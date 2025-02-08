@@ -1,12 +1,11 @@
 package com.akazaki.api.infrastructure.web.mapper.user;
 
 import com.akazaki.api.domain.model.User;
-import com.akazaki.api.infrastructure.web.dto.user.response.UserResponse;
+import com.akazaki.api.infrastructure.web.dto.response.UserResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 @Component
 public class UserMapper {

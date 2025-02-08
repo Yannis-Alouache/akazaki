@@ -1,4 +1,4 @@
-package com.akazaki.api.application.queries;
+package com.akazaki.api.application.queries.GetUser;
 
 import com.akazaki.api.domain.exceptions.UserNotFoundException;
 import com.akazaki.api.domain.model.User;
