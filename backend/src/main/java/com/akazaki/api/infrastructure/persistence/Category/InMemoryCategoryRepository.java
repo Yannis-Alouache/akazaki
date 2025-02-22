@@ -29,4 +29,9 @@ public class InMemoryCategoryRepository implements CategoryRepository {
         return categories.stream()
             .anyMatch(category -> category.getName().equals(name));
     }
+
+    @Override
+    public List<Category> findAll() {
+        return List.of();
+    }
 }

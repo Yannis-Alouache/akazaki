@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Profile("prod")
 @RequiredArgsConstructor
@@ -24,5 +26,12 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
     @Override
     public boolean existsByName(String name) {
         return repository.existsByName(name);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return repository.findAll().stream()
+                .map(mapper::toDomain) // Conversion Entity -> Domain
+                .toList();
     }
 }
