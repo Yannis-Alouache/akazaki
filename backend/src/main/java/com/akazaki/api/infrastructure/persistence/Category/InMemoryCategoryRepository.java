@@ -32,6 +32,6 @@ public class InMemoryCategoryRepository implements CategoryRepository {
 
     @Override
     public List<Category> findAll() {
-        return List.of();
+        return new ArrayList<>(categories);
     }
 }
