@@ -29,4 +29,11 @@ public class InMemoryCategoryRepository implements CategoryRepository {
         return categories.stream()
             .anyMatch(category -> category.getName().equals(name));
     }
+
+    @Override
+    public List<Category> findAllById(List<Long> categoryIds) {
+        return categories.stream()
+            .filter(category -> categoryIds.contains(category.getId()))
+            .toList();
+    }
 }
