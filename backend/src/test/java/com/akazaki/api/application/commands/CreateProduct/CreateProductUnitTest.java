@@ -42,7 +42,6 @@ public class CreateProductUnitTest {
             "Test Description",
             10.0,
             100,
-            "http://test.com/image.jpg",
             Arrays.asList(category1, category2)
         );
         expectedProduct.setId(1L);
@@ -56,17 +55,21 @@ public class CreateProductUnitTest {
             "Test Description",
             10.0,
             100,
-            "http://test.com/image.jpg",
             Arrays.asList(1L, 2L)
         );
 
         // Act
         handler.handle(command);
-        Product product = productRepository.findById(1L).get();
+        Product product = productRepository.findById(1L).orElseThrow();
 
         // Assert
         assertNotNull(product);
-        assertEquals(product, expectedProduct);
+        assertEquals(product.getId(), expectedProduct.getId());
+        assertEquals(product.getName(), expectedProduct.getName());
+        assertEquals(product.getDescription(), expectedProduct.getDescription());
+        assertEquals(product.getPrice(), expectedProduct.getPrice(), 0.0);
+        assertEquals(product.getStock(), expectedProduct.getStock());
+        assertEquals(product.getCategories(), expectedProduct.getCategories());
     }
 
     @Test
@@ -77,7 +80,6 @@ public class CreateProductUnitTest {
             "Test Description",
             10.0,
             100,
-            "http://test.com/image.jpg",
             // Non existing categories
             Arrays.asList(3L, 4L)
         );
@@ -94,7 +96,6 @@ public class CreateProductUnitTest {
             "Test Description",
             10.0,
             100,
-            "http://test.com/image.jpg",
             Arrays.asList(1L, 2L)
         );
 

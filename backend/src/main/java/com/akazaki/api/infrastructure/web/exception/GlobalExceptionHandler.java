@@ -1,9 +1,6 @@
 package com.akazaki.api.infrastructure.web.exception;
 
-import com.akazaki.api.domain.exceptions.CategoryAlreadyExistException;
-import com.akazaki.api.domain.exceptions.EmailAlreadyRegisteredException;
-import com.akazaki.api.domain.exceptions.InvalidCredentialsException;
-import com.akazaki.api.domain.exceptions.UserNotFoundException;
+import com.akazaki.api.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    record ErrorResponse(String message) {}
+    public record ErrorResponse(String message) {}
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
@@ -35,6 +32,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CategoryAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleCategoryAlreadyExist(CategoryAlreadyExistException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnableToFetchCategoriesException.class)
+    public ResponseEntity<ErrorResponse> handleUnableToFetchCategories(UnableToFetchCategoriesException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleProductAlreadyExist(ProductAlreadyExistException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

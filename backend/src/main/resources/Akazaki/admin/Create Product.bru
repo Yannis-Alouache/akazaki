@@ -1,0 +1,30 @@
+meta {
+  name: Create Product
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/api/admin/products
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "name": "t"
+  }
+}
+
+body:multipart-form {
+  name: Ramune - Goût Raisin Noir 200ml
+  description: Bouteille de 200ml de limonade japonaise, au goût de raisin noir
+  price: 2.40
+  stock: 36
+  categoryIds: 1,2
+  file: @file(/Users/20016375/Downloads/limonade-ramune-au-raisin-noir-ctc-jp-200ml-x-30.jpg)
+}
