@@ -1,6 +1,7 @@
 package com.akazaki.api.infrastructure.web.exception;
 
 import com.akazaki.api.domain.exceptions.*;
+import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
-        ErrorResponse error = new ErrorResponse("Uploaded files cannot exceed 10Mo", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ErrorResponse error = new ErrorResponse("Uploaded files cannot exceed 10Mo", HttpStatus.PAYLOAD_TOO_LARGE);
+        return new ResponseEntity<>(error, HttpStatus.PAYLOAD_TOO_LARGE);
+    }
+
+    @ExceptionHandler(UnableToSaveFileException.class)
+    public ResponseEntity<ErrorResponse> handleUnableToSaveFileException(UnableToSaveFileException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

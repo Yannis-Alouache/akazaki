@@ -1,6 +1,8 @@
 package com.akazaki.api.infrastructure.persistence.Image;
 
 import com.akazaki.api.domain.ports.out.ImageRepository;
+import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -31,7 +33,7 @@ public class ImageRepositoryAdapter implements ImageRepository {
         try {
             Files.copy(imageStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UnableToSaveFileException();
         }
 
         return ROOT + uniqueFilename;

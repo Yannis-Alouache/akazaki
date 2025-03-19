@@ -5,6 +5,7 @@ import com.akazaki.api.application.commands.StoreImage.StoreImageCommandHandler;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.CreateProductCommand;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
+import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 import com.akazaki.api.infrastructure.web.dto.request.CreateProductRequest;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +52,7 @@ public class AdminProductController {
         )
     })
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@Valid @ModelAttribute CreateProductRequest request) throws IOException {
+    public ResponseEntity<ProductResponse> createProduct(@Valid @ModelAttribute CreateProductRequest request) {
         logger.info("Received create product request for: {}", request.toString());
 
         CreateProductCommand productCommand = new CreateProductCommand(
@@ -64,13 +65,21 @@ public class AdminProductController {
         Product product = createProductCommandHandler.handle(productCommand);
 
         MultipartFile imageFile = request.getFile();
-        StoreImageCommand imageCommand = new StoreImageCommand(
+        StoreImageCommand imageCommand = null;
+        String imageUrl = null;
+
+        try {
+            imageCommand = new StoreImageCommand(
                 product.getId(),
                 imageFile.getOriginalFilename(),
                 imageFile.getContentType(),
                 imageFile.getInputStream()
-        );
-        String imageUrl = storeImageCommandHandler.handle(imageCommand);
+            );
+            imageUrl = storeImageCommandHandler.handle(imageCommand);
+        } catch (IOException e) {
+            throw new UnableToSaveFileException();
+        }
+
 
         return ResponseEntity.ok(new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getStock(), imageUrl, product.getCategories()));
     }
