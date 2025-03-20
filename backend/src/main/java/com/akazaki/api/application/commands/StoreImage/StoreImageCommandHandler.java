@@ -1,9 +1,12 @@
 package com.akazaki.api.application.commands.StoreImage;
 
+import com.akazaki.api.domain.model.Image;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
 import com.akazaki.api.domain.ports.out.ImageRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
+import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +18,15 @@ public class StoreImageCommandHandler {
     private final ProductRepository productRepository;
 
     public String handle(StoreImageCommand command) {
+        String contentType = command.contentType().toLowerCase();
+        if (!contentType.startsWith("image/"))
+            throw new InvalidFileTypeException();
+
         Product product = productRepository.findById(command.productId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         String path = imageRepository.save(
-                command.fileName(),
-                command.contentType(),
-                command.imageStream()
+            new Image(command.fileName(), command.imageStream())
         );
 
         product.setImageUrl(path);
