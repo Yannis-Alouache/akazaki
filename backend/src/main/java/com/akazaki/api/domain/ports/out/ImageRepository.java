@@ -1,7 +1,7 @@
 package com.akazaki.api.domain.ports.out;
 
-import java.io.InputStream;
+import com.akazaki.api.domain.model.Image;
 
 public interface ImageRepository {
-    String save(String fileName, String contentType, InputStream imageStream);
+    String save(Image image);
 }

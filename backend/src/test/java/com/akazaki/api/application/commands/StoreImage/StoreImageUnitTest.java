@@ -1,0 +1,46 @@
+package com.akazaki.api.application.commands.StoreImage;
+
+import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
+import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
+import com.akazaki.api.infrastructure.persistence.Image.InMemoryImageRepository;
+import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.test.context.ActiveProfiles;
+
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@SpringBootTest
+@ActiveProfiles("test")
+public class StoreImageUnitTest {
+
+    private StoreImageCommandHandler handler;
+
+    @BeforeEach
+    void setUp() {
+        InMemoryProductRepository productRepository = new InMemoryProductRepository();
+        InMemoryImageRepository imageRepository = new InMemoryImageRepository();
+        handler = new StoreImageCommandHandler(imageRepository, productRepository);
+    }
+
+    @Test
+    void preventStoringOtherFilesThanImages() throws IOException {
+        // Given
+        FileSystemResource file = new FileSystemResource("src/test/resources/images/test-image.png");
+        StoreImageCommand command = new StoreImageCommand(
+                1L,
+                file.getFilename(),
+                "application/pdf",
+                file.getInputStream()
+        );
+
+        // When/Then - Second creation should fail
+        assertThatThrownBy(() -> handler.handle(command))
+                .isInstanceOf(InvalidFileTypeException.class);
+    }
+}
