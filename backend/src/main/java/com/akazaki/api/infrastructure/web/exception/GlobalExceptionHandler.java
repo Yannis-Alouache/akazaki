@@ -1,6 +1,7 @@
 package com.akazaki.api.infrastructure.web.exception;
 
 import com.akazaki.api.domain.exceptions.*;
+import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 
 import org.springframework.http.HttpStatus;
@@ -61,5 +62,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUnableToSaveFileException(UnableToSaveFileException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(InvalidFileTypeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidFileType(InvalidFileTypeException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
