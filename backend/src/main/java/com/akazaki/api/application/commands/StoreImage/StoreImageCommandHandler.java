@@ -1,5 +1,6 @@
 package com.akazaki.api.application.commands.StoreImage;
 
+import com.akazaki.api.domain.exceptions.ProductNotFoundException;
 import com.akazaki.api.domain.model.Image;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
@@ -23,7 +24,7 @@ public class StoreImageCommandHandler {
             throw new InvalidFileTypeException();
 
         Product product = productRepository.findById(command.productId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(ProductNotFoundException::new);
 
         String path = imageRepository.save(
             new Image(command.fileName(), command.imageStream())

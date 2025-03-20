@@ -1,5 +1,7 @@
 package com.akazaki.api.application.commands.StoreImage;
 
+import com.akazaki.api.domain.exceptions.CategoryAlreadyExistException;
+import com.akazaki.api.domain.exceptions.ProductNotFoundException;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
 import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
 import com.akazaki.api.infrastructure.persistence.Image.InMemoryImageRepository;
@@ -42,5 +44,21 @@ public class StoreImageUnitTest {
         // When/Then - Second creation should fail
         assertThatThrownBy(() -> handler.handle(command))
                 .isInstanceOf(InvalidFileTypeException.class);
+    }
+
+    @Test
+    void preventStoringIfProductNotFound() throws IOException {
+        // Given
+        FileSystemResource file = new FileSystemResource("src/test/resources/images/test-image.png");
+        StoreImageCommand command = new StoreImageCommand(
+                1L,
+                file.getFilename(),
+                "image/png",
+                file.getInputStream()
+        );
+
+        // When/Then - Second creation should fail
+        assertThatThrownBy(() -> handler.handle(command))
+                .isInstanceOf(ProductNotFoundException.class);
     }
 }
