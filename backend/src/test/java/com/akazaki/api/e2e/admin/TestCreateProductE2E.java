@@ -11,7 +11,6 @@ import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
