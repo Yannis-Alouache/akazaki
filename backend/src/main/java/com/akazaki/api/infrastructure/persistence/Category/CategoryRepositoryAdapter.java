@@ -4,6 +4,8 @@ import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -27,11 +29,14 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
     public boolean existsByName(String name) {
         return repository.existsByName(name);
     }
-
+    
     @Override
     public List<Category> findAll() {
-        return repository.findAll().stream()
-                .map(mapper::toDomain) // Conversion Entity -> Domain
-                .toList();
+        return mapper.toDomainList(repository.findAll());
+    }
+
+    @Override
+    public List<Category> findAllById(List<Long> categoryIds) {
+        return mapper.toDomainList(repository.findAllById(categoryIds));
     }
 }

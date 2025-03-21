@@ -34,4 +34,11 @@ public class InMemoryCategoryRepository implements CategoryRepository {
     public List<Category> findAll() {
         return new ArrayList<>(categories);
     }
+
+    @Override
+    public List<Category> findAllById(List<Long> categoryIds) {
+        return categories.stream()
+            .filter(category -> categoryIds.contains(category.getId()))
+            .toList();
+    }
 }

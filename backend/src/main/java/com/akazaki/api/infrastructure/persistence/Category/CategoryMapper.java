@@ -2,10 +2,12 @@ package com.akazaki.api.infrastructure.persistence.Category;
 
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 
 @Component
 public class CategoryMapper {
@@ -28,5 +30,17 @@ public class CategoryMapper {
         List<CategoryResponse> responses = new ArrayList<>();
         categories.forEach(category -> responses.add(toResponse(category)));
         return responses;
+    }
+    
+    public List<Category> toDomainList(Iterable<CategoryEntity> categoriesEntity) {
+        List<Category> categories = new ArrayList<>();
+        categoriesEntity.forEach(categoryEntity -> categories.add(toDomain(categoryEntity)));
+        return categories;
+    }
+
+    public List<CategoryEntity> toEntityList(Iterable<Category> categoriesDomain) {
+        List<CategoryEntity> categories = new ArrayList<>();
+        categoriesDomain.forEach(categoryDomain -> categories.add(toEntity(categoryDomain)));
+        return categories;
     }
 }
