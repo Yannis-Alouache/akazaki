@@ -1,37 +1,72 @@
 package com.akazaki.api.domain.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "`order`")
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, name = "order_date")
     private LocalDateTime date;
-
-    @Column(nullable = false)
     private String status;
-
-    @Column(nullable = false)
     private int totalPrice;
+    private String billingAddress;
+    private String shippingAddress;
 
-    @ManyToOne
-    private Address billingAddress;
+    public Order(LocalDateTime date, String status, int totalPrice, String billingAddress, String shippingAddress) {
+        this.date = date;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.billingAddress = billingAddress;
+        this.shippingAddress = shippingAddress;
+    }
 
-    @ManyToOne
-    private Address shippingAddress;
+    public Long getId() {
+        return id;
+    }
 
-    @OneToOne
-    private Payment payment;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+
+
+
 }
