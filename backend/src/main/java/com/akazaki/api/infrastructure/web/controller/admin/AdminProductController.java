@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +53,7 @@ public class AdminProductController {
         )
     })
     @PostMapping
+    @Transactional
     public ResponseEntity<ProductResponse> createProduct(@Valid @ModelAttribute CreateProductRequest request) {
         logger.info("Received create product request for: {}", request.toString());
 
@@ -79,7 +81,6 @@ public class AdminProductController {
         } catch (IOException e) {
             throw new UnableToSaveFileException();
         }
-
 
         return ResponseEntity.ok(new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getStock(), imageUrl, product.getCategories()));
     }
