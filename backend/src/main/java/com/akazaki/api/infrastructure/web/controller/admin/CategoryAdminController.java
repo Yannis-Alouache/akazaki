@@ -1,6 +1,6 @@
 package com.akazaki.api.infrastructure.web.controller.admin;
 
-import com.akazaki.api.application.queries.getAllCategories.GetAllCategoriesQueryHandler;
+import com.akazaki.api.application.queries.GetAllCategories.GetAllCategoriesQueryHandler;
 import com.akazaki.api.domain.ports.in.commands.CreateCategoryCommand;
 import com.akazaki.api.application.commands.CreateCategory.CreateCategoryCommandHandler;
 import com.akazaki.api.domain.model.Category;
@@ -8,10 +8,8 @@ import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
 import com.akazaki.api.infrastructure.persistence.Category.CategoryMapper;
 import com.akazaki.api.infrastructure.web.dto.request.CreateCategoryRequest;
 import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -33,9 +31,9 @@ public class CategoryAdminController {
 
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
-       var categories = categoriesQueryHandler.handle(new GetAllCategoriesQuery());
-       var response = categoryMapper.toResponseList(categories);
-       return ResponseEntity.ok(response);
+        List<Category>categories = categoriesQueryHandler.handle(new GetAllCategoriesQuery());
+        List<CategoryResponse> response = categoryMapper.toResponseList(categories);
+        return ResponseEntity.ok(response);
 
     }
 }

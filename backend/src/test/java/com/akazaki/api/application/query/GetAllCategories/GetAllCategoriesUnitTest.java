@@ -1,6 +1,6 @@
-package com.akazaki.api.application.query;
+package com.akazaki.api.application.query.GetAllCategories;
 
-import com.akazaki.api.application.queries.getAllCategories.GetAllCategoriesQueryHandler;
+import com.akazaki.api.application.queries.GetAllCategories.GetAllCategoriesQueryHandler;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GetAllCategoriesQueryHandlerTest {
+public class GetAllCategoriesUnitTest {
 
     private GetAllCategoriesQueryHandler queryHandler;
     private InMemoryCategoryRepository repository;
@@ -35,7 +35,7 @@ public class GetAllCategoriesQueryHandlerTest {
 
         // Then
         assertEquals(2, categories.size());
-        assertEquals("Category1", categories.get(0).getName());
-        assertEquals("Category2", categories.get(1).getName());
+        assertEquals(category1.getName(), categories.get(0).getName());
+        assertEquals(category2.getName(), categories.get(1).getName());
     }
 }

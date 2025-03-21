@@ -1,4 +1,4 @@
-package com.akazaki.api.application.queries.getAllCategories;
+package com.akazaki.api.application.queries.GetAllCategories;
 
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class GetAllCategoriesQueryHandler {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public GetAllCategoriesQueryHandler(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
