@@ -1,13 +1,12 @@
 package com.akazaki.api.infrastructure.web.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CategoryResponse {
-    private Long id;
-    private String name;
-}
+
+@Schema(description = "Category response")
+public record CategoryResponse (
+    @Schema(description = "ID", example = "1")
+    Long id,
+    @Schema(description = "Name", example = "Soda")
+    String name
+){}
