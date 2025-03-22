@@ -1,6 +1,5 @@
 package com.akazaki.api.application.commands.StoreImage;
 
-import com.akazaki.api.domain.exceptions.CategoryAlreadyExistException;
 import com.akazaki.api.domain.exceptions.ProductNotFoundException;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
 import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
