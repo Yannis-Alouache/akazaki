@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@Tag(name = "Product", description = "Product public routes")
+@Tag(name = "Product", description = "Product management APIs")
 public class ProductController {
     private final GetProductQueryHandler getProductQueryHandler;
 
