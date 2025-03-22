@@ -22,12 +22,23 @@ public class Product {
     // private Promotion promotions;
 
     // Add constructors
-    private Product(Long id, String name, String description, double price, int stock, List<Category> categories) {
+    private Product(Long id, String name, String description, double price, int stock, String imageUrl, List<Category> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.imageUrl = imageUrl;
+        this.categories = categories;
+        // this.reviews = new ArrayList<>();
+    }
+
+    private Product(String name, String description, double price, int stock, String imageUrl, List<Category> categories) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
         this.categories = categories;
         // this.reviews = new ArrayList<>();
     }
@@ -41,7 +52,7 @@ public class Product {
         // this.reviews = new ArrayList<>();
     }
 
-    public static Product create(Long id, String name, String description, double price, int stock, List<Category> categories) {
+    public static Product create(Long id, String name, String description, double price, int stock, String imageUrl, List<Category> categories) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Product name cannot be empty");
         }
@@ -52,7 +63,21 @@ public class Product {
             throw new IllegalArgumentException("Stock cannot be negative");
         }
         
-        return new Product(id, name, description, price, stock, categories);
+        return new Product(id, name, description, price, stock, imageUrl, categories);
+    }
+
+    public static Product create(String name, String description, double price, int stock, String imageUrl, List<Category> categories) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
+        if (price < 0) {
+            throw new IllegalArgumentException("Price cannot be negative");
+        }
+        if (stock < 0) {
+            throw new IllegalArgumentException("Stock cannot be negative");
+        }
+
+        return new Product(name, description, price, stock, imageUrl, categories);
     }
 
     public static Product create(String name, String description, double price, int stock, List<Category> categories) {

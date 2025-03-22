@@ -37,6 +37,7 @@ public class ProductMapper {
                 entity.getDescription(),
                 entity.getPrice(),
                 entity.getStock(),
+                entity.getImageUrl(),
                 categories
         );
     }
