@@ -92,7 +92,7 @@ public class TestCreateProductE2E {
                 .expectBody(CategoryResponse.class)
                 .returnResult()
                 .getResponseBody()
-                .getId();
+                .id();
     }
 
     Long createProduct(Long categoryId, String token) {
