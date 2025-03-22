@@ -2,6 +2,7 @@ package com.akazaki.api.infrastructure.web.controller.user;
 
 import com.akazaki.api.application.queries.GetAllUsers.GetAllUsersQueryHandler;
 import com.akazaki.api.application.queries.GetUser.GetUserQueryHandler;
+import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.queries.GetAllUsersQuery;
 import com.akazaki.api.domain.ports.in.queries.GetUserQuery;
 import com.akazaki.api.infrastructure.web.dto.response.UserResponse;
@@ -36,8 +37,8 @@ public class UserController {
     @Operation(summary = "Get all users", description = "Retrieve a list of all users")
     @ApiResponse(responseCode = "200", description = "Users successfully retrieved")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
-        var users = getAllUsersQueryHandler.handle(new GetAllUsersQuery());
-        var response = userMapper.toResponseList(users);
+        List<User> users = getAllUsersQueryHandler.handle(new GetAllUsersQuery());
+        List<UserResponse> response = userMapper.toResponseList(users);
         return ResponseEntity.ok(response);
     }
 
@@ -48,7 +49,7 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User not found")
     })
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        var user = getUserQueryHandler.handle(new GetUserQuery(id));
+        User user = getUserQueryHandler.handle(new GetUserQuery(id));
         return ResponseEntity.ok(userMapper.toResponse(user));
     }
 } 

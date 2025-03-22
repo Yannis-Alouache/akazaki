@@ -2,8 +2,12 @@ package com.akazaki.api.application.commands.CreateProduct;
 
 import com.akazaki.api.domain.exceptions.ProductAlreadyExistException;
 import com.akazaki.api.domain.exceptions.UnableToFetchCategoriesException;
+
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.CreateProductCommand;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
@@ -18,7 +22,7 @@ public class CreateProductCommandHandler {
     private final CategoryRepository categoryRepository;
 
     public Product handle(CreateProductCommand command) {
-        var categories = categoryRepository.findAllById(command.categoryIds());
+        List<Category> categories = categoryRepository.findAllById(command.categoryIds());
 
         if (categories.size() != command.categoryIds().size())
             throw new UnableToFetchCategoriesException();

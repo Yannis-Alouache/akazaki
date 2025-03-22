@@ -2,7 +2,9 @@ package com.akazaki.api.infrastructure.web.controller.auth;
 
 import com.akazaki.api.application.commands.Login.LoginCommandHandler;
 import com.akazaki.api.application.commands.Register.RegisterUserCommandHandler;
+import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.commands.LoginUserCommand;
+import com.akazaki.api.domain.ports.in.commands.RegisterUserCommand;
 import com.akazaki.api.infrastructure.web.dto.auth.request.LoginRequest;
 import com.akazaki.api.infrastructure.web.dto.auth.request.RegisterUserRequest;
 import com.akazaki.api.infrastructure.web.dto.auth.response.LoginResponse;
@@ -61,8 +63,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegisterUserResponse> register(@Valid @RequestBody RegisterUserRequest request) {
         logger.info("Received register request for email: {}", request.getEmail());
-        var command = authMapper.toCommand(request);
-        var user = registerUserCommandHandler.handle(command);
+        RegisterUserCommand command = authMapper.toCommand(request);
+        User user = registerUserCommandHandler.handle(command);
         return ResponseEntity.ok(authMapper.toResponse(user));
     }
 
@@ -85,8 +87,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         logger.info("Received login request for email: {}", request.getEmail());
-        var command = new LoginUserCommand(request.getEmail(), request.getPassword());
-        var response = loginCommandHandler.handle(command);
+        LoginUserCommand command = new LoginUserCommand(request.getEmail(), request.getPassword());
+        LoginResponse response = loginCommandHandler.handle(command);
         return ResponseEntity.ok(response);
     }
 } 

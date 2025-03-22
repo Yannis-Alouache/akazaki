@@ -2,6 +2,7 @@ package com.akazaki.api.domain.ports.out;
 
 import com.akazaki.api.domain.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -10,5 +11,5 @@ public interface UserRepository {
 
     Optional<User> findByEmail(String email);
     boolean exists(String email);
-    Iterable<User> findAll();
+    List<User> findAll();
 }
