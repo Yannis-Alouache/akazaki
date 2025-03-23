@@ -15,7 +15,7 @@ public record ProductResponse (
         @Schema(description = "Description", example = "Bouteille de 200ml de limonade japonaise, au goût de raisin noir")
         String description,
 
-        @Schema(description = " Price", example = "2.40")
+        @Schema(description = "Price", example = "2.40")
         double price,
 
         @Schema(description = "Stock", example = "36")
