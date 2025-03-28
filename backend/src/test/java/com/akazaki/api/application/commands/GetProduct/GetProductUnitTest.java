@@ -9,7 +9,6 @@ import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 

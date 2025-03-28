@@ -3,8 +3,6 @@ package com.akazaki.api.infrastructure.persistence.Image;
 import com.akazaki.api.domain.model.Image;
 import com.akazaki.api.domain.ports.out.ImageRepository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -14,8 +12,6 @@ import java.util.UUID;
 @Repository
 @Profile("test")
 public class InMemoryImageRepository implements ImageRepository {
-    private static final Logger logger = LoggerFactory.getLogger(InMemoryImageRepository.class);
-
     private static final String ROOT = "/uploads/";
 
     @Override
