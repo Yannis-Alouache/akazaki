@@ -4,6 +4,7 @@ import com.akazaki.api.application.queries.GetProduct.GetProductQueryHandler;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.GetProductQuery;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
+import com.akazaki.api.infrastructure.web.exception.GlobalExceptionHandler.ErrorResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,7 +37,7 @@ public class ProductController {
         @ApiResponse(
             responseCode = "404",
             description = "Product not found",
-            content = @Content
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
         )
     })
     @GetMapping("/{id}")
