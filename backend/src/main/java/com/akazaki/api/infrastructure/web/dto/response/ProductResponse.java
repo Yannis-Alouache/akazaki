@@ -24,6 +24,6 @@ public record ProductResponse (
         @Schema(description = "URL of the image", example = "/uploads/0eaef134fzeaf.png")
         String imageUrl,
 
-        @Schema(description = "List of the categories")
+        @Schema(description = "List of the categories", implementation = CategoryResponse.class)
         List<Category> categories
 ) {}
