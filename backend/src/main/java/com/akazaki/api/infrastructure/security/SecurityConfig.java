@@ -22,7 +22,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                // Configure les règles d'autorisation pour les URLs
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
