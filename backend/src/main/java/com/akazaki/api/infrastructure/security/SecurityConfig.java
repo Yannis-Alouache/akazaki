@@ -23,13 +23,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // ADMIN ROUTE
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // PUBLIC ROUTE
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api-docs/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        // Toutes les autres URLs nécessitent une authentification
+                        // OTHER ROUTES REQUIRE AUTHENTICATION
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
