@@ -3,6 +3,7 @@ package com.akazaki.api.infrastructure.web.exception;
 import com.akazaki.api.domain.exceptions.*;
 import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
+import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    public record ErrorResponse(String reason, HttpStatus status) {}
-
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);

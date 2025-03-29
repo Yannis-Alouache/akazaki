@@ -3,8 +3,8 @@ package com.akazaki.api.infrastructure.web.controller.product;
 import com.akazaki.api.application.queries.GetProduct.GetProductQueryHandler;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.GetProductQuery;
+import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
-import com.akazaki.api.infrastructure.web.exception.GlobalExceptionHandler.ErrorResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
