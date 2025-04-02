@@ -1,6 +1,7 @@
 package com.akazaki.api.infrastructure.security;
 
-import com.akazaki.api.domain.ports.out.UserRepository;
+import com.akazaki.api.infrastructure.persistence.User.JpaUserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {

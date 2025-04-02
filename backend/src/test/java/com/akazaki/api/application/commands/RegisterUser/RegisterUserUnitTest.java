@@ -8,6 +8,8 @@ import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -21,6 +23,7 @@ class RegisterUserUnitTest {
 
     private RegisterUserCommandHandler handler;
     private InMemoryUserRepository repository;
+    private static final Logger logger = LoggerFactory.getLogger(RegisterUserUnitTest.class);
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -33,15 +36,15 @@ class RegisterUserUnitTest {
 
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         
-        user = User.builder()
-                .id(1L)
-                .email("hello@exemple.com")
-                .firstName("John")
-                .lastName("Doe")
-                .phoneNumber("0685357448")
-                .password("encodedPassword")
-                .admin(false)
-                .build();
+        user = User.create(
+            1L,
+            "Doe",
+            "John",
+            "hello@exemple.com",
+            "encodedPassword",
+            "0685357448",
+            false
+        );
     }
 
     @Test
@@ -56,8 +59,9 @@ class RegisterUserUnitTest {
         );
 
         User result = handler.handle(command);
-
-        assertThat(result).isEqualTo(user);
+        logger.debug("RESULT : " + result.toString());
+        logger.debug("LOGGER : " + user.toString());
+        assertThat(result).usingRecursiveComparison().isEqualTo(user);
         assertThat(repository.exists(result.getEmail())).isTrue();
     }
 
