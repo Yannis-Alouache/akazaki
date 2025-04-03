@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component(value = "ResponseUserMapper")
 public class UserMapper {
     
     public UserResponse toResponse(User user) {
