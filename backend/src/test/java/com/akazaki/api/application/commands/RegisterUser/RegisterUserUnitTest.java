@@ -59,8 +59,6 @@ class RegisterUserUnitTest {
         );
 
         User result = handler.handle(command);
-        logger.debug("RESULT : " + result.toString());
-        logger.debug("LOGGER : " + user.toString());
         assertThat(result).usingRecursiveComparison().isEqualTo(user);
         assertThat(repository.exists(result.getEmail())).isTrue();
     }
