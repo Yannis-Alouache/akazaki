@@ -3,9 +3,7 @@ package com.akazaki.api.infrastructure.persistence.Category;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-
 import java.util.List;
-
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +24,11 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
     @Override
     public boolean existsByName(String name) {
         return repository.existsByName(name);
+    }
+    
+    @Override
+    public List<Category> findAll() {
+        return mapper.toDomainList(repository.findAll());
     }
 
     @Override

@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +27,11 @@ public class InMemoryCategoryRepository implements CategoryRepository {
     public boolean existsByName(String name) {
         return categories.stream()
             .anyMatch(category -> category.getName().equals(name));
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return categories;
     }
 
     @Override
