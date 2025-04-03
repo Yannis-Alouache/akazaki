@@ -20,14 +20,15 @@ public class RegisterUserCommandHandler {
             throw new EmailAlreadyRegisteredException();
         }
 
-        User user = User.builder()
-            .email(command.email())
-            .password(passwordEncoder.encode(command.password()))
-            .firstName(command.firstName())
-            .lastName(command.lastName())
-            .phoneNumber(command.phoneNumber())
-            .admin(command.admin())
-            .build();
+        User user = User.create(
+            null,
+            command.lastName(),
+            command.firstName(),
+            command.email(),
+            passwordEncoder.encode(command.password()),
+            command.phoneNumber(),
+            command.admin()
+        );
         
         return userRepository.save(user);
     }
