@@ -34,4 +34,9 @@ public class InMemoryProductRepository implements ProductRepository {
         return products.stream()
             .anyMatch(product -> product.getName().equals(name));
     }
+
+    @Override
+    public void deleteById(Long productId) {
+        products.removeIf(product -> product.getId().equals(productId));
+    }
 }

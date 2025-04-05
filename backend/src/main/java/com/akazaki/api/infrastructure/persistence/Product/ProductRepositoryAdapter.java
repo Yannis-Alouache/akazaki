@@ -34,4 +34,9 @@ public class ProductRepositoryAdapter implements ProductRepository {
     public boolean existsByName(String name) {
         return repository.existsByName(name);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }
