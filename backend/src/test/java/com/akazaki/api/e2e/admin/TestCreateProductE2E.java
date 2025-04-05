@@ -2,7 +2,6 @@ package com.akazaki.api.e2e.admin;
 
 import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.model.Product;
-import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.security.JwtService;
 import com.akazaki.api.infrastructure.web.dto.request.CreateCategoryRequest;
@@ -16,16 +15,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("prod")
 public class TestCreateProductE2E {
 
     @Autowired
