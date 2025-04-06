@@ -1,30 +1,29 @@
 package com.akazaki.api.e2e.admin;
 
+import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.out.ProductRepository;
-import com.akazaki.api.infrastructure.web.dto.auth.request.LoginRequest;
-import com.akazaki.api.infrastructure.web.dto.auth.request.RegisterUserRequest;
-import com.akazaki.api.infrastructure.web.dto.auth.response.LoginResponse;
-import com.akazaki.api.infrastructure.web.dto.auth.response.RegisterUserResponse;
+import com.akazaki.api.infrastructure.security.JwtService;
 import com.akazaki.api.infrastructure.web.dto.request.CreateCategoryRequest;
 import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import java.util.Optional;
 
-@Transactional
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("prod")
 public class TestCreateProductE2E {
 
     @Autowired
@@ -33,10 +32,20 @@ public class TestCreateProductE2E {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private UserFixture userFixture;
+
+    @BeforeEach
+    public void setup() {
+        userFixture.saveUsers();
+    }
+
     @Test
     void createAProductSuccessfully() {
-        registerAdminUser();
-        String token = loginAdminUser();
+        String token = jwtService.generateToken(userFixture.adminUser);
         Long categoryId = createCategory(token);
         Long productId = createProduct(categoryId, token);
         
@@ -45,38 +54,6 @@ public class TestCreateProductE2E {
 
         Product product = savedProduct.get();
         assertThat(product.getId()).isNotNull();
-    }
-
-    void registerAdminUser() {
-        RegisterUserRequest registerRequest = new RegisterUserRequest();
-        registerRequest.setEmail("admin@example.com");
-        registerRequest.setPassword("password");
-        registerRequest.setFirstName("Admin");
-        registerRequest.setLastName("User");
-        registerRequest.setPhoneNumber("+33612345678");
-        
-        webClient
-                .post().uri("/api/auth/register")
-                .bodyValue(registerRequest)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(RegisterUserResponse.class);
-    }
-
-    String loginAdminUser() {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("admin@example.com");
-        loginRequest.setPassword("password");
-
-        return webClient
-                .post().uri("/api/auth/login")
-                .bodyValue(loginRequest)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(LoginResponse.class)
-                .returnResult()
-                .getResponseBody()
-                .token();
     }
 
     Long createCategory(String token) {

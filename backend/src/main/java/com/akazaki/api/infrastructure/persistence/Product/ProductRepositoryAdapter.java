@@ -26,8 +26,8 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public Optional<Product> findById(Long id) {
-         Optional<ProductEntity> productEntity = repository.findById(id);
-         return productEntity.map(mapper::toDomain);
+        Optional<ProductEntity> productEntity = repository.findByIdWithCategories(id);
+        return productEntity.map(mapper::toDomain);
     }
 
     @Override
