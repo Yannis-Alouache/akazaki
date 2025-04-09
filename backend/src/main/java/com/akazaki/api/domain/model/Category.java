@@ -1,5 +1,7 @@
 package com.akazaki.api.domain.model;
 
+import java.util.Objects;
+
 public class Category {
     private Long id;
     private String name;
@@ -29,5 +31,17 @@ public class Category {
 
     public void setName(String name) {
         this.name = name.trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
