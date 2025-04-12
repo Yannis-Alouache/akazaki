@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("prod")
-public class TestCreateProductE2E {
+public class CreateProductE2ETest {
 
     @Autowired
     private WebTestClient webClient;
