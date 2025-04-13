@@ -27,6 +27,10 @@ public class CartItem {
         return product;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -42,7 +46,7 @@ public class CartItem {
     public static Builder builder() {
         return new Builder();
     }
-    
+
     public static class Builder {
         private Long id;
         private int quantity;
