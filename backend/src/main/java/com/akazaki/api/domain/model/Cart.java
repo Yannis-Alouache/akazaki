@@ -18,7 +18,18 @@ public class Cart {
     }
 
     public void addItem(CartItem cartItem) {
+        if (updateExistingItem(cartItem)) return;
         cartItems.add(cartItem);
+    }
+
+    public boolean updateExistingItem(CartItem cartItem) {
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId() == cartItem.getProduct().getId()) {
+                item.setQuantity(cartItem.getQuantity());
+                return true;
+            }
+        }
+        return false;
     }
 
     public Long getId() {
