@@ -1,0 +1,15 @@
+meta {
+  name: Add to cart
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{url}}/api/cart/add/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
