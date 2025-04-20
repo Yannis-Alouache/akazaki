@@ -1,11 +1,11 @@
 meta {
-  name: Add to cart
+  name: Get one user
   type: http
-  seq: 6
+  seq: 2
 }
 
-post {
-  url: {{url}}/api/cart/add/1
+get {
+  url: {{url}}/api/users/1
   body: none
   auth: bearer
 }
