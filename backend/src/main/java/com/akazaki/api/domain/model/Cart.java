@@ -24,8 +24,8 @@ public class Cart {
 
     public boolean updateExistingItem(CartItem cartItem) {
         for (CartItem item : cartItems) {
-            if (item.getProduct().getId() == cartItem.getProduct().getId()) {
-                item.setQuantity(cartItem.getQuantity());
+            if (Objects.equals(item.getProduct().getId(), cartItem.getProduct().getId())) {
+                item.setQuantity(item.getQuantity() + cartItem.getQuantity());
                 return true;
             }
         }
@@ -44,6 +44,12 @@ public class Cart {
         return cartItems;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -52,8 +58,12 @@ public class Cart {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, user, cartItems);
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", user=" + user +
+                ", cartItems=" + cartItems +
+                '}';
     }
 
     public static class Builder {
