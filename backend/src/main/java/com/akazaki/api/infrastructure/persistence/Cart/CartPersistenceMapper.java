@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.akazaki.api.domain.model.Cart;
-import com.akazaki.api.infrastructure.persistence.CartItem.CartItemMapper;
-import com.akazaki.api.infrastructure.persistence.User.UserMapper;
+import com.akazaki.api.infrastructure.persistence.CartItem.CartItemPersistenceMapper;
+import com.akazaki.api.infrastructure.persistence.User.UserPersistenceMapper;
 
 @Component
-public class CartMapper {
+public class CartPersistenceMapper {
     @Autowired
-    UserMapper userMapper;
+    UserPersistenceMapper userMapper;
 
     @Autowired
-    CartItemMapper cartItemMapper;
+    CartItemPersistenceMapper cartItemMapper;
 
     public CartEntity toEntity(Cart domain) {
         return CartEntity.builder()

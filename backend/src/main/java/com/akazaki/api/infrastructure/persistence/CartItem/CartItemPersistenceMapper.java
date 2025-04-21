@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.akazaki.api.domain.model.CartItem;
-import com.akazaki.api.infrastructure.persistence.Product.ProductMapper;
+import com.akazaki.api.infrastructure.persistence.Product.ProductPersistenceMapper;
 
 @Component
-public class CartItemMapper {
+public class CartItemPersistenceMapper {
     @Autowired
-    ProductMapper productMapper;
+    ProductPersistenceMapper productMapper;
 
     public CartItemEntity toEntity(CartItem domain) {
         return CartItemEntity.builder()

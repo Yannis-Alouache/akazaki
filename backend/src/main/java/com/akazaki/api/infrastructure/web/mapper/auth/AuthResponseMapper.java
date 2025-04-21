@@ -7,7 +7,7 @@ import com.akazaki.api.infrastructure.web.dto.auth.response.RegisterUserResponse
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthMapper {
+public class AuthResponseMapper {
     
     public RegisterUserCommand toCommand(RegisterUserRequest request) {
         return new RegisterUserCommand(
