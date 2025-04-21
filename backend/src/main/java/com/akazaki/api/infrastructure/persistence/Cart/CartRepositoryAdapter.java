@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CartRepositoryAdapter implements CartRepository {
     private final JpaCartRepository repository;
-    private final CartMapper mapper;
+    private final CartPersistenceMapper mapper;
     
     @Override
     public Optional<Cart> findByUserId(Long userId) {

@@ -9,7 +9,7 @@ import com.akazaki.api.infrastructure.web.dto.auth.request.LoginRequest;
 import com.akazaki.api.infrastructure.web.dto.auth.request.RegisterUserRequest;
 import com.akazaki.api.infrastructure.web.dto.auth.response.LoginResponse;
 import com.akazaki.api.infrastructure.web.dto.auth.response.RegisterUserResponse;
-import com.akazaki.api.infrastructure.web.mapper.auth.AuthMapper;
+import com.akazaki.api.infrastructure.web.mapper.auth.AuthResponseMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,12 +33,12 @@ public class AuthController {
     
     private final RegisterUserCommandHandler registerUserCommandHandler;
     private final LoginCommandHandler loginCommandHandler;
-    private final AuthMapper authMapper;
+    private final AuthResponseMapper authMapper;
 
     public AuthController(
             RegisterUserCommandHandler registerUserCommandHandler,
             LoginCommandHandler loginCommandHandler,
-            AuthMapper authMapper) {
+            AuthResponseMapper authMapper) {
         this.registerUserCommandHandler = registerUserCommandHandler;
         this.loginCommandHandler = loginCommandHandler;
         this.authMapper = authMapper;

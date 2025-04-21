@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class UserRepositoryAdapter implements UserRepository {
 
     private final JpaUserRepository repository;
-    private final UserMapper mapper;
+    private final UserPersistenceMapper mapper;
 
     @Override
     public User save(User user) {

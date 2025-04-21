@@ -6,7 +6,8 @@ import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.queries.GetAllUsersQuery;
 import com.akazaki.api.domain.ports.in.queries.GetUserQuery;
 import com.akazaki.api.infrastructure.web.dto.response.UserResponse;
-import com.akazaki.api.infrastructure.web.mapper.user.UserMapper;
+import com.akazaki.api.infrastructure.web.mapper.user.UserResponseMapper;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,12 +23,12 @@ import java.util.List;
 public class UserController {
     private final GetAllUsersQueryHandler getAllUsersQueryHandler;
     private final GetUserQueryHandler getUserQueryHandler;
-    private final UserMapper userMapper;
+    private final UserResponseMapper userMapper;
 
     public UserController(
             GetAllUsersQueryHandler getAllUsersQueryHandler,
             GetUserQueryHandler getUserQueryHandler,
-            UserMapper userMapper) {
+            UserResponseMapper userMapper) {
         this.getAllUsersQueryHandler = getAllUsersQueryHandler;
         this.getUserQueryHandler = getUserQueryHandler;
         this.userMapper = userMapper;
