@@ -1,4 +1,4 @@
-package com.akazaki.api.application.commands.GetProduct;
+package com.akazaki.api.application.query.GetProduct;
 
 import com.akazaki.api.application.commands.CreateProduct.CreateProductCommandHandler;
 import com.akazaki.api.domain.model.Category;

@@ -1,7 +1,6 @@
 package com.akazaki.api.infrastructure.web.dto.response;
 
 import java.util.List;
-import com.akazaki.api.domain.model.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Product response")
@@ -25,5 +24,5 @@ public record ProductResponse (
         String imageUrl,
 
         @Schema(description = "List of the categories", implementation = CategoryResponse.class)
-        List<Category> categories
+        List<CategoryResponse> categories
 ) {}

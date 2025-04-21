@@ -2,8 +2,12 @@ package com.akazaki.api.e2e.common;
 
 import com.akazaki.api.config.fixtures.ProductFixture;
 import com.akazaki.api.domain.model.Product;
+import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +61,10 @@ public class GetProductDetailE2ETest {
     }
 
     private ProductResponse createExpectedResponse(Product product) {
+        List<CategoryResponse> categoryResponseList = product.getCategories().stream()
+                .map(category -> new CategoryResponse(category.getId(), category.getName()))
+                .collect(Collectors.toList());
+
         return new ProductResponse(
                 product.getId(),
                 product.getName(),
@@ -64,7 +72,7 @@ public class GetProductDetailE2ETest {
                 product.getPrice(),
                 product.getStock(),
                 product.getImageUrl(),
-                product.getCategories()
+                categoryResponseList
         );
     }
 }
