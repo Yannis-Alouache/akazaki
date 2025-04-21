@@ -31,6 +31,20 @@ public class CartItem {
         this.quantity = quantity;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+
+        return "CartItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", product=" + product +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
