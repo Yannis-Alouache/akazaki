@@ -1,6 +1,5 @@
 package com.akazaki.api.infrastructure.persistence.Cart;
 
-import com.akazaki.api.domain.model.CartItem;
 import com.akazaki.api.infrastructure.persistence.CartItem.CartItemEntity;
 import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 
@@ -13,6 +12,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Table(name = "cart")
 @Builder
 @Data
 @NoArgsConstructor
@@ -25,6 +25,6 @@ public class CartEntity {
     @OneToOne
     private UserEntity user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<CartItemEntity> cartItems;
 }
