@@ -1,4 +1,4 @@
-package com.akazaki.api.application.query.GetProduct;
+package com.akazaki.api.application.query.GetProductDetail;
 
 import com.akazaki.api.application.commands.CreateProduct.CreateProductCommandHandler;
 import com.akazaki.api.domain.model.Category;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-public class GetProductUnitTest {
+public class GetProductDetailUnitTest {
     private ProductRepository productRepository;
 
     private CreateProductCommandHandler handler;
@@ -47,7 +47,7 @@ public class GetProductUnitTest {
     }
 
     @Test
-    public void GetProductSuccessfully() throws JsonProcessingException {
+    public void GetProductDetailSuccessfully() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
                 "Test Product",

@@ -1,12 +1,10 @@
 package com.akazaki.api.config.fixtures;
 
-import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,6 +18,13 @@ public class ProductFixture {
     private CategoryFixture categoryFixture;
 
     public Product drink;
+
+    public ProductFixture() {}
+
+    public ProductFixture(ProductRepository productRepository, CategoryFixture categoryFixture) {
+        this.productRepository = productRepository;
+        this.categoryFixture = categoryFixture;
+    }
 
     @PostConstruct
     public void init() {

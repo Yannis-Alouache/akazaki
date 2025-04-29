@@ -3,7 +3,6 @@ package com.akazaki.api.application.commands.AddToCart;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.akazaki.api.config.fixtures.CategoryFixture;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
@@ -70,7 +69,6 @@ public class AddToCartUnitTest {
         // when
         handler.handle(command);
         Cart cart = cartRepository.findByUserId(userFixture.adminUser.getId()).orElseThrow();
-        Logger.getGlobal().info(cart.toString());
 
         // then
         assertThat(cart).isEqualTo(expectedCart);

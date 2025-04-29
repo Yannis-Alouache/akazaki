@@ -12,6 +12,10 @@ public class CategoryFixture {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    public CategoryFixture(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
     public Category category = new Category("Drink");
 
     public void saveCategories() {
