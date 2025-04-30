@@ -5,6 +5,7 @@ import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.commands.CreateCategoryCommand;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@DisplayName("Create Category Unit Tests")
 class CreateCategoryUnitTest {
 
     private CreateCategoryCommandHandler handler;
@@ -26,6 +28,7 @@ class CreateCategoryUnitTest {
     }
 
     @Test
+    @DisplayName("Create A Category Successfully")
     void createACategory() {
         // Given
         String categoryName = "Electronics";
@@ -41,6 +44,7 @@ class CreateCategoryUnitTest {
     }
 
     @Test
+    @DisplayName("Prevent Duplicate Categories")
     void preventDuplicateCategories() {
         // Given
         String categoryName = "Electronics";

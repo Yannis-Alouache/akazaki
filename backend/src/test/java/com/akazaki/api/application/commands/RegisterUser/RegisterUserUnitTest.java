@@ -6,6 +6,7 @@ import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.commands.RegisterUserCommand;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@DisplayName("Register User Unit Tests")
 class RegisterUserUnitTest {
 
     private RegisterUserCommandHandler handler;
@@ -45,6 +47,7 @@ class RegisterUserUnitTest {
     }
 
     @Test
+    @DisplayName("Create A User Successfully")
     void createAUser() {
         RegisterUserCommand command = new RegisterUserCommand(
                 "hello@exemple.com",
@@ -61,6 +64,7 @@ class RegisterUserUnitTest {
     }
 
     @Test
+    @DisplayName("Prevent Duplicate User")
     void preventDuplicateUser() {
         RegisterUserCommand command = new RegisterUserCommand(
                 "hello@exemple.com",

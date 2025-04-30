@@ -7,6 +7,7 @@ import java.util.Arrays;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import org.junit.Before;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.Test;
 
 import com.akazaki.api.domain.exceptions.ProductAlreadyExistException;
@@ -17,6 +18,7 @@ import com.akazaki.api.domain.ports.in.commands.CreateProductCommand;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 
+@DisplayName("Create Product Unit Tests")
 public class CreateProductUnitTest {
     private ProductRepository productRepository;
 
@@ -48,6 +50,7 @@ public class CreateProductUnitTest {
     }
 
     @Test
+    @DisplayName("Create A Product Successfully")
     public void createAProductSuccessfully() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
@@ -73,6 +76,7 @@ public class CreateProductUnitTest {
     }
 
     @Test
+    @DisplayName("Prevent Product Creation When Category Not Found")
     public void preventProductCreationWhenCategoryNotFound() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
@@ -89,6 +93,7 @@ public class CreateProductUnitTest {
     }
 
     @Test
+    @DisplayName("Prevent Product Creation When Already Existing")
     public void preventProductCreationWhenAlreadyExisting() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(

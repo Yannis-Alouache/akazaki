@@ -7,6 +7,7 @@ import java.util.List;
 import com.akazaki.api.config.fixtures.CategoryFixture;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,6 +26,7 @@ import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@DisplayName("Add to cart Unit Tests")
 public class AddToCartUnitTest {
     private CartRepository cartRepository;
     private AddToCartCommandHandler handler;
@@ -47,6 +49,7 @@ public class AddToCartUnitTest {
     }
 
     @Test
+    @DisplayName("Add A Product To Cart Successfully")
     public void addAProductToCartSuccesfully() {
         // given
         AddToCartCommand command = new AddToCartCommand(

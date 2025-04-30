@@ -8,14 +8,14 @@ import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
-
+@DisplayName("Get Product Detail Unit Tests")
 public class GetProductDetailUnitTest {
     private ProductRepository productRepository;
 
@@ -47,6 +47,7 @@ public class GetProductDetailUnitTest {
     }
 
     @Test
+    @DisplayName("Get Product Detail Successfully")
     public void GetProductDetailSuccessfully() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(

@@ -2,14 +2,12 @@ package com.akazaki.api.e2e.common;
 
 import com.akazaki.api.config.fixtures.ProductFixture;
 import com.akazaki.api.domain.model.Product;
-import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -19,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("prod")
+@DisplayName("Get Product Detail E2E Tests")
 public class GetProductDetailE2ETest {
 
     @Autowired
@@ -33,6 +32,7 @@ public class GetProductDetailE2ETest {
     }
 
     @Test
+    @DisplayName("Get A Product Detail Successfully")
     void getAProductDetailSuccessfully() {
         Product product = productFixture.drink;
         ProductResponse productResponse = getProductDetail(product.getId());
@@ -41,6 +41,7 @@ public class GetProductDetailE2ETest {
     }
 
     @Test
+    @DisplayName("Invalid Id Should Return 404")
     void getProductDetailWithInvalidIdShouldReturn404() {
         webClient
                 .get().uri("/api/products/999")

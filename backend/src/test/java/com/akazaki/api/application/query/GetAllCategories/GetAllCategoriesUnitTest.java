@@ -5,12 +5,14 @@ import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("Get All Categories Unit Tests")
 public class GetAllCategoriesUnitTest {
 
     private GetAllCategoriesQueryHandler queryHandler;
@@ -23,6 +25,7 @@ public class GetAllCategoriesUnitTest {
     }
 
     @Test
+    @DisplayName("Get All Categories Successfully")
     void getAllCategories() {
         // Given
         Category category1 = new Category(1L, "Category1");

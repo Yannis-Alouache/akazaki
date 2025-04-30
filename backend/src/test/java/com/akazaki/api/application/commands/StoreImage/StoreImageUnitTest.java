@@ -7,6 +7,7 @@ import com.akazaki.api.infrastructure.persistence.Image.InMemoryImageRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@DisplayName("Store Image Unit Tests")
 public class StoreImageUnitTest {
 
     private StoreImageCommandHandler handler;
@@ -30,6 +32,7 @@ public class StoreImageUnitTest {
     }
 
     @Test
+    @DisplayName("Prevent Storing Other Files Than Images")
     void preventStoringOtherFilesThanImages() throws IOException {
         // Given
         FileSystemResource file = new FileSystemResource("src/test/resources/images/test-image.png");
@@ -46,6 +49,7 @@ public class StoreImageUnitTest {
     }
 
     @Test
+    @DisplayName("Prevent Storing If Product Not Found")
     void preventStoringIfProductNotFound() throws IOException {
         // Given
         FileSystemResource file = new FileSystemResource("src/test/resources/images/test-image.png");
