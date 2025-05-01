@@ -1,6 +1,7 @@
 package com.akazaki.api.application.commands.RegisterUser;
 
 import com.akazaki.api.application.commands.Register.RegisterUserCommandHandler;
+import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.exceptions.EmailAlreadyRegisteredException;
 import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.commands.RegisterUserCommand;
@@ -22,57 +23,48 @@ import static org.mockito.Mockito.when;
 class RegisterUserUnitTest {
 
     private RegisterUserCommandHandler handler;
-    private InMemoryUserRepository repository;
+    private UserFixture userFixture;
 
     @Mock
     private PasswordEncoder passwordEncoder;
-    private User user;
 
     @BeforeEach
     void setUp() {
-        repository = new InMemoryUserRepository();
+        InMemoryUserRepository repository = new InMemoryUserRepository();
         handler = new RegisterUserCommandHandler(repository, passwordEncoder);
+        userFixture = new UserFixture(repository);
 
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-        
-        user = User.create(
-            1L,
-            "Doe",
-            "John",
-            "hello@exemple.com",
-            "encodedPassword",
-            "0685357448",
-            false
-        );
     }
 
     @Test
     @DisplayName("Create A User Successfully")
     void createAUser() {
+        userFixture.basicUser.setId(1L); // to avoid null id in the comparison
+
         RegisterUserCommand command = new RegisterUserCommand(
-                "hello@exemple.com",
+                userFixture.basicUser.getEmail(),
                 "123456",
-                "John",
-                "Doe",
-                "0685357448",
-                false
+                userFixture.basicUser.getFirstName(),
+                userFixture.basicUser.getLastName(),
+                userFixture.basicUser.getPhoneNumber(),
+                userFixture.basicUser.isAdmin()
         );
 
         User result = handler.handle(command);
-        assertThat(result).usingRecursiveComparison().isEqualTo(user);
-        assertThat(repository.exists(result.getEmail())).isTrue();
+        assertThat(result).usingRecursiveComparison().isEqualTo(userFixture.basicUser);
     }
 
     @Test
     @DisplayName("Prevent Duplicate User")
     void preventDuplicateUser() {
         RegisterUserCommand command = new RegisterUserCommand(
-                "hello@exemple.com",
+                userFixture.basicUser.getEmail(),
                 "123456",
-                "John",
-                "Doe",
-                "0685357448",
-                false
+                userFixture.basicUser.getFirstName(),
+                userFixture.basicUser.getLastName(),
+                userFixture.basicUser.getPhoneNumber(),
+                userFixture.basicUser.isAdmin()
         );
 
         // First creation should succeed

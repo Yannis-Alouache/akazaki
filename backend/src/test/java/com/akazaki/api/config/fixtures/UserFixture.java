@@ -14,8 +14,8 @@ public class UserFixture {
     public UserFixture(UserRepository userRepository) {
         this.userRepository = userRepository;
 
-        basicUser = User.create(null, "Doe", "John", "johndoe@akazaki.com", "johndoe1234", "0685357448", false);
-        adminUser = User.create(null, "Smith", "Admin", "admin@akazaki.com", "adminPass123", "0712345678", true);
+        basicUser = User.create(null, "Doe", "John", "johndoe@akazaki.com", "encodedPassword", "0685357448", false);
+        adminUser = User.create(null, "Smith", "Admin", "admin@akazaki.com", "encodedPassword", "0712345678", true);
     }
 
     public void saveUsers() {
