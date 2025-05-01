@@ -13,8 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@ActiveProfiles("test")
 @DisplayName("Create Category Unit Tests")
 class CreateCategoryUnitTest {
 

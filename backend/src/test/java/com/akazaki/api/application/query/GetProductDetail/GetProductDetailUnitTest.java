@@ -8,21 +8,23 @@ import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
+
 @DisplayName("Get Product Detail Unit Tests")
-public class GetProductDetailUnitTest {
+class GetProductDetailUnitTest {
     private ProductRepository productRepository;
 
     private CreateProductCommandHandler handler;
     private Product expectedProduct;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         CategoryRepository categoryRepository = new InMemoryCategoryRepository();
         productRepository = new InMemoryProductRepository();
@@ -48,7 +50,7 @@ public class GetProductDetailUnitTest {
 
     @Test
     @DisplayName("Get Product Detail Successfully")
-    public void GetProductDetailSuccessfully() {
+    void GetProductDetailSuccessfully() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
                 "Test Product",

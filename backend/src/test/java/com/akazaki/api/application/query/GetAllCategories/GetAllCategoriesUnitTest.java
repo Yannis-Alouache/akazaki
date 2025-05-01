@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Get All Categories Unit Tests")
-public class GetAllCategoriesUnitTest {
+class GetAllCategoriesUnitTest {
 
     private GetAllCategoriesQueryHandler queryHandler;
     private InMemoryCategoryRepository repository;

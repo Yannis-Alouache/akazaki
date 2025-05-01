@@ -24,8 +24,6 @@ import com.akazaki.api.infrastructure.persistence.Cart.InMemoryCartRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 
-@SpringBootTest
-@ActiveProfiles("test")
 @DisplayName("Add to cart Unit Tests")
 public class AddToCartUnitTest {
     private CartRepository cartRepository;

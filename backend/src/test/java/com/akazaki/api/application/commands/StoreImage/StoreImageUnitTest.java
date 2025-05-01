@@ -17,8 +17,6 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@ActiveProfiles("test")
 @DisplayName("Store Image Unit Tests")
 public class StoreImageUnitTest {
 
