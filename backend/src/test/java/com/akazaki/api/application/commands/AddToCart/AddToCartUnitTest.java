@@ -44,7 +44,6 @@ public class AddToCartUnitTest {
         productFixture = new ProductFixture(productRepository, new CategoryFixture(new InMemoryCategoryRepository()));
 
         userFixture.saveUsers();
-        productFixture.init(); // Explicitly call init to initialize the 'drink' product
         productFixture.saveProducts();
     }
 

@@ -8,17 +8,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryFixture {
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    
+    public Category category;
 
     public CategoryFixture(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+
+        this.category = new Category("Drink");
     }
 
-    public Category category = new Category("Drink");
-
     public void saveCategories() {
-       category = categoryRepository.save(category);
+       this.category = categoryRepository.save(category);
     }
 }
