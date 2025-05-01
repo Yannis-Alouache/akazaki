@@ -1,6 +1,5 @@
 package com.akazaki.api.infrastructure.persistence.Image;
 
-import com.akazaki.api.application.commands.DeleteProduct.DeleteProductCommandHandler;
 import com.akazaki.api.domain.model.Image;
 import com.akazaki.api.domain.ports.out.ImageRepository;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;

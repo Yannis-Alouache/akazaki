@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
@@ -23,33 +24,42 @@ public class DeleteProductCommandHandler {
     @Value("${upload.dir}")
     private String uploadDir;
 
+    @Transactional
     public void handle(DeleteProductCommand command) {
-
         Optional<Product> optionalProduct = productRepository.findById(command.productId());
         if (optionalProduct.isEmpty()) {
             logger.warn("Produit avec l'ID {} introuvable.", command.productId());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produit avec l'ID " + command.productId() + " introuvable.");
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Produit avec l'ID " + command.productId() + " introuvable."
+            );
         }
 
         Product product = optionalProduct.get();
-
         String imageUrl = product.getImageUrl();
+
+        // Suppression du produit (base de données)
+        try {
+            productRepository.deleteById(command.productId());
+            logger.info("Produit avec l'ID {} supprimé de la base de données.", command.productId());
+        } catch (Exception e) {
+            logger.error("Erreur lors de la suppression du produit avec l'ID {}: {}", command.productId(), e.getMessage());
+            throw new IllegalStateException("Erreur lors de la suppression du produit", e);
+        }
+
+        // Suppression de l'image (fichier)
         if (imageUrl != null) {
             File imageFile = new File(uploadDir, imageUrl.replace("/uploads/", ""));
             if (imageFile.exists()) {
-                boolean deleted = imageFile.delete();
-                if (deleted) {
+                if (imageFile.delete()) {
                     logger.info("Image {} supprimée avec succès.", imageUrl);
                 } else {
-                    logger.warn("Échec de la suppression de l'image {}.", imageUrl);
+                    logger.error("Échec de la suppression de l'image {}.", imageUrl);
+                    throw new IllegalStateException("Échec de la suppression de l'image " + imageUrl);
                 }
             } else {
                 logger.warn("Image {} introuvable dans le dossier d'upload.", imageUrl);
             }
         }
-
-        productRepository.deleteById(command.productId());
-        logger.info("Produit avec l'ID {} supprimé avec succès.", command.productId());
     }
 }
-
