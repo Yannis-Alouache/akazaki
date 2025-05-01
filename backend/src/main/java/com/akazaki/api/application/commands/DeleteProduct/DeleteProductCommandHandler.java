@@ -1,13 +1,15 @@
 package com.akazaki.api.application.commands.DeleteProduct;
 
-import com.akazaki.api.domain.exceptions.ProductNotFoundException;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.DeleteProductCommand;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.util.Optional;
@@ -18,19 +20,22 @@ public class DeleteProductCommandHandler {
     private static final Logger logger = LoggerFactory.getLogger(DeleteProductCommandHandler.class);
     private final ProductRepository productRepository;
 
+    @Value("${upload.dir}")
+    private String uploadDir;
+
     public void handle(DeleteProductCommand command) {
 
         Optional<Product> optionalProduct = productRepository.findById(command.productId());
         if (optionalProduct.isEmpty()) {
             logger.warn("Produit avec l'ID {} introuvable.", command.productId());
-            return;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produit avec l'ID " + command.productId() + " introuvable.");
         }
 
         Product product = optionalProduct.get();
 
         String imageUrl = product.getImageUrl();
         if (imageUrl != null) {
-            File imageFile = new File("uploads/" + imageUrl);
+            File imageFile = new File(uploadDir, imageUrl.replace("/uploads/", ""));
             if (imageFile.exists()) {
                 boolean deleted = imageFile.delete();
                 if (deleted) {

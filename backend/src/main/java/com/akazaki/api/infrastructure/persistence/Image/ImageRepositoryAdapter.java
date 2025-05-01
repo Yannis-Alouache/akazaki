@@ -1,9 +1,12 @@
 package com.akazaki.api.infrastructure.persistence.Image;
 
+import com.akazaki.api.application.commands.DeleteProduct.DeleteProductCommandHandler;
 import com.akazaki.api.domain.model.Image;
 import com.akazaki.api.domain.ports.out.ImageRepository;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,7 @@ import java.util.UUID;
 @Component
 @Profile("prod")
 public class ImageRepositoryAdapter implements ImageRepository {
+    private static final Logger logger = LoggerFactory.getLogger(ImageRepositoryAdapter.class);
     @Value("${upload.dir}")
     private String uploadDir;
 
@@ -35,6 +39,7 @@ public class ImageRepositoryAdapter implements ImageRepository {
         try {
             Files.copy(image.imageStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
+            logger.error(e.getMessage());
             throw new UnableToSaveFileException();
         }
 

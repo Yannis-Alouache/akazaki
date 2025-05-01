@@ -82,6 +82,7 @@ public class AdminProductController {
             );
             imageUrl = storeImageCommandHandler.handle(imageCommand);
         } catch (IOException e) {
+            logger.error(e.getMessage());
             throw new UnableToSaveFileException();
         }
 
