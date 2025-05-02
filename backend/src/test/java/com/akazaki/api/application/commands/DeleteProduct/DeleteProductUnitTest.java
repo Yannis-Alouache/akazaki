@@ -7,11 +7,11 @@ import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.jupiter.api.DisplayName;
 import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.Assert.assertFalse;
-
+@DisplayName("Delete Product Unit Test")
 public class DeleteProductUnitTest {
     private ProductRepository productRepository;
     private DeleteProductCommandHandler commandHandler;
@@ -39,9 +39,9 @@ public class DeleteProductUnitTest {
     }
 
     @Test
+    @DisplayName("Delete A Product Successfully")
     public void deleteAProductSuccessfully() {
         commandHandler.handle(new DeleteProductCommand(expectedProduct.getId()));
-        assertFalse(productRepository.findById(expectedProduct.getId()).isPresent());
-
+        assertThat(productRepository.findById(expectedProduct.getId())).isNotPresent();
     }
 }
