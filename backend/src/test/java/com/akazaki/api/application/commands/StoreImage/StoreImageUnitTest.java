@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Store Image Unit Tests")
 public class StoreImageUnitTest {
@@ -42,8 +43,7 @@ public class StoreImageUnitTest {
         );
 
         // When/Then - Second creation should fail
-        assertThatThrownBy(() -> handler.handle(command))
-                .isInstanceOf(InvalidFileTypeException.class);
+        assertThrows(InvalidFileTypeException.class, () -> handler.handle(command));
     }
 
     @Test
@@ -59,7 +59,6 @@ public class StoreImageUnitTest {
         );
 
         // When/Then - Second creation should fail
-        assertThatThrownBy(() -> handler.handle(command))
-                .isInstanceOf(ProductNotFoundException.class);
+        assertThrows(ProductNotFoundException.class, () -> handler.handle(command));
     }
 }
