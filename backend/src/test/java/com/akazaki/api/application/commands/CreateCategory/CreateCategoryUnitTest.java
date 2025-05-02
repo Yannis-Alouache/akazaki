@@ -8,11 +8,8 @@ import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepos
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Create Category Unit Tests")
@@ -32,21 +29,21 @@ class CreateCategoryUnitTest {
     @DisplayName("Create A Category Successfully")
     void createACategory() {
         // Given
-        CreateCategoryCommand command = new CreateCategoryCommand(categoryFixture.category.getName());
+        CreateCategoryCommand command = new CreateCategoryCommand(categoryFixture.japan.getName());
 
         // When
         Category result = handler.handle(command);
 
         // Then
         assertThat(result.getId()).isNotNull();
-        assertThat(result.getName()).isEqualTo(categoryFixture.category.getName());
+        assertThat(result.getName()).isEqualTo(categoryFixture.japan.getName());
     }
 
     @Test
     @DisplayName("Prevent Duplicate Categories")
     void preventDuplicateCategories() {
         // Given
-        CreateCategoryCommand command = new CreateCategoryCommand(categoryFixture.category.getName());
+        CreateCategoryCommand command = new CreateCategoryCommand(categoryFixture.japan.getName());
         
         // First creation should succeed
         handler.handle(command);

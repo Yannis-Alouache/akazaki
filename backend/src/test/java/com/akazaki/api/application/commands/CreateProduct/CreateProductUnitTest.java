@@ -54,7 +54,7 @@ class CreateProductUnitTest {
                 10.0,
                 10,
                 null,
-                Arrays.asList(categoryFixture.category)
+                Arrays.asList(categoryFixture.japan)
         );
 
         // Arrange
@@ -63,7 +63,7 @@ class CreateProductUnitTest {
             basicProduct.getDescription(),
             basicProduct.getPrice(),
             basicProduct.getStock(),
-            Arrays.asList(categoryFixture.category.getId())
+            Arrays.asList(categoryFixture.japan.getId())
         );
 
         // Act
@@ -86,7 +86,7 @@ class CreateProductUnitTest {
             // Non existing categories
             Arrays.asList(999L)
         );
-        log.info(categoryFixture.category.toString());
+        log.info(categoryFixture.japan.toString());
 
         // Act / Assert
         assertThrows(UnableToFetchCategoriesException.class, () -> handler.handle(command));
@@ -101,7 +101,7 @@ class CreateProductUnitTest {
             expectedProduct.getDescription(),
             expectedProduct.getPrice(),
             expectedProduct.getStock(),
-            Arrays.asList(categoryFixture.category.getId())
+            Arrays.asList(categoryFixture.japan.getId())
         );
 
         log.info(command.toString());

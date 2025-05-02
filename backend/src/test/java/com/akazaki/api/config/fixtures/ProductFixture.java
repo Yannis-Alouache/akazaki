@@ -18,7 +18,7 @@ public class ProductFixture {
         this.productRepository = productRepository;
         
         categoryFixture.saveCategories();
-        this.drink = Product.create("Ramune Fraise", "the product description", 3.99, 30, "/uploads/image.png", List.of(categoryFixture.category));
+        this.drink = Product.create("Ramune Fraise", "the product description", 3.99, 30, "/uploads/image.png", List.of(categoryFixture.japan));
     }
 
     public void saveProducts() {
