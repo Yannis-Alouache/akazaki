@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Create Category Unit Tests")
 class CreateCategoryUnitTest {
@@ -51,7 +52,6 @@ class CreateCategoryUnitTest {
         handler.handle(command);
 
         // When/Then - Second creation should fail
-        assertThatThrownBy(() -> handler.handle(command))
-                .isInstanceOf(CategoryAlreadyExistException.class);
+        assertThrows(CategoryAlreadyExistException.class, () -> handler.handle(command));
     }
 }
