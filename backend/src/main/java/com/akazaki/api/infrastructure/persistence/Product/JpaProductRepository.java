@@ -14,5 +14,6 @@ public interface JpaProductRepository extends CrudRepository<ProductEntity, Long
 
     @Query("SELECT p FROM ProductEntity p JOIN FETCH p.categories WHERE p.id = :id")
     Optional<ProductEntity> findByIdWithCategories(@Param("id") Long id);
-    void deleteById(@NonNull Long id);
+    
+    void deleteById(@Param("id") Long id);
 }
