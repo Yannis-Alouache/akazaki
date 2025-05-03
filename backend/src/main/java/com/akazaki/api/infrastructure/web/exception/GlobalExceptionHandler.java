@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
     public ResponseEntity<ErrorResponse> handleEmailAlreadyRegistered(EmailAlreadyRegisteredException ex) {
-        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
@@ -72,5 +72,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleProductNotFoundException(ProductNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductOutOfStockException.class)
+    public ResponseEntity<ErrorResponse> handleProductOutOfStockException(ProductOutOfStockException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.OK);
     }
 }

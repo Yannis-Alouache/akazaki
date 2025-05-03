@@ -8,6 +8,8 @@ import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 import com.akazaki.api.infrastructure.web.dto.request.CreateProductRequest;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
+
+import com.akazaki.api.infrastructure.web.mapper.product.ProductResponseMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -35,6 +37,7 @@ public class AdminProductController {
     private static final Logger logger = LoggerFactory.getLogger(AdminProductController.class);
     private final CreateProductCommandHandler createProductCommandHandler;
     private final StoreImageCommandHandler storeImageCommandHandler;
+    private final ProductResponseMapper productMapper;
 
     @Operation(
         summary = "Create a new product",
@@ -82,6 +85,8 @@ public class AdminProductController {
             throw new UnableToSaveFileException();
         }
 
-        return ResponseEntity.ok(new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getStock(), imageUrl, product.getCategories()));
+        product.setImageUrl(imageUrl);
+
+        return ResponseEntity.ok(productMapper.toResponse(product));
     }
 }

@@ -181,4 +181,17 @@ public class Product {
         if (!imageUrl.equals(product.imageUrl)) return false;
         return categories.equals(product.categories);
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", categories=" + categories +
+                '}';
+    }
 }

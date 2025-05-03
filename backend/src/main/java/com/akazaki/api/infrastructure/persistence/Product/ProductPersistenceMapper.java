@@ -5,15 +5,15 @@ import java.util.List;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.infrastructure.persistence.Category.CategoryEntity;
-import com.akazaki.api.infrastructure.persistence.Category.CategoryMapper;
+import com.akazaki.api.infrastructure.persistence.Category.CategoryPersistenceMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ProductMapper {
-    private final CategoryMapper categoryMapper;
+public class ProductPersistenceMapper {
+    private final CategoryPersistenceMapper categoryMapper;
 
     public ProductEntity toEntity(Product domain) {
         List<CategoryEntity> categoryEntities = categoryMapper.toEntityList(domain.getCategories());
