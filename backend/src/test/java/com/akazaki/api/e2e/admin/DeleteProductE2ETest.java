@@ -5,7 +5,9 @@ import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.security.JwtService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("prod")
+@DisplayName("Delete Product E2E Tests")
 public class DeleteProductE2ETest {
 
     @Autowired
@@ -39,10 +42,11 @@ public class DeleteProductE2ETest {
     @BeforeEach
     public void setup() {
         userFixture.saveUsers();
-        productFixture.saveProducts(); // prépare le produit drink
+        productFixture.saveProducts();
     }
 
     @Test
+    @DisplayName("Delete A Product Successfully")
     void deleteAProductSuccessfully() {
         String token = jwtService.generateToken(userFixture.adminUser);
         Product product = productFixture.drink;
