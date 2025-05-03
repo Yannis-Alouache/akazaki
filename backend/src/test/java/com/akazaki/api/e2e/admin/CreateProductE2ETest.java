@@ -10,6 +10,7 @@ import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("prod")
+@DisplayName("Create Product E2E Tests")
 public class CreateProductE2ETest {
 
     @Autowired
@@ -44,6 +46,7 @@ public class CreateProductE2ETest {
     }
 
     @Test
+    @DisplayName("Create A Product Successfully")
     void createAProductSuccessfully() {
         String token = jwtService.generateToken(userFixture.adminUser);
         Long categoryId = createCategory(token);

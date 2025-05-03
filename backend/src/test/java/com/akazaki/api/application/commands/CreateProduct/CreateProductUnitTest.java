@@ -1,103 +1,110 @@
 package com.akazaki.api.application.commands.CreateProduct;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 
+import com.akazaki.api.config.fixtures.CategoryFixture;
+import com.akazaki.api.config.fixtures.ProductFixture;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import com.akazaki.api.domain.exceptions.ProductAlreadyExistException;
 import com.akazaki.api.domain.exceptions.UnableToFetchCategoriesException;
-import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.CreateProductCommand;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class CreateProductUnitTest {
-    private ProductRepository productRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private CreateProductCommandHandler handler;
-    private Product expectedProduct;
+@DisplayName("Create Product Unit Tests")
+class CreateProductUnitTest {
+    private static final Logger log = LoggerFactory.getLogger(CreateProductUnitTest.class);
+    private static ProductRepository productRepository;
+    private static CreateProductCommandHandler handler;
+    private static Product expectedProduct;
+    private static CategoryFixture categoryFixture;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
         CategoryRepository categoryRepository = new InMemoryCategoryRepository();
         productRepository = new InMemoryProductRepository();
+        categoryFixture = new CategoryFixture(categoryRepository);
+        ProductFixture productFixture = new ProductFixture(productRepository, categoryFixture);
 
         handler = new CreateProductCommandHandler(productRepository, categoryRepository);
 
         // Setup test data
-        Category category1 = new Category(1L, "Limonade");
-        Category category2 = new Category(2L, "Raisin");
-
-        categoryRepository.save(category1);
-        categoryRepository.save(category2);
-        
-        expectedProduct = Product.create(
-            "Test Product",
-            "Test Description",
-            10.0,
-            100,
-            Arrays.asList(category1, category2)
-        );
+        expectedProduct = productFixture.drink;
         expectedProduct.setId(1L);
     }
 
     @Test
-    public void createAProductSuccessfully() {
+    @DisplayName("Create A Product Successfully")
+    void createAProductSuccessfully() {
+        Product basicProduct = Product.create(
+                2L,
+                "Test Product",
+                "Test Description",
+                10.0,
+                10,
+                null,
+                Arrays.asList(categoryFixture.japan)
+        );
+
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
-            "Test Product",
-            "Test Description",
-            10.0,
-            100,
-            Arrays.asList(1L, 2L)
+            basicProduct.getName(),
+            basicProduct.getDescription(),
+            basicProduct.getPrice(),
+            basicProduct.getStock(),
+            Arrays.asList(categoryFixture.japan.getId())
         );
 
         // Act
         handler.handle(command);
-        Product product = productRepository.findById(1L).orElseThrow();
+        Product product = productRepository.findById(2L).orElseThrow();
 
         // Assert
-        assertNotNull(product);
-        assertEquals(product.getId(), expectedProduct.getId());
-        assertEquals(product.getName(), expectedProduct.getName());
-        assertEquals(product.getDescription(), expectedProduct.getDescription());
-        assertEquals(product.getPrice(), expectedProduct.getPrice(), 0.0);
-        assertEquals(product.getStock(), expectedProduct.getStock());
-        assertEquals(product.getCategories(), expectedProduct.getCategories());
+        assertThat(product).usingRecursiveComparison().isEqualTo(basicProduct);
     }
 
     @Test
-    public void preventProductCreationWhenCategoryNotFound() {
+    @DisplayName("Prevent Product Creation When Category Not Found")
+    void preventProductCreationWhenCategoryNotFound() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
-            "Test Product",
-            "Test Description",
-            10.0,
-            100,
+            expectedProduct.getName(),
+            expectedProduct.getDescription(),
+            expectedProduct.getPrice(),
+            expectedProduct.getStock(),
             // Non existing categories
-            Arrays.asList(3L, 4L)
+            Arrays.asList(999L)
         );
+        log.info(categoryFixture.japan.toString());
 
         // Act / Assert
         assertThrows(UnableToFetchCategoriesException.class, () -> handler.handle(command));
     }
 
     @Test
-    public void preventProductCreationWhenAlreadyExisting() {
+    @DisplayName("Prevent Product Creation When Already Existing")
+    void preventProductCreationWhenAlreadyExisting() {
         // Arrange
         CreateProductCommand command = new CreateProductCommand(
-            "Test Product",
-            "Test Description",
-            10.0,
-            100,
-            Arrays.asList(1L, 2L)
+            expectedProduct.getName(),
+            expectedProduct.getDescription(),
+            expectedProduct.getPrice(),
+            expectedProduct.getStock(),
+            Arrays.asList(categoryFixture.japan.getId())
         );
+
+        log.info(command.toString());
 
         handler.handle(command);
 

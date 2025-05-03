@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CategoryRepositoryAdapter implements CategoryRepository {
     private final JpaCategoryRepository repository;
-    private final CategoryMapper mapper;
+    private final CategoryPersistenceMapper mapper;
 
     @Override
     public Category save(Category category) {

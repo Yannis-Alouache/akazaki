@@ -15,7 +15,7 @@ import java.util.Optional;
 public class ProductRepositoryAdapter implements ProductRepository {
 
     private final JpaProductRepository repository;
-    private final ProductMapper mapper;
+    private final ProductPersistenceMapper mapper;
 
     @Override
     public Product save(Product product) {

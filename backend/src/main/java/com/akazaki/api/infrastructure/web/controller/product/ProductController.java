@@ -5,6 +5,7 @@ import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.GetProductQuery;
 import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
+import com.akazaki.api.infrastructure.web.mapper.product.ProductResponseMapper;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Product", description = "Product management APIs")
 public class ProductController {
     private final GetProductQueryHandler getProductQueryHandler;
+    private final ProductResponseMapper productMapper;
 
     @Operation(
         summary = "Get product by ID",
@@ -45,14 +47,6 @@ public class ProductController {
         GetProductQuery query = new GetProductQuery(id);
         Product product = getProductQueryHandler.handle(query);
         
-        return ResponseEntity.ok(new ProductResponse(
-            product.getId(), 
-            product.getName(), 
-            product.getDescription(), 
-            product.getPrice(), 
-            product.getStock(), 
-            product.getImageUrl(), 
-            product.getCategories()
-        ));
+        return ResponseEntity.ok(productMapper.toResponse(product));
     }
 }

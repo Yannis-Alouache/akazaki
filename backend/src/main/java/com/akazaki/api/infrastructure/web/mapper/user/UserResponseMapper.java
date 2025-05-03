@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component(value = "ResponseUserMapper")
-public class UserMapper {
+public class UserResponseMapper {
     
     public UserResponse toResponse(User user) {
         return new UserResponse(

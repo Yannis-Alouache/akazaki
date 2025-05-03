@@ -8,9 +8,9 @@ import com.akazaki.api.domain.model.User;
 
 import lombok.RequiredArgsConstructor;
 
-@Component(value = "DomainUserMapper")
+@Component
 @RequiredArgsConstructor
-public class UserMapper {
+public class UserPersistenceMapper {
     public UserEntity toEntity(User domain) {
         return new UserEntity(
                 domain.getId(),

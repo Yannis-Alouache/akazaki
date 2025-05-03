@@ -5,9 +5,9 @@ import com.akazaki.api.domain.ports.in.commands.CreateCategoryCommand;
 import com.akazaki.api.application.commands.CreateCategory.CreateCategoryCommandHandler;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
-import com.akazaki.api.infrastructure.persistence.Category.CategoryMapper;
 import com.akazaki.api.infrastructure.web.dto.request.CreateCategoryRequest;
 import com.akazaki.api.infrastructure.web.dto.response.CategoryResponse;
+import com.akazaki.api.infrastructure.web.mapper.category.CategoryResponseMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CategoryAdminController {
     private final CreateCategoryCommandHandler createCategoryCommandHandler;
     private final GetAllCategoriesQueryHandler categoriesQueryHandler;
-    private final CategoryMapper categoryMapper;
+    private final CategoryResponseMapper categoryMapper;
 
     @PostMapping
     public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody CreateCategoryRequest request) {
