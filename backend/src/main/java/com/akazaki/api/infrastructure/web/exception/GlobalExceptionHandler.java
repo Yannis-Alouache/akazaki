@@ -2,6 +2,7 @@ package com.akazaki.api.infrastructure.web.exception;
 
 import com.akazaki.api.domain.exceptions.*;
 import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
+import com.akazaki.api.infrastructure.exceptions.UnableToDeleteFileException;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
 
@@ -78,5 +79,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleProductOutOfStockException(ProductOutOfStockException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.OK);
         return new ResponseEntity<>(error, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(UnableToDeleteFileException.class)
+    public ResponseEntity<ErrorResponse> handleUnableToDeleteFileException(UnableToDeleteFileException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
