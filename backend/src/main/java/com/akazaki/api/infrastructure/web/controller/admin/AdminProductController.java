@@ -1,9 +1,11 @@
 package com.akazaki.api.infrastructure.web.controller.admin;
 
 import com.akazaki.api.application.commands.CreateProduct.CreateProductCommandHandler;
+import com.akazaki.api.application.commands.DeleteProduct.DeleteProductCommandHandler;
 import com.akazaki.api.application.commands.StoreImage.StoreImageCommandHandler;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.CreateProductCommand;
+import com.akazaki.api.domain.ports.in.commands.DeleteProductCommand;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 import com.akazaki.api.infrastructure.web.dto.request.CreateProductRequest;
@@ -37,6 +39,7 @@ public class AdminProductController {
     private static final Logger logger = LoggerFactory.getLogger(AdminProductController.class);
     private final CreateProductCommandHandler createProductCommandHandler;
     private final StoreImageCommandHandler storeImageCommandHandler;
+    private final DeleteProductCommandHandler deleteProductCommandHandler;
     private final ProductResponseMapper productMapper;
 
     @Operation(
@@ -88,5 +91,12 @@ public class AdminProductController {
         product.setImageUrl(imageUrl);
 
         return ResponseEntity.ok(productMapper.toResponse(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
+        DeleteProductCommand deleteProductCommand = new DeleteProductCommand(id);
+        deleteProductCommandHandler.handle(deleteProductCommand);
+        return ResponseEntity.noContent().build();
     }
 }

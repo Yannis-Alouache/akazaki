@@ -3,12 +3,10 @@ package com.akazaki.api.infrastructure.persistence.Image;
 import com.akazaki.api.domain.model.Image;
 import com.akazaki.api.domain.ports.out.ImageRepository;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +17,7 @@ import java.util.UUID;
 @Component
 @Profile("prod")
 public class ImageRepositoryAdapter implements ImageRepository {
+
     @Value("${upload.dir}")
     private String uploadDir;
 
