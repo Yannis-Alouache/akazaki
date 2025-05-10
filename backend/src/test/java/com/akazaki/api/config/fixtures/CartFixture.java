@@ -11,17 +11,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
 public class CartFixture {
-    public final CartRepository cartRepository;
-    public final UserFixture userFixture;
-    public final CartItemsFixture cartItemsFixture;
-
-
-    public Cart basicUserCart;
-
-    @PostConstruct
-    public void init() {
-        basicUserCart = new Cart(1L, userFixture.basicUser, List.of(cartItemsFixture.drink));
-    }
+    public static final Cart basicUserCart = new Cart(1L, UserFixture.basicUser, List.of(CartItemsFixture.drink));
 }
