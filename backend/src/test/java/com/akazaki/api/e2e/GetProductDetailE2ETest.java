@@ -1,21 +1,16 @@
-package com.akazaki.api.e2e.authenticated;
+package com.akazaki.api.e2e;
 
 import com.akazaki.api.config.JwtFactory;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.model.Product;
-import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
-import com.akazaki.api.domain.ports.out.UserRepository;
 import com.akazaki.api.infrastructure.persistence.Category.CategoryRepositoryAdapter;
 import com.akazaki.api.infrastructure.persistence.Product.ProductRepositoryAdapter;
-import com.akazaki.api.infrastructure.persistence.User.UserRepositoryAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,10 +27,9 @@ import java.util.List;
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @Transactional
-public class CartControllerIt {
+@DisplayName("Get Product Detail E2E Tests")
+public class GetProductDetailE2ETest {
     private final MockMvc mockMvc;
-    private final JwtFactory jwtFactory;
-    private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
@@ -43,45 +37,33 @@ public class CartControllerIt {
     private Product product;
 
     @Autowired
-    public CartControllerIt(MockMvc mockMvc, JwtFactory jwtFactory, UserRepositoryAdapter userRepository, ProductRepositoryAdapter productRepository, CategoryRepositoryAdapter categoryRepository) {
+    public GetProductDetailE2ETest(MockMvc mockMvc, JwtFactory jwtFactory, ProductRepositoryAdapter productRepository, CategoryRepositoryAdapter categoryRepository) {
         this.mockMvc = mockMvc;
-        this.jwtFactory = jwtFactory;
-        this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @BeforeEach
     void setUp() {
-        User domainUser = User.create(null, "Doe", "John", "johndoe@akazaki.com", "encodedPassword", "0685357448", false);
-        User persistedUser = userRepository.save(domainUser);
-
         Category domainCategory = new Category(null, "Drink");
-        Category persistedCategory = categoryRepository.save(domainCategory);
+        Category category = categoryRepository.save(domainCategory);
 
-        Product domainProduct = Product.create(null, "Ramune Fraise", "the product description", 3.99, 30, "/uploads/image.png", List.of(persistedCategory));
+        Product domainProduct = Product.create(null, "Ramune Fraise", "the product description", 3.99, 30, "/uploads/image.png", List.of(category));
         this.product = productRepository.save(domainProduct);
-
-        this.jwtToken = jwtFactory.getJwtToken(persistedUser);
     }
 
     @Test
-    @DisplayName("Add Item To Cart Successfully")
-    public void addToCartSuccessfully() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/cart/add/" + product.getId())
-                        .header("Authorization", "Bearer " + jwtToken))
+    @DisplayName("Get Product Detail Successfully")
+    void getProductDetailSuccessfully() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/" + this.product.getId()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cartItems[0].product.id").value(product.getId()));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    @DisplayName("return 404 when adding a product that does not exist")
-    public void addToCartWithNonExistentProduct() throws Exception {
-        long nonExistentProductId = 999999L;
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/cart/add/" + nonExistentProductId)
-                        .header("Authorization", "Bearer " + jwtToken))
+    @DisplayName("return 404 when product not found")
+    void getProductDetailNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/products/999999"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
