@@ -28,19 +28,18 @@ class CreateProductUnitTest {
     private static ProductRepository productRepository;
     private static CreateProductCommandHandler handler;
     private static Product expectedProduct;
-    private static CategoryFixture categoryFixture;
 
     @BeforeAll
     public static void setUp() {
         CategoryRepository categoryRepository = new InMemoryCategoryRepository();
         productRepository = new InMemoryProductRepository();
-        categoryFixture = new CategoryFixture(categoryRepository);
-        ProductFixture productFixture = new ProductFixture(productRepository, categoryFixture);
 
         handler = new CreateProductCommandHandler(productRepository, categoryRepository);
 
+        categoryRepository.save(CategoryFixture.japan);
+
         // Setup test data
-        expectedProduct = productFixture.drink;
+        expectedProduct = ProductFixture.drink;
         expectedProduct.setId(1L);
     }
 
@@ -54,7 +53,7 @@ class CreateProductUnitTest {
                 10.0,
                 10,
                 null,
-                Arrays.asList(categoryFixture.japan)
+                Arrays.asList(CategoryFixture.japan)
         );
 
         // Arrange
@@ -63,7 +62,7 @@ class CreateProductUnitTest {
             basicProduct.getDescription(),
             basicProduct.getPrice(),
             basicProduct.getStock(),
-            Arrays.asList(categoryFixture.japan.getId())
+            Arrays.asList(CategoryFixture.japan.getId())
         );
 
         // Act
@@ -86,7 +85,7 @@ class CreateProductUnitTest {
             // Non existing categories
             Arrays.asList(999L)
         );
-        log.info(categoryFixture.japan.toString());
+        log.info(CategoryFixture.japan.toString());
 
         // Act / Assert
         assertThrows(UnableToFetchCategoriesException.class, () -> handler.handle(command));
@@ -101,7 +100,7 @@ class CreateProductUnitTest {
             expectedProduct.getDescription(),
             expectedProduct.getPrice(),
             expectedProduct.getStock(),
-            Arrays.asList(categoryFixture.japan.getId())
+            Arrays.asList(CategoryFixture.japan.getId())
         );
 
         log.info(command.toString());

@@ -4,6 +4,7 @@ import com.akazaki.api.application.queries.GetAllCategories.GetAllCategoriesQuer
 import com.akazaki.api.config.fixtures.CategoryFixture;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
+import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,30 +18,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GetAllCategoriesUnitTest {
 
     private GetAllCategoriesQueryHandler queryHandler;
-    private InMemoryCategoryRepository repository;
-    private CategoryFixture categoryFixture;
 
     @BeforeEach
     void setUp() {
-        repository = new InMemoryCategoryRepository();
+        InMemoryCategoryRepository repository = new InMemoryCategoryRepository();
         queryHandler = new GetAllCategoriesQueryHandler(repository);
-        categoryFixture = new CategoryFixture(repository);
-        categoryFixture.saveCategories();
+
+        repository.save(CategoryFixture.japan);
+        repository.save(CategoryFixture.drink);
     }
 
     @Test
     @DisplayName("Get All Categories Successfully")
     void getAllCategories() {
         // Given
-        Category category1 = categoryFixture.drink;
-        Category category2 = categoryFixture.japan;
+        Category japan = CategoryFixture.japan;
+        Category drink = CategoryFixture.drink;
+
 
         // When
         List<Category> categories = queryHandler.handle(new GetAllCategoriesQuery());
 
         // Then
         assertEquals(2, categories.size());
-        assertEquals(category1.getName(), categories.get(0).getName());
-        assertEquals(category2.getName(), categories.get(1).getName());
+        assertEquals(japan.getName(), categories.get(0).getName());
+        assertEquals(drink.getName(), categories.get(1).getName());
     }
 }

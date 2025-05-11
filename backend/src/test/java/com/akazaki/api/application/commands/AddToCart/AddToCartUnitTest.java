@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import com.akazaki.api.config.fixtures.CartFixture;
 import com.akazaki.api.config.fixtures.CategoryFixture;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,7 @@ import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 public class AddToCartUnitTest {
     private CartRepository cartRepository;
     private AddToCartCommandHandler handler;
-    private UserFixture userFixture;
-    private ProductFixture productFixture;
+
 
     @BeforeEach
     void setUp() {
@@ -38,11 +38,8 @@ public class AddToCartUnitTest {
         UserRepository userRepository = new InMemoryUserRepository();
         handler = new AddToCartCommandHandler(cartRepository, productRepository, userRepository);
 
-        userFixture = new UserFixture(userRepository);
-        productFixture = new ProductFixture(productRepository, new CategoryFixture(new InMemoryCategoryRepository()));
-
-        userFixture.saveUsers();
-        productFixture.saveProducts();
+        userRepository.save(UserFixture.adminUser);
+        productRepository.save(ProductFixture.drink);
     }
 
     @Test
@@ -50,28 +47,19 @@ public class AddToCartUnitTest {
     public void addAProductToCartSuccesfully() {
         // given
         AddToCartCommand command = new AddToCartCommand(
-            userFixture.adminUser.getId(),
-            productFixture.drink.getId()
+            UserFixture.adminUser.getId(),
+            ProductFixture.drink.getId()
         );
-
-        CartItem expectedCartItem = CartItem.builder()
-                .id(1L)
-                .product(productFixture.drink)
-                .quantity(1)
-                .build();
-        
-        Cart expectedCart = Cart.builder()
-                .id(1L)
-                .user(userFixture.adminUser)
-                .cartItems(List.of(expectedCartItem))
-                .build();
 
         // when
         handler.handle(command);
-        Cart cart = cartRepository.findByUserId(userFixture.adminUser.getId()).orElseThrow();
+        Cart cart = cartRepository.findByUserId(UserFixture.adminUser.getId()).orElseThrow();
 
         // then
-        assertThat(cart).isEqualTo(expectedCart);
+        assertThat(cart)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "user.id", "cartItems.id", "cartItems.product.id", "cartItems.product.categories.id")
+                .isEqualTo(CartFixture.adminUserCartWithDrinkItem);
     }
 
 }
