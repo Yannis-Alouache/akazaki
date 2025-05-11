@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -33,11 +34,6 @@ public class UpdateProductCommandHandler {
 
     @Value("${upload.dir}")
     private String uploadDir;
-
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec l'ID : " + id));
-    }
 
     public void handle(UpdateProductCommand command) {
         List<Category> categories = categoryRepository.findAllById(command.categoryIds());
@@ -53,23 +49,26 @@ public class UpdateProductCommandHandler {
             throw new ProductAlreadyExistException();
         }
 
-        // Gestion de l'image
         if (command.imageFile() != null && !command.imageFile().isEmpty()) {
             String oldImageUrl = product.getImageUrl();
-            if (oldImageUrl != null && !oldImageUrl.isEmpty()) {
-                File oldImageFile = new File(uploadDir, oldImageUrl);
+            if (oldImageUrl != null && !oldImageUrl.isBlank()) {
+                String oldImageName = Path.of(oldImageUrl).getFileName().toString();
+                File oldImageFile = new File(uploadDir, oldImageName);
                 if (oldImageFile.exists() && !oldImageFile.delete()) {
-                    log.error("Failed to delete old image file: {}", oldImageFile.getAbsolutePath());
                     throw new UnableToDeleteFileException();
                 }
             }
 
             try {
-                Path targetPath = Path.of(uploadDir, Objects.requireNonNull(command.imageFile().getOriginalFilename()));
+                String originalFilename = Objects.requireNonNull(command.imageFile().getOriginalFilename());
+                String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String uniqueImageName = UUID.randomUUID() + extension;
+
+                Path targetPath = Path.of(uploadDir, uniqueImageName);
                 Files.copy(command.imageFile().getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-                product.setImageUrl(targetPath.getFileName().toString());
+
+                product.setImageUrl(uniqueImageName);
             } catch (IOException e) {
-                log.error("Failed to save new image file: {}", e.getMessage());
                 throw new UnableToSaveFileException();
             }
         }

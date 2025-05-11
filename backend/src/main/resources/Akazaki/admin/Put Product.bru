@@ -1,0 +1,35 @@
+meta {
+  name: Put Product
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{url}}/api/admin/products/1
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "name": "Updated Product Name",
+    "description": "Updated description",
+    "price": 99.99,
+    "stock": 50,
+    "categoryIds": [1, 2],
+    "imageUrl": "new-image.jpg"
+  }
+}
+
+body:multipart-form {
+  name: jus d'orange
+  description: Bouteille de 400ml jus d'orange
+  price: 3.40
+  stock: 40
+  categoryIds: 1,2
+  file: @file(/Users/elchaher/Downloads/03045320104127_C1C11-1.png)
+}

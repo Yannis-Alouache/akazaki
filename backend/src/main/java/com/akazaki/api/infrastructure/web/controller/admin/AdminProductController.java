@@ -111,6 +111,7 @@ public class AdminProductController {
             @ModelAttribute UpdateProductRequest request
     ) {
         logger.info("Received update product request for ID: {}", id);
+
         UpdateProductCommand command = new UpdateProductCommand(
                 id,
                 request.getName(),
@@ -121,37 +122,6 @@ public class AdminProductController {
                 request.getFile()
         );
         updateProductCommandHandler.handle(command);
-
-        // Gestion de la mise à jour de l'image
-        MultipartFile newImageFile = request.getFile();
-        if (newImageFile != null && !newImageFile.isEmpty()) {
-            try {
-                // Supprimez l'ancienne image si nécessaire
-                Product product = updateProductCommandHandler.getProductById(id); // Méthode à implémenter
-                String oldImageUrl = product.getImageUrl();
-                if (oldImageUrl != null) {
-                    File oldImageFile = new File(oldImageUrl);
-                    if (oldImageFile.exists() && !oldImageFile.delete()) {
-                        throw new RuntimeException("Impossible de supprimer l'ancienne image : " + oldImageFile.getAbsolutePath());
-                    }
-                }
-
-                // Enregistrez la nouvelle image
-                StoreImageCommand imageCommand = new StoreImageCommand(
-                        id,
-                        newImageFile.getOriginalFilename(),
-                        newImageFile.getContentType(),
-                        newImageFile.getInputStream()
-                );
-                String newImageUrl = storeImageCommandHandler.handle(imageCommand);
-
-                // Mettez à jour l'URL de l'image dans le produit
-                product.setImageUrl(newImageUrl);
-            } catch (IOException e) {
-                throw new UnableToSaveFileException();
-            }
-        }
-
         return ResponseEntity.noContent().build();
     }
 
