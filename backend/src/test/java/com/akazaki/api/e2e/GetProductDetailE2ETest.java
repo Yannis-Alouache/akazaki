@@ -33,7 +33,6 @@ public class GetProductDetailE2ETest {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
-    private String jwtToken;
     private Product product;
 
     @Autowired

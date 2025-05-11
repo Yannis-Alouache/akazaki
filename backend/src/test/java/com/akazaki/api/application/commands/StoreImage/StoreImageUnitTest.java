@@ -9,13 +9,10 @@ import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductReposit
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Store Image Unit Tests")

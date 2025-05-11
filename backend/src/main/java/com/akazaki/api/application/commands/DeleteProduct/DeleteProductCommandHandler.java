@@ -6,12 +6,9 @@ import com.akazaki.api.domain.ports.in.commands.DeleteProductCommand;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.exceptions.UnableToDeleteFileException;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.io.File;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
