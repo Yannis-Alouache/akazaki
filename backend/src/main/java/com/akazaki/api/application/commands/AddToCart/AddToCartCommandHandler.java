@@ -42,7 +42,7 @@ public class AddToCartCommandHandler {
             ProductNotFoundException::new
         );
 
-        if (product.getStock() < quantity) throw new ProductOutOfStockException();
+        if (quantity > product.getStock()) throw new ProductOutOfStockException();
 
         CartItem cartItem = CartItem.builder()
             .product(product)

@@ -2,21 +2,14 @@ package com.akazaki.api.application.commands.AddToCart;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 
 import com.akazaki.api.config.fixtures.CartFixture;
-import com.akazaki.api.config.fixtures.CategoryFixture;
-import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
 import com.akazaki.api.config.fixtures.ProductFixture;
 import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.model.Cart;
-import com.akazaki.api.domain.model.CartItem;
 import com.akazaki.api.domain.ports.in.commands.AddToCartCommand;
 import com.akazaki.api.domain.ports.out.CartRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
