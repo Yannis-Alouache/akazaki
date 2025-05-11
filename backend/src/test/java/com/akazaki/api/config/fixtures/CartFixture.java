@@ -12,5 +12,5 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 public class CartFixture {
-    public static final Cart basicUserCart = new Cart(1L, UserFixture.basicUser, List.of(CartItemsFixture.drink));
+    public static final Cart adminUserCartWithDrinkItem = new Cart(1L, UserFixture.adminUser, List.of(CartItemsFixture.drink));
 }
