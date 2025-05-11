@@ -18,11 +18,11 @@ public class Cart {
     }
 
     public void addItem(CartItem cartItem) {
-        if (updateExistingItem(cartItem)) return;
+        if (incrementItemQuantityIfItemExists(cartItem)) return;
         cartItems.add(cartItem);
     }
 
-    public boolean updateExistingItem(CartItem cartItem) {
+    public boolean incrementItemQuantityIfItemExists(CartItem cartItem) {
         for (CartItem item : cartItems) {
             if (Objects.equals(item.getProduct().getId(), cartItem.getProduct().getId())) {
                 item.setQuantity(item.getQuantity() + cartItem.getQuantity());
@@ -30,6 +30,19 @@ public class Cart {
             }
         }
         return false;
+    }
+
+    public void removeItem(Long productId) {
+        cartItems.removeIf(item -> item.getProduct().getId().equals(productId));
+    }
+
+    public void updateItemQuantity(Long productId, int quantity) {
+        CartItem cartItem = cartItems.stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+
+        cartItem.setQuantity(quantity);
     }
 
     public Long getId() {
@@ -47,8 +60,6 @@ public class Cart {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

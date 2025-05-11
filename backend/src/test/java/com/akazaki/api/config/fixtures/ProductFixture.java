@@ -1,9 +1,6 @@
 package com.akazaki.api.config.fixtures;
 
 import com.akazaki.api.domain.model.Product;
-import com.akazaki.api.domain.ports.out.ProductRepository;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
 

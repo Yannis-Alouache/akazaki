@@ -5,7 +5,6 @@ import com.akazaki.api.infrastructure.web.dto.response.CartItemResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import com.akazaki.api.infrastructure.web.mapper.product.ProductResponseMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

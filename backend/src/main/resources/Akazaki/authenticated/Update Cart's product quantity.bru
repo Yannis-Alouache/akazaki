@@ -1,0 +1,19 @@
+meta {
+  name: Update Cart's product quantity
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{url}}/api/cart/items/1?quantity=3
+  body: none
+  auth: bearer
+}
+
+params:query {
+  quantity: 3
+}
+
+auth:bearer {
+  token: {{jwt}}
+}

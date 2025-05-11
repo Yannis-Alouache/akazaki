@@ -4,7 +4,6 @@ import com.akazaki.api.application.queries.GetAllCategories.GetAllCategoriesQuer
 import com.akazaki.api.config.fixtures.CategoryFixture;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
-import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
