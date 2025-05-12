@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.akazaki.api.application.commands.AddToCart.AddToCartCommandHandler;
 import com.akazaki.api.application.commands.UpdateCartItemQuantityCommandHandler;
+import com.akazaki.api.application.queries.GetCartQueryHandler;
 import com.akazaki.api.domain.model.Cart;
 import com.akazaki.api.domain.ports.in.commands.AddToCartCommand;
 import com.akazaki.api.domain.ports.in.commands.UpdateCartItemQuantityCommand;
+import com.akazaki.api.domain.ports.in.queries.GetCartQuery;
 import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 import com.akazaki.api.infrastructure.web.dto.request.UpdateCartItemQuantityRequest;
 import com.akazaki.api.infrastructure.web.dto.response.CartResponse;
@@ -33,6 +35,29 @@ public class CartController {
     private final CartResponseMapper cartMapper;
     private final AddToCartCommandHandler addToCartCommandHandler;
     private final UpdateCartItemQuantityCommandHandler updateCartItemQuantityCommandHandler;
+    private final GetCartQueryHandler getCartQueryHandler;
+
+    @Operation(
+        summary = "Get user's cart",
+        description = "Retrieves the current user's cart"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Cart retrieved successfully",
+            content = @Content(schema = @Schema(implementation = CartResponse.class))
+        )
+    })
+    @GetMapping
+    public ResponseEntity<CartResponse> getCart() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity userEntity = (UserEntity) authentication.getPrincipal();
+        Long userId = userEntity.getId();
+
+        Cart cart = getCartQueryHandler.handle(new GetCartQuery(userId));
+        CartResponse cartResponse = cartMapper.toResponse(cart);
+        return ResponseEntity.ok(cartResponse);
+    }
 
     @Operation(
         summary = "Adds a product to the cart",

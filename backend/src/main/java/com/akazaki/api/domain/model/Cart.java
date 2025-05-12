@@ -2,6 +2,7 @@ package com.akazaki.api.domain.model;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 public class Cart {
@@ -75,6 +76,10 @@ public class Cart {
                 ", user=" + user +
                 ", cartItems=" + cartItems +
                 '}';
+    }
+
+    public Cart copy() {
+        return new Cart(id, user.copy(), cartItems.stream().map(CartItem::copy).collect(Collectors.toList()));
     }
 
     public static class Builder {

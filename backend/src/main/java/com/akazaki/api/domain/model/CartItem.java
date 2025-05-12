@@ -57,6 +57,10 @@ public class CartItem {
         return Objects.hash(id, quantity, product);
     }
 
+    public CartItem copy() {
+        return new CartItem(id, quantity, product.copy());
+    }
+
     public static Builder builder() {
         return new Builder();
     }

@@ -103,6 +103,10 @@ public class User  {
         this.admin = admin;
     }
 
+    public User copy() {
+        return new User(id, lastName, firstName, email, password, phoneNumber, admin);
+    }
+
     @Override
     public String toString() {
         return "User{" +
