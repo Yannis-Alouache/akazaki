@@ -166,6 +166,10 @@ public class Product {
     //     this.promotions = promotions;
     // }
 
+    public Product copy() {
+        return new Product(id, name, description, price, stock, imageUrl, categories);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

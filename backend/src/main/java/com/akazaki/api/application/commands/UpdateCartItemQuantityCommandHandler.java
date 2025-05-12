@@ -28,16 +28,18 @@ public class UpdateCartItemQuantityCommandHandler {
         Cart cart = cartRepository.findByUserId(command.userId())
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
+        Cart updatedCart = cart.copy();
+
         if (command.quantity() == 0) {
-            cart.removeItem(command.productId());
-            return cartRepository.save(cart);
+            updatedCart.removeItem(command.productId());
+            return cartRepository.save(updatedCart);
         }
 
         if (command.quantity() > product.getStock())
             throw new InsufficientStockException();
 
-       cart.updateItemQuantity(command.productId(), command.quantity());
+       updatedCart.updateItemQuantity(command.productId(), command.quantity());
 
-        return cartRepository.save(cart);
+        return cartRepository.save(updatedCart);
     }
 } 
