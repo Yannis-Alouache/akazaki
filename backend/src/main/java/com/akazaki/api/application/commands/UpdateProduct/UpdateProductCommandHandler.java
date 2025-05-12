@@ -67,7 +67,7 @@ public class UpdateProductCommandHandler {
                 Path targetPath = Path.of(uploadDir, uniqueImageName);
                 Files.copy(command.imageFile().getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-                product.setImageUrl(uniqueImageName);
+                product.setImageUrl("/uploads/" + uniqueImageName);
             } catch (IOException e) {
                 throw new UnableToSaveFileException();
             }
