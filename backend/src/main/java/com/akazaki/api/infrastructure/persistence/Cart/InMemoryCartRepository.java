@@ -25,12 +25,15 @@ public class InMemoryCartRepository implements CartRepository {
 
     @Override
     public Cart save(Cart cart) {
-        cart.setId((long) (carts.size() + 1));
+        if (cart.getId() == null) {
+            cart.setId((long) (carts.size() + 1));
+        } else {
+            carts.removeIf(c -> c.getId().equals(cart.getId()));
+        }
 
-        List<CartItem> items = cart.getCartItems();
-        for (int i = 0; i < items.size(); i++) {
-            CartItem item = items.get(i);
-            item.setId((long) (i + 1)); 
+        for (int i = 0; i < cart.getCartItems().size(); i++) {
+            CartItem item = cart.getCartItems().get(i);
+            item.setId((long) (i + 1));
         }
 
         carts.add(cart);
