@@ -39,7 +39,7 @@ class CreateProductUnitTest {
         categoryRepository.save(CategoryFixture.japan);
 
         // Setup test data
-        expectedProduct = ProductFixture.drink;
+        expectedProduct = ProductFixture.ramuneFraise;
         expectedProduct.setId(1L);
     }
 

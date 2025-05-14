@@ -32,7 +32,7 @@ public class AddToCartUnitTest {
         handler = new AddToCartCommandHandler(cartRepository, productRepository, userRepository);
 
         userRepository.save(UserFixture.adminUser);
-        productRepository.save(ProductFixture.drink);
+        productRepository.save(ProductFixture.ramuneFraise);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class AddToCartUnitTest {
         // given
         AddToCartCommand command = new AddToCartCommand(
             UserFixture.adminUser.getId(),
-            ProductFixture.drink.getId()
+            ProductFixture.ramuneFraise.getId()
         );
 
         // when

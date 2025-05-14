@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @Profile("prod")
@@ -38,5 +40,12 @@ public class ProductRepositoryAdapter implements ProductRepository {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return repository.findAll().stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
     }
 }

@@ -39,7 +39,7 @@ public class UpdateCartItemQuantityCommandHandlerUnitTest {
         handler = new UpdateCartItemQuantityCommandHandler(cartRepository, productRepository);
 
         userRepository.save(UserFixture.adminUser);
-        productRepository.save(ProductFixture.drink);
+        productRepository.save(ProductFixture.ramuneFraise);
         cartRepository.save(CartFixture.adminUserCartWithDrinkItem);
     }
 
@@ -49,7 +49,7 @@ public class UpdateCartItemQuantityCommandHandlerUnitTest {
         // given
         UpdateCartItemQuantityCommand command = new UpdateCartItemQuantityCommand(
             UserFixture.adminUser.getId(),
-            ProductFixture.drink.getId(),
+            ProductFixture.ramuneFraise.getId(),
             QUANTITY
         );
 
@@ -66,8 +66,8 @@ public class UpdateCartItemQuantityCommandHandlerUnitTest {
         // given
         UpdateCartItemQuantityCommand command = new UpdateCartItemQuantityCommand(
             UserFixture.adminUser.getId(),
-            ProductFixture.drink.getId(),
-            ProductFixture.drink.getStock() + 1
+            ProductFixture.ramuneFraise.getId(),
+            ProductFixture.ramuneFraise.getStock() + 1
         );
 
         assertThrows(InsufficientStockException.class, () -> handler.handle(command));
@@ -94,7 +94,7 @@ public class UpdateCartItemQuantityCommandHandlerUnitTest {
         // given
         UpdateCartItemQuantityCommand command = new UpdateCartItemQuantityCommand(
             UserFixture.adminUser.getId(),
-            ProductFixture.drink.getId(),
+            ProductFixture.ramuneFraise.getId(),
             0
         );
 

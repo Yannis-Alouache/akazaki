@@ -6,8 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.akazaki.api.application.commands.AddToCart.AddToCartCommandHandler;
+import com.akazaki.api.application.queries.GetCart.GetCartQueryHandler;
 import com.akazaki.api.application.commands.UpdateCartItemQuantityCommandHandler;
-import com.akazaki.api.application.queries.GetCartQueryHandler;
 import com.akazaki.api.domain.model.Cart;
 import com.akazaki.api.domain.ports.in.commands.AddToCartCommand;
 import com.akazaki.api.domain.ports.in.commands.UpdateCartItemQuantityCommand;

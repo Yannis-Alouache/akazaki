@@ -39,4 +39,9 @@ public class InMemoryProductRepository implements ProductRepository {
     public void deleteById(Long productId) {
         products.removeIf(product -> product.getId().equals(productId));
     }
+
+    @Override
+    public List<Product> findAll() {
+        return new ArrayList<>(products);
+    }
 }

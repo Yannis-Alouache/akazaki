@@ -2,6 +2,7 @@ package com.akazaki.api.domain.ports.out;
 
 import com.akazaki.api.domain.model.Product;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
@@ -9,4 +10,5 @@ public interface ProductRepository {
     Optional<Product> findById(Long id);
     boolean existsByName(String name);
     void deleteById(Long productId);
+    List<Product> findAll();
 }
