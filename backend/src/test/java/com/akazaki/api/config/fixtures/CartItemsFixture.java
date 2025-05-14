@@ -9,6 +9,6 @@ import com.akazaki.api.domain.model.CartItem;
 public class CartItemsFixture {
     public final static CartItem drink = CartItem.builder()
                                             .quantity(1)
-                                            .product(ProductFixture.drink)
+                                            .product(ProductFixture.ramuneFraise)
                                             .build();
 }

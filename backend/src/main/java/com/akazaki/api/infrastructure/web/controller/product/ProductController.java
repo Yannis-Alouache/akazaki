@@ -1,8 +1,10 @@
 package com.akazaki.api.infrastructure.web.controller.product;
 
 import com.akazaki.api.application.queries.GetProduct.GetProductQueryHandler;
+import com.akazaki.api.application.queries.ListProducts.ListProductsQueryHandler;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.GetProductQuery;
+import com.akazaki.api.domain.ports.in.queries.ListProductsQuery;
 import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import com.akazaki.api.infrastructure.web.mapper.product.ProductResponseMapper;
@@ -18,12 +20,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
 @Tag(name = "Product", description = "Product management APIs")
 public class ProductController {
     private final GetProductQueryHandler getProductQueryHandler;
+    private final ListProductsQueryHandler listProductsQueryHandler;
     private final ProductResponseMapper productMapper;
 
     @Operation(
@@ -48,5 +53,26 @@ public class ProductController {
         Product product = getProductQueryHandler.handle(query);
         
         return ResponseEntity.ok(productMapper.toResponse(product));
+    }
+
+    @Operation(
+        summary = "List all products",
+        description = "Retrieves all products"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Products found",
+            content = @Content(schema = @Schema(implementation = ProductResponse.class))
+        )
+    })
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> listProducts() {
+        List<Product> products = listProductsQueryHandler.handle(new ListProductsQuery());
+        List<ProductResponse> response = products.stream()
+            .map(productMapper::toResponse)
+            .toList();
+        
+        return ResponseEntity.ok(response);
     }
 }

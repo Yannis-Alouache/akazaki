@@ -1,4 +1,4 @@
-package com.akazaki.api.application.queries;
+package com.akazaki.api.application.queries.GetCart;
 
 import com.akazaki.api.domain.exceptions.UserNotFoundException;
 import com.akazaki.api.domain.model.Cart;

@@ -1,5 +1,6 @@
-package com.akazaki.api.application.queries;
+package com.akazaki.api.application.query.GetCart;
 
+import com.akazaki.api.application.queries.GetCart.GetCartQueryHandler;
 import com.akazaki.api.config.fixtures.CartFixture;
 import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.exceptions.UserNotFoundException;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@DisplayName("Get Cart Unit Tests")
 class GetCartQueryHandlerTest {
     private GetCartQueryHandler getCartQueryHandler;
     private CartRepository cartRepository;
