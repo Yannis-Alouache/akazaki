@@ -16,11 +16,11 @@ public class ListProductsQueryHandler {
     }
 
     public Page<Product> handle(ListProductsQuery query) {
-        if (query.getPage() < 0) query.setPage(0);
-        if (query.getSize() <= 0) query.setSize(10);
-        if (query.getPage() != 0) query.setPage(query.getPage() - 1);
+        int page = query.getPage() < 0 ? 0 : query.getPage();
+        int size = query.getSize() <= 0 ? 10 : query.getSize();
+        page = page != 0 ? page - 1 : page;
 
-        PageRequest pageRequest = PageRequest.of(query.getPage(), query.getSize());
+        PageRequest pageRequest = PageRequest.of(page, size);
         return productRepository.findAll(pageRequest);
     }
 } 
