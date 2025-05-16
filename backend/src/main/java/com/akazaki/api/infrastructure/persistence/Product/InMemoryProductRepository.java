@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.akazaki.api.domain.model.Product;
@@ -41,7 +44,7 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAll() {
-        return new ArrayList<>(products);
+    public Page<Product> findAll(Pageable pageable) {
+        return new PageImpl<>(products, pageable, products.size());
     }
 }

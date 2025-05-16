@@ -3,13 +3,13 @@ package com.akazaki.api.infrastructure.persistence.Product;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @Profile("prod")
@@ -43,9 +43,8 @@ public class ProductRepositoryAdapter implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAll() {
-        return repository.findAll().stream()
-            .map(mapper::toDomain)
-            .collect(Collectors.toList());
+    public Page<Product> findAll(Pageable pageable) {
+        return repository.findAll(pageable)
+            .map(mapper::toDomain);
     }
 }

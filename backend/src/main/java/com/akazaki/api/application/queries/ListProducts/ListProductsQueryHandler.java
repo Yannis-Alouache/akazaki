@@ -3,9 +3,9 @@ package com.akazaki.api.application.queries.ListProducts;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.ListProductsQuery;
 import com.akazaki.api.domain.ports.out.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class ListProductsQueryHandler {
@@ -15,7 +15,12 @@ public class ListProductsQueryHandler {
         this.productRepository = productRepository;
     }
 
-    public List<Product> handle(ListProductsQuery query) {
-        return productRepository.findAll();
+    public Page<Product> handle(ListProductsQuery query) {
+        if (query.getPage() < 0) query.setPage(0);
+        if (query.getSize() <= 0) query.setSize(10);
+        if (query.getPage() != 0) query.setPage(query.getPage() - 1);
+
+        PageRequest pageRequest = PageRequest.of(query.getPage(), query.getSize());
+        return productRepository.findAll(pageRequest);
     }
 } 
