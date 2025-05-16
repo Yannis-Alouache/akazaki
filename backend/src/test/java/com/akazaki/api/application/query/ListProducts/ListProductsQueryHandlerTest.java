@@ -9,6 +9,7 @@ import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductReposit
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -33,10 +34,12 @@ class ListProductsQueryHandlerTest {
         productRepository.save(ProductFixture.ultraIceTea);
 
         // When
-        List<Product> result = listProductsQueryHandler.handle(new ListProductsQuery());
+        Page<Product> result = listProductsQueryHandler.handle(new ListProductsQuery(1, 10));
 
         // Then
         assertThat(result).hasSize(2);
+        assertThat(result.getTotalElements()).isEqualTo(2);
+        assertThat(result.getTotalPages()).isEqualTo(1);
         assertThat(result).containsExactlyInAnyOrder(ProductFixture.ramuneFraise, ProductFixture.ultraIceTea);
     }
 
@@ -44,7 +47,7 @@ class ListProductsQueryHandlerTest {
     @DisplayName("Should return empty list when repository is empty")
     void shouldReturnEmptyListWhenRepositoryIsEmpty() {
         // When
-        List<Product> result = listProductsQueryHandler.handle(new ListProductsQuery());
+        Page<Product> result = listProductsQueryHandler.handle(new ListProductsQuery(1, 10));
 
         // Then
         assertThat(result).isEmpty();

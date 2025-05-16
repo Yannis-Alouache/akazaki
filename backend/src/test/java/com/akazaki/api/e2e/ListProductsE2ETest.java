@@ -57,6 +57,6 @@ public class ListProductsE2ETest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/products"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.products.size()").value(2));
     }
 } 

@@ -5,9 +5,12 @@ import com.akazaki.api.application.queries.ListProducts.ListProductsQueryHandler
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.GetProductQuery;
 import com.akazaki.api.domain.ports.in.queries.ListProductsQuery;
+import com.akazaki.api.infrastructure.web.dto.request.ProductListRequest;
 import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
+import com.akazaki.api.infrastructure.web.dto.response.ProductListResponse;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 import com.akazaki.api.infrastructure.web.mapper.product.ProductResponseMapper;
+import com.akazaki.api.infrastructure.web.mapper.productList.ProductListMapper;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,11 +19,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -30,6 +33,7 @@ public class ProductController {
     private final GetProductQueryHandler getProductQueryHandler;
     private final ListProductsQueryHandler listProductsQueryHandler;
     private final ProductResponseMapper productMapper;
+    private final ProductListMapper productListMapper;
 
     @Operation(
         summary = "Get product by ID",
@@ -56,23 +60,20 @@ public class ProductController {
     }
 
     @Operation(
-        summary = "List all products",
-        description = "Retrieves all products"
+        summary = "List products with pagination",
+        description = "Retrieves a paginated list of products"
     )
     @ApiResponses({
         @ApiResponse(
             responseCode = "200",
             description = "Products found",
-            content = @Content(schema = @Schema(implementation = ProductResponse.class))
+            content = @Content(schema = @Schema(implementation = ProductListResponse.class))
         )
     })
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> listProducts() {
-        List<Product> products = listProductsQueryHandler.handle(new ListProductsQuery());
-        List<ProductResponse> response = products.stream()
-            .map(productMapper::toResponse)
-            .toList();
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ProductListResponse> listProducts(@Valid ProductListRequest listProductsRequest) {
+        ListProductsQuery query = new ListProductsQuery(listProductsRequest.getPage(), listProductsRequest.getSize());
+        Page<Product> products = listProductsQueryHandler.handle(query);
+        return ResponseEntity.ok(productListMapper.toResponse(products));
     }
 }
