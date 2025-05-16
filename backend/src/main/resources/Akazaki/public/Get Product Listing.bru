@@ -5,7 +5,12 @@ meta {
 }
 
 get {
-  url: {{url}}/api/products
+  url: {{url}}/api/products?page=1&size=10
   body: none
   auth: none
+}
+
+params:query {
+  page: 1
+  size: 10
 }
