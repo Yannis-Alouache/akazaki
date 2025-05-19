@@ -26,4 +26,5 @@ jobs:
     # Lancer les tests
     - name: Run tests
       run: mvn test
+      working-directory: backend
 
