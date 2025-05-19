@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Vérification du code source
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -23,10 +22,6 @@ jobs:
       with:
         java-version: 17
         distribution: 'temurin'
-
-    # Installation des dépendances Maven
-    - name: Install dependencies
-      run: mvn install -DskipTests
 
     # Lancer les tests
     - name: Run tests
