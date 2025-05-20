@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 import com.akazaki.api.config.fixtures.CartFixture;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import com.akazaki.api.infrastructure.persistence.Cart.InMemoryCartRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 
+@Tag("unit")
 @DisplayName("Add to cart Unit Tests")
 public class AddToCartUnitTest {
     private CartRepository cartRepository;

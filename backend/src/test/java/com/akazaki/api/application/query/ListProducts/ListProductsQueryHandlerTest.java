@@ -8,6 +8,7 @@ import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("unit")
 @DisplayName("List Products Unit Tests")
 class ListProductsQueryHandlerTest {
     private ListProductsQueryHandler listProductsQueryHandler;

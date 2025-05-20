@@ -22,7 +22,6 @@ jobs:
       with:
         java-version: 17
         distribution: 'temurin'
-
     # Lancer les tests
     - name: Run tests
       run: mvn test -Dgroups=unit

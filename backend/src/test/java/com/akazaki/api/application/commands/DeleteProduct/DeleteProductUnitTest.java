@@ -7,12 +7,12 @@ import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("unit")
 @DisplayName("Delete Product Unit Test")
 public class DeleteProductUnitTest {
     private static ProductRepository productRepository;

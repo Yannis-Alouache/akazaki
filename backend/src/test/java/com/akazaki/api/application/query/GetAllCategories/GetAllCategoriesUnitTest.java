@@ -7,12 +7,14 @@ import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Tag("unit")
 @DisplayName("Get All Categories Unit Tests")
 class GetAllCategoriesUnitTest {
 

@@ -8,6 +8,7 @@ import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductReposit
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.FileSystemResource;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Tag("unit")
 @DisplayName("Store Image Unit Tests")
 public class StoreImageUnitTest {
 
