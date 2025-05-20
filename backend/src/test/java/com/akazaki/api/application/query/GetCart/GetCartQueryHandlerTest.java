@@ -12,11 +12,13 @@ import com.akazaki.api.infrastructure.persistence.Cart.InMemoryCartRepository;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Tag("unit")
 @DisplayName("Get Cart Unit Tests")
 class GetCartQueryHandlerTest {
     private GetCartQueryHandler getCartQueryHandler;

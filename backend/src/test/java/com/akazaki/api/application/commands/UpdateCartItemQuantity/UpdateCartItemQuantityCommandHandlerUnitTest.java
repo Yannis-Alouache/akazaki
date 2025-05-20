@@ -4,6 +4,7 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +23,7 @@ import com.akazaki.api.infrastructure.persistence.Cart.InMemoryCartRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 
+@Tag("unit")
 @DisplayName("Update cart item quantity Unit Tests")
 public class UpdateCartItemQuantityCommandHandlerUnitTest {
     private UpdateCartItemQuantityCommandHandler handler;
