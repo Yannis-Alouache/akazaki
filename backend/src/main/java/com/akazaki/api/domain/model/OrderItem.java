@@ -1,30 +1,45 @@
-/*
 package com.akazaki.api.domain.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private int quantity;
-
-    @Column(nullable = false)
-    private int unitPrice;
-
-    @ManyToOne
+    private int price;
     private Order order;
-
-    @ManyToOne
     private Product product;
+
+
+    private OrderItem(
+        Long id,
+        int quantity,
+        int price,
+        Order order,
+        Product product
+    ) {
+        this.id = id;
+        this.quantity = quantity;
+        this.price = price;
+        this.order = order;
+        this.product = product;
+    }
+
+    public static OrderItem create(
+        int quantity,
+        int price,
+        Order order,
+        Product product
+    ) {
+        return new OrderItem(null, quantity, price, order, product);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                    "id=" + id +
+                    ", quantity=" + quantity +
+                    ", price=" + price +
+                    ", order=" + order +
+                    ", product=" + product +
+                '}';
+    }
+    
 }
-*/

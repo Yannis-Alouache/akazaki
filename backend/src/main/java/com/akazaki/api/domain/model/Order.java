@@ -1,37 +1,62 @@
 package com.akazaki.api.domain.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "`order`")
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, name = "order_date")
     private LocalDateTime date;
-
-    @Column(nullable = false)
-    private String status;
-
-    @Column(nullable = false)
+    private OrderStatus status;
+    private List<OrderItem> items;
     private int totalPrice;
-
-    @ManyToOne
     private Address billingAddress;
-
-    @ManyToOne
     private Address shippingAddress;
-
-    @OneToOne
     private Payment payment;
+
+    private Order(
+        Long id,
+        LocalDateTime date,
+        OrderStatus status,
+        List<OrderItem> items,
+        int totalPrice,
+        Address billingAddress,
+        Address shippingAddress,
+        Payment payment
+    ) {
+        this.id = id;
+        this.date = date;
+        this.status = status;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.billingAddress = billingAddress;
+        this.shippingAddress = shippingAddress;
+        this.payment = payment;
+    }
+
+    public static Order create(
+        LocalDateTime date,
+        OrderStatus status,
+        List<OrderItem> items,
+        int totalPrice,
+        Address billingAddress,
+        Address shippingAddress,
+        Payment payment
+    ) {
+        return new Order(null, date, status, items, totalPrice, billingAddress, shippingAddress, payment);
+    }
+    
+    @Override
+    public String toString() {
+        return "Order{" +
+                    "id=" + id +
+                    ", date=" + date +
+                    ", status=" + status +
+                    ", items=" + items +
+                    ", totalPrice=" + totalPrice +
+                    ", billingAddress=" + billingAddress +
+                    ", shippingAddress=" + shippingAddress +
+                    ", payment=" + payment +
+                '}';
+    }
+
 }
