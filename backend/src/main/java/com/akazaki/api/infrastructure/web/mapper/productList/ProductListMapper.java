@@ -1,6 +1,5 @@
 package com.akazaki.api.infrastructure.web.mapper.productList;
 
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
