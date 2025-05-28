@@ -32,6 +32,13 @@ public class Payment {
         return new Payment(null, order, amount, method, date);
     }
 
+    // Getters
+    public Long getId() { return id; }
+    public Order getOrder() { return order; }
+    public int getAmount() { return amount; }
+    public String getMethod() { return method; }
+    public LocalDateTime getDate() { return date; }
+
     @Override
     public String toString() {
         return "Payment{" +

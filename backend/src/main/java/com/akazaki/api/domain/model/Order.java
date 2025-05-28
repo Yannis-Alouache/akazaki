@@ -8,7 +8,7 @@ public class Order {
     private LocalDateTime date;
     private OrderStatus status;
     private List<OrderItem> items;
-    private int totalPrice;
+    private double totalPrice;
     private Address billingAddress;
     private Address shippingAddress;
     private Payment payment;
@@ -18,7 +18,7 @@ public class Order {
         LocalDateTime date,
         OrderStatus status,
         List<OrderItem> items,
-        int totalPrice,
+        double totalPrice,
         Address billingAddress,
         Address shippingAddress,
         Payment payment
@@ -33,16 +33,13 @@ public class Order {
         this.payment = payment;
     }
 
-    public static Order create(
+    public static Order draft(
         LocalDateTime date,
         OrderStatus status,
         List<OrderItem> items,
-        int totalPrice,
-        Address billingAddress,
-        Address shippingAddress,
-        Payment payment
+        double totalPrice
     ) {
-        return new Order(null, date, status, items, totalPrice, billingAddress, shippingAddress, payment);
+        return new Order(null, date, status, items, totalPrice, null, null, null);
     }
     
     @Override
@@ -59,4 +56,54 @@ public class Order {
                 '}';
     }
 
+    // Getters
+    public Long getId() { return id; }
+    public LocalDateTime getDate() { return date; }
+    public OrderStatus getStatus() { return status; }
+    public List<OrderItem> getItems() { return items; }
+    public double getTotalPrice() { return totalPrice; }
+    public Address getBillingAddress() { return billingAddress; }
+    public Address getShippingAddress() { return shippingAddress; }
+    public Payment getPayment() { return payment; }
+
+    public static class Builder {
+        private Long id;
+        private LocalDateTime date;
+        private OrderStatus status;
+        private List<OrderItem> items;
+        private double totalPrice;
+        private Address billingAddress;
+        private Address shippingAddress;
+        private Payment payment;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder date(LocalDateTime date) {
+            this.date = date;
+            return this;
+        }
+
+        public Builder status(OrderStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        
+
+        public Builder items(List<OrderItem> items) {
+            this.items = items;
+            return this;
+        }
+
+        public Order build() {
+            return new Order(id, date, status, items, totalPrice, billingAddress, shippingAddress, payment);
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
 }

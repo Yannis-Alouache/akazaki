@@ -46,6 +46,12 @@ public class Cart {
         cartItem.setQuantity(quantity);
     }
 
+    public double getTotalPrice() {
+        return cartItems.stream()
+                .map(item -> item.getProduct().getPrice() * item.getQuantity())
+                .reduce(0.0, (a, b) -> a + b);
+    }
+
     public Long getId() {
         return id;
     }

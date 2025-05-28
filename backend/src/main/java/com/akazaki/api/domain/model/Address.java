@@ -46,6 +46,18 @@ public class Address {
         return new Address(null, lastName, firstName, streetNumber, street, addressComplement, postCode, city, country);
     }
 
+    // Getters
+    public Long getId() { return id; }
+    public String getLastName() { return lastName; }
+    public String getFirstName() { return firstName; }
+    public String getStreetNumber() { return streetNumber; }
+    public String getStreet() { return street; }
+    public String getAddressComplement() { return addressComplement; }
+    public String getPostCode() { return postCode; }
+    public String getCity() { return city; }
+    public String getCountry() { return country; }
+    
+
     @Override
     public String toString() {
         return "Address{" +
