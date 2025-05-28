@@ -2,6 +2,7 @@ package com.akazaki.api.infrastructure.persistence.Order;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import com.akazaki.api.infrastructure.persistence.Payment.PaymentEntity;
 
 @Entity
 @Table(name = "`order`")
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +35,7 @@ public class OrderEntity {
     private List<OrderItemEntity> items;
 
     @Column(nullable = false)
-    private int totalPrice;
+    private double totalPrice;
 
     @ManyToOne
     private AddressEntity billingAddress;

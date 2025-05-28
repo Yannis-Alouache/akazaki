@@ -5,11 +5,13 @@ import com.akazaki.api.infrastructure.persistence.Product.ProductEntity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemEntity {
@@ -21,7 +23,7 @@ public class OrderItemEntity {
     private int quantity;
 
     @Column(nullable = false)
-    private int price;
+    private double price;
 
     @ManyToOne
     private OrderEntity order;
