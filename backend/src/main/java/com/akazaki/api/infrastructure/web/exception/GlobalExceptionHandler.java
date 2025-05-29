@@ -100,4 +100,10 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UnableToCreateOrderException.class)
+    public ResponseEntity<ErrorResponse> handleUnableToCreateOrderException(UnableToCreateOrderException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }
