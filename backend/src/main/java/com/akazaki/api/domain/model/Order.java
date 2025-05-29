@@ -91,7 +91,10 @@ public class Order {
             return this;
         }
 
-        
+        public Builder totalPrice(double totalPrice) {
+            this.totalPrice = totalPrice;
+            return this;
+        }
 
         public Builder items(List<OrderItem> items) {
             this.items = items;
