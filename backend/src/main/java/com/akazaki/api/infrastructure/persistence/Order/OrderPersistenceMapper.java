@@ -27,6 +27,7 @@ public class OrderPersistenceMapper {
             .date(entity.getDate())
             .status(entity.getStatus())
             .items(orderItemMapper.toDomainList(entity.getItems()))
+            .totalPrice(entity.getTotalPrice())
             .build();
     }
 }

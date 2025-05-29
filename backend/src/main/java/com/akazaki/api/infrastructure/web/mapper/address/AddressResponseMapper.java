@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 public class AddressResponseMapper {
 
     public AddressResponse toResponse(Address address) {
+        if (address == null) {
+            return null;
+        }
         return new AddressResponse(
             address.getId(),
             address.getLastName(),

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 public class PaymentResponseMapper {
 
     public PaymentResponse toResponse(Payment payment) {
+        if (payment == null) {
+            return null;
+        }
         return new PaymentResponse(
             payment.getId(),
             payment.getAmount(),
