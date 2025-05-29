@@ -3,7 +3,6 @@ package com.akazaki.api.application.commands.CreateCheckoutSession;
 import org.springframework.stereotype.Component;
 
 import com.akazaki.api.domain.model.Order;
-import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.commands.CreateCheckoutSessionCommand;
 import com.akazaki.api.domain.ports.out.OrderRepository;
 import com.akazaki.api.domain.ports.out.PaymentGateway;
@@ -27,12 +26,12 @@ public class CreateCheckoutSessionCommandHandler {
 
     public String handle(CreateCheckoutSessionCommand command) {
         // step 1: get the user and verify if it exists
-        User user = userRepository.findById(command.userId())
+        userRepository.findById(command.userId())
             .orElseThrow(() -> new UserNotFoundException(command.userId()));
 
         // step 2: get the order
-        Order order = orderRepository.findByUserId(command.userId())
-            .orElseThrow(() -> new OrderNotFoundException(command.userId()));
+        Order order = orderRepository.findById(command.orderId())
+            .orElseThrow(() -> new OrderNotFoundException());
 
         // step 3: create the checkout session
         String clientSecret = paymentGateway.createCheckoutSession(order);

@@ -1,4 +1,4 @@
 package com.akazaki.api.domain.ports.in.commands;
 
 
-public record CreateCheckoutSessionCommand(Long userId) {}
+public record CreateCheckoutSessionCommand(Long userId, Long orderId) {}
