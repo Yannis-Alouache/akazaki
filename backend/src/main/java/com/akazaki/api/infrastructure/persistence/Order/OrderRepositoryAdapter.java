@@ -1,5 +1,7 @@
 package com.akazaki.api.infrastructure.persistence.Order;
 
+import java.util.Optional;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -20,5 +22,11 @@ public class OrderRepositoryAdapter implements OrderRepository {
         OrderEntity orderEntity = mapper.toEntity(order);
         OrderEntity savedOrderEntity = orderRepository.save(orderEntity);
         return mapper.toDomain(savedOrderEntity);
+    }
+
+    @Override
+    public Optional<Order> findByUserId(Long userId) {
+        Optional<OrderEntity> orderEntity = orderRepository.findByUserId(userId);
+        return orderEntity.map(mapper::toDomain);
     }
 }
