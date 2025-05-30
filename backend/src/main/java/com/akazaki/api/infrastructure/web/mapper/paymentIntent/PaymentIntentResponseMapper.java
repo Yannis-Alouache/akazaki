@@ -2,7 +2,7 @@ package com.akazaki.api.infrastructure.web.mapper.paymentIntent;
 
 import org.springframework.stereotype.Component;
 
-import com.akazaki.api.infrastructure.web.dto.request.PaymentIntentResponse;
+import com.akazaki.api.infrastructure.web.dto.response.PaymentIntentResponse;
 
 
 @Component

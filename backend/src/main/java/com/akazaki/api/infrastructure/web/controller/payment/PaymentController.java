@@ -12,7 +12,7 @@ import com.akazaki.api.application.commands.CreatePaymentIntentCommandHandler;
 import com.akazaki.api.domain.ports.in.commands.CreatePaymentIntentCommand;
 import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 import com.akazaki.api.infrastructure.web.dto.request.CreatePaymentIntentRequest;
-import com.akazaki.api.infrastructure.web.dto.request.PaymentIntentResponse;
+import com.akazaki.api.infrastructure.web.dto.response.PaymentIntentResponse;
 import com.akazaki.api.infrastructure.web.mapper.paymentIntent.PaymentIntentResponseMapper;
 
 import io.swagger.v3.oas.annotations.Operation;

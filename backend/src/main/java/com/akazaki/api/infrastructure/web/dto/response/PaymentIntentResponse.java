@@ -1,4 +1,4 @@
-package com.akazaki.api.infrastructure.web.dto.request;
+package com.akazaki.api.infrastructure.web.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
