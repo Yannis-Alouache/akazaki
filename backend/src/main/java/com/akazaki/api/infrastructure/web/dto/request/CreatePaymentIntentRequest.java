@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "Request for create payment intent")
 public record CreatePaymentIntentRequest(
     @Schema(description = "Order id")
-    @NotNull(message = "Order id is required")
+    @NotNull(message = "orderId is a required field")
     Long orderId
 ) {}
