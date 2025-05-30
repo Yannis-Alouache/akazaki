@@ -15,6 +15,7 @@ public class Order {
 
     private Order(
         Long id,
+        User user,
         LocalDateTime date,
         OrderStatus status,
         List<OrderItem> items,
@@ -34,12 +35,13 @@ public class Order {
     }
 
     public static Order draft(
+        User user,
         LocalDateTime date,
         OrderStatus status,
         List<OrderItem> items,
         double totalPrice
     ) {
-        return new Order(null, date, status, items, totalPrice, null, null, null);
+        return new Order(null, user, date, status, items, totalPrice, null, null, null);
     }
     
     @Override
@@ -68,6 +70,7 @@ public class Order {
 
     public static class Builder {
         private Long id;
+        private User user;
         private LocalDateTime date;
         private OrderStatus status;
         private List<OrderItem> items;
@@ -78,6 +81,11 @@ public class Order {
 
         public Builder id(Long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder user(User user) {
+            this.user = user;
             return this;
         }
 
@@ -102,7 +110,7 @@ public class Order {
         }
 
         public Order build() {
-            return new Order(id, date, status, items, totalPrice, billingAddress, shippingAddress, payment);
+            return new Order(id, user, date, status, items, totalPrice, billingAddress, shippingAddress, payment);
         }
     }
 
