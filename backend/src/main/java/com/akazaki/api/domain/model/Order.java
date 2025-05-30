@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Order {
     private Long id;
+    private User user;
     private LocalDateTime date;
     private OrderStatus status;
     private List<OrderItem> items;
@@ -25,6 +26,7 @@ public class Order {
         Payment payment
     ) {
         this.id = id;
+        this.user = user;
         this.date = date;
         this.status = status;
         this.items = items;
@@ -60,6 +62,7 @@ public class Order {
 
     // Getters
     public Long getId() { return id; }
+    public User getUser() { return user; }
     public LocalDateTime getDate() { return date; }
     public OrderStatus getStatus() { return status; }
     public List<OrderItem> getItems() { return items; }

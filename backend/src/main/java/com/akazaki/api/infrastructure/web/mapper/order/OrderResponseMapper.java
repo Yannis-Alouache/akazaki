@@ -17,7 +17,7 @@ import com.akazaki.api.infrastructure.web.dto.response.OrderItemResponse;
 public class OrderResponseMapper {
     @Autowired
     private OrderItemResponseMapper orderItemMapper;
-    
+
     @Autowired
     private OrderStatusResponseMapper orderStatusMapper;
 
@@ -33,6 +33,7 @@ public class OrderResponseMapper {
 
         return new OrderResponse(
             order.getId(),
+            order.getUser().getId(),
             order.getDate(),
             orderStatusMapper.toResponse(order.getStatus()),
             orderItems,

@@ -5,6 +5,7 @@ import java.util.List;
 
 public record OrderResponse(
     Long id,
+    Long userId,
     LocalDateTime date,
     OrderStatusResponse status,
     List<OrderItemResponse> items,
