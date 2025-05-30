@@ -24,7 +24,7 @@ public class StripePaymentIntentsGateway implements PaymentGateway {
                 )
 
                 .putMetadata("order_id", order.getId().toString())
-                .putMetadata("user_id", order.getUser().getId().toString()) // TODO: Mettre à jour avec l'id de l'utilisateur
+                .putMetadata("user_id", order.getUser().getId().toString())
                 .build();
 
             PaymentIntent paymentIntent = PaymentIntent.create(params);
