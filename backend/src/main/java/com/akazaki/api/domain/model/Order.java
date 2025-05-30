@@ -50,6 +50,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                     "id=" + id +
+                    ", user=" + user +
                     ", date=" + date +
                     ", status=" + status +
                     ", items=" + items +
