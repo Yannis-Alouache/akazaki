@@ -13,6 +13,7 @@ import com.akazaki.api.domain.model.OrderStatus;
 import com.akazaki.api.infrastructure.persistence.Address.AddressEntity;
 import com.akazaki.api.infrastructure.persistence.OrderItem.OrderItemEntity;
 import com.akazaki.api.infrastructure.persistence.Payment.PaymentEntity;
+import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 
 @Entity
 @Table(name = "`order`")
@@ -24,6 +25,10 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Column(nullable = false, name = "order_date")
     private LocalDateTime date;
