@@ -15,17 +15,35 @@ import com.akazaki.api.infrastructure.web.dto.request.CreatePaymentIntentRequest
 import com.akazaki.api.infrastructure.web.dto.request.PaymentIntentResponse;
 import com.akazaki.api.infrastructure.web.mapper.paymentIntent.PaymentIntentResponseMapper;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
+@Tag(name = "Payment", description = "Payment management APIs")
+@SecurityRequirement(name = "bearerAuth")
 public class PaymentController {
 
     private final CreatePaymentIntentCommandHandler createPaymentIntentCommandHandler;
     private final PaymentIntentResponseMapper paymentIntentResponseMapper;
 
+    @Operation(
+        summary = "Create payment intent",
+        description = "Creates a payment intent for a specific order"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Payment intent created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid request"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "404", description = "Order not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/create-payment-intent")
     public ResponseEntity<PaymentIntentResponse> createPaymentIntent(@Valid @RequestBody CreatePaymentIntentRequest body) {
         
