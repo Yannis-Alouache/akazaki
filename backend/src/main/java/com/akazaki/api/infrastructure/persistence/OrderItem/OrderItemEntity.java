@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "order_item")
 @Data
 @Builder
 @NoArgsConstructor

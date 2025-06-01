@@ -18,7 +18,7 @@ public class AddressResponseMapper {
             address.getStreetNumber(),
             address.getStreet(),
             address.getAddressComplement(),
-            address.getPostCode(),
+            address.getPostalCode(),
             address.getCity(),
             address.getCountry()
         );

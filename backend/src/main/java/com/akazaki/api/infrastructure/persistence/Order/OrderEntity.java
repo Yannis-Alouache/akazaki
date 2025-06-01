@@ -41,9 +41,11 @@ public class OrderEntity {
     @Column(nullable = false)
     private double totalPrice;
 
-    @ManyToOne
+    // TODO: should be a @ManyToMany cause an order can have multiple billing addresses
+    @ManyToOne(cascade = CascadeType.ALL)
     private AddressEntity billingAddress;
 
-    @ManyToOne
+    // TODO: should be a @ManyToMany cause an order can have multiple shipping addresses
+    @ManyToOne(cascade = CascadeType.ALL)
     private AddressEntity shippingAddress;
 }

@@ -3,17 +3,24 @@ package com.akazaki.api.infrastructure.web.controller.order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.akazaki.api.application.commands.CreateOrder.CreateOrderCommandHandler;
+import com.akazaki.api.application.commands.UpdateOrderAddressesCommandHandler;
 import com.akazaki.api.domain.model.Order;
 import com.akazaki.api.domain.ports.in.commands.CreateOrderCommand;
+import com.akazaki.api.domain.ports.in.commands.UpdateOrderAddressesCommand;
 import com.akazaki.api.infrastructure.persistence.User.UserEntity;
+import com.akazaki.api.infrastructure.web.dto.request.UpdateOrderAddressesRequest;
 import com.akazaki.api.infrastructure.web.dto.response.OrderResponse;
 import com.akazaki.api.infrastructure.web.mapper.order.OrderResponseMapper;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/orders")
 public class OrderController {
     private final CreateOrderCommandHandler createOrderCommandHandler;
+    private final UpdateOrderAddressesCommandHandler updateOrderAddressesCommandHandler;
     private final OrderResponseMapper orderMapper;
     
     @PostMapping
@@ -31,6 +39,24 @@ public class OrderController {
 
         Order order = createOrderCommandHandler.handle(new CreateOrderCommand(userId));
         OrderResponse orderResponse = orderMapper.toResponse(order);
+        return ResponseEntity.ok(orderResponse);
+    }
+    
+    @PutMapping("/{orderId}/address")
+    public ResponseEntity<OrderResponse> updateOrderAddresses(
+            @PathVariable Long orderId,
+            @Valid @RequestBody UpdateOrderAddressesRequest request) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity userEntity = (UserEntity) authentication.getPrincipal();
+        Long userId = userEntity.getId();
+
+        UpdateOrderAddressesCommand command = orderMapper.toCommand(orderId, userId, request);
+        
+        Order updatedOrder = updateOrderAddressesCommandHandler.handle(command);
+        
+        OrderResponse orderResponse = orderMapper.toResponse(updatedOrder);
+        
         return ResponseEntity.ok(orderResponse);
     }
 }

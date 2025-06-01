@@ -111,6 +111,16 @@ public class Order {
             return this;
         }
 
+        public Builder billingAddress(Address billingAddress) {
+            this.billingAddress = billingAddress;
+            return this;
+        }
+
+        public Builder shippingAddress(Address shippingAddress) {
+            this.shippingAddress = shippingAddress;
+            return this;
+        }
+
         public Order build() {
             return new Order(id, user, date, status, items, totalPrice, billingAddress, shippingAddress);
         }

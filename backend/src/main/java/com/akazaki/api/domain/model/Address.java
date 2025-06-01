@@ -7,7 +7,7 @@ public class Address {
     private String streetNumber;
     private String street;
     private String addressComplement;
-    private String postCode;
+    private String postalCode;
     private String city;
     private String country;
 
@@ -18,7 +18,7 @@ public class Address {
         String streetNumber,
         String street,
         String addressComplement,
-        String postCode,
+        String postalCode,
         String city,
         String country
     ) {
@@ -28,7 +28,7 @@ public class Address {
         this.streetNumber = streetNumber;
         this.street = street;
         this.addressComplement = addressComplement;
-        this.postCode = postCode;
+        this.postalCode = postalCode;
         this.city = city;
         this.country = country;
     }
@@ -53,7 +53,7 @@ public class Address {
     public String getStreetNumber() { return streetNumber; }
     public String getStreet() { return street; }
     public String getAddressComplement() { return addressComplement; }
-    public String getPostCode() { return postCode; }
+    public String getPostalCode() { return postalCode; }
     public String getCity() { return city; }
     public String getCountry() { return country; }
     
@@ -67,9 +67,74 @@ public class Address {
                     ", streetNumber='" + streetNumber + '\'' +
                     ", street='" + street + '\'' +
                     ", addressComplement='" + addressComplement + '\'' +
-                    ", postCode='" + postCode + '\'' +
+                    ", postalCode='" + postalCode + '\'' +
                     ", city='" + city + '\'' +
                     ", country='" + country + '\'' +
                 '}';
+    }
+
+    public static class Builder {
+        private Long id;
+        private String lastName;
+        private String firstName;
+        private String streetNumber;
+        private String street;
+        private String addressComplement;
+        private String postalCode;
+        private String city;
+        private String country;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+        
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder streetNumber(String streetNumber) {
+            this.streetNumber = streetNumber;
+            return this;
+        }
+
+        public Builder street(String street) {
+            this.street = street;
+            return this;
+        }
+        
+        public Builder addressComplement(String addressComplement) {
+            this.addressComplement = addressComplement;
+            return this;
+        }
+
+        public Builder postalCode(String postalCode) {
+            this.postalCode = postalCode;
+            return this;
+        }
+
+        public Builder city(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public Builder country(String country) {
+            this.country = country;
+            return this;
+        }
+
+        public Address build() {
+            return new Address(id, lastName, firstName, streetNumber, street, addressComplement, postalCode, city, country);
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 }

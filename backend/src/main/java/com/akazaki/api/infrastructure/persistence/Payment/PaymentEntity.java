@@ -12,6 +12,7 @@ import com.akazaki.api.domain.model.PaymentMethodEnum;
 import com.akazaki.api.infrastructure.persistence.Order.OrderEntity;
 
 @Entity
+@Table(name = "payment")
 @Data
 @Builder
 @NoArgsConstructor

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.akazaki.api.domain.model.Order;
+import com.akazaki.api.infrastructure.persistence.Address.AddressPersistenceMapper;
 import com.akazaki.api.infrastructure.persistence.OrderItem.OrderItemPersistenceMapper;
 import com.akazaki.api.infrastructure.persistence.User.UserPersistenceMapper;
 
@@ -11,6 +12,9 @@ import com.akazaki.api.infrastructure.persistence.User.UserPersistenceMapper;
 public class OrderPersistenceMapper {
     @Autowired
     private OrderItemPersistenceMapper orderItemMapper;
+
+    @Autowired
+    private AddressPersistenceMapper addressMapper;
 
     @Autowired
     private UserPersistenceMapper userMapper;
@@ -23,6 +27,8 @@ public class OrderPersistenceMapper {
             .status(order.getStatus())
             .items(orderItemMapper.toEntityList(order.getItems()))
             .totalPrice(order.getTotalPrice())
+            .billingAddress(addressMapper.toEntity(order.getBillingAddress()))
+            .shippingAddress(addressMapper.toEntity(order.getShippingAddress()))
             .build();
     }
 
@@ -34,6 +40,8 @@ public class OrderPersistenceMapper {
             .status(entity.getStatus())
             .items(orderItemMapper.toDomainList(entity.getItems()))
             .totalPrice(entity.getTotalPrice())
+            .billingAddress(addressMapper.toDomain(entity.getBillingAddress()))
+            .shippingAddress(addressMapper.toDomain(entity.getShippingAddress()))
             .build();
     }
 }
