@@ -12,7 +12,6 @@ public class Order {
     private double totalPrice;
     private Address billingAddress;
     private Address shippingAddress;
-    private Payment payment;
 
     private Order(
         Long id,
@@ -22,8 +21,7 @@ public class Order {
         List<OrderItem> items,
         double totalPrice,
         Address billingAddress,
-        Address shippingAddress,
-        Payment payment
+        Address shippingAddress
     ) {
         this.id = id;
         this.user = user;
@@ -33,7 +31,6 @@ public class Order {
         this.totalPrice = totalPrice;
         this.billingAddress = billingAddress;
         this.shippingAddress = shippingAddress;
-        this.payment = payment;
     }
 
     public static Order draft(
@@ -43,7 +40,11 @@ public class Order {
         List<OrderItem> items,
         double totalPrice
     ) {
-        return new Order(null, user, date, status, items, totalPrice, null, null, null);
+        return new Order(null, user, date, status, items, totalPrice, null, null);
+    }
+
+    public void markAsPaid() {
+        this.status = OrderStatus.PAID;
     }
     
     @Override
@@ -57,7 +58,6 @@ public class Order {
                     ", totalPrice=" + totalPrice +
                     ", billingAddress=" + billingAddress +
                     ", shippingAddress=" + shippingAddress +
-                    ", payment=" + payment +
                 '}';
     }
 
@@ -70,7 +70,6 @@ public class Order {
     public double getTotalPrice() { return totalPrice; }
     public Address getBillingAddress() { return billingAddress; }
     public Address getShippingAddress() { return shippingAddress; }
-    public Payment getPayment() { return payment; }
 
     public static class Builder {
         private Long id;
@@ -81,7 +80,6 @@ public class Order {
         private double totalPrice;
         private Address billingAddress;
         private Address shippingAddress;
-        private Payment payment;
 
         public Builder id(Long id) {
             this.id = id;
@@ -114,7 +112,7 @@ public class Order {
         }
 
         public Order build() {
-            return new Order(id, user, date, status, items, totalPrice, billingAddress, shippingAddress, payment);
+            return new Order(id, user, date, status, items, totalPrice, billingAddress, shippingAddress);
         }
     }
 

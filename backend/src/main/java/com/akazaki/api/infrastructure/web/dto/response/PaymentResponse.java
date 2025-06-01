@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record PaymentResponse(
     Long id,
-    int amount,
-    String method,
+    double amount,
+    PaymentMethodResponse method,
     LocalDateTime date
 ) {}

@@ -1,6 +1,7 @@
 package com.akazaki.api.infrastructure.stripe;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonSyntaxException;
 import com.stripe.exception.SignatureVerificationException;
@@ -10,6 +11,7 @@ import com.stripe.model.StripeObject;
 import com.stripe.net.ApiResource;
 import com.stripe.net.Webhook;
 
+@Service
 public class StripeWebhookService {
 
     @Value("whsec_b2148f99137f118d81a59b2cce99e2561c1003f5b9a9e6f4572706d9d92e5498")
@@ -37,12 +39,9 @@ public class StripeWebhookService {
 
     public StripeObject extractStripeObject(Event event) {
         EventDataObjectDeserializer deserializer = event.getDataObjectDeserializer();
-        
+
         return deserializer.getObject().orElseThrow(
             () -> new RuntimeException("⚠️  Webhook error while extracting stripe object.")
         );
     }
-
-    
-    
 }

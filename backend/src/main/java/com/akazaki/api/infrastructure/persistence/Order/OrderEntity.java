@@ -12,7 +12,6 @@ import java.util.List;
 import com.akazaki.api.domain.model.OrderStatus;
 import com.akazaki.api.infrastructure.persistence.Address.AddressEntity;
 import com.akazaki.api.infrastructure.persistence.OrderItem.OrderItemEntity;
-import com.akazaki.api.infrastructure.persistence.Payment.PaymentEntity;
 import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 
 @Entity
@@ -47,7 +46,4 @@ public class OrderEntity {
 
     @ManyToOne
     private AddressEntity shippingAddress;
-
-    @OneToOne
-    private PaymentEntity payment;
 }

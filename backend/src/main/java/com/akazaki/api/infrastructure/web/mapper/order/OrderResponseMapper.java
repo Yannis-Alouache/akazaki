@@ -10,7 +10,6 @@ import com.akazaki.api.infrastructure.web.dto.response.OrderResponse;
 import com.akazaki.api.infrastructure.web.mapper.address.AddressResponseMapper;
 import com.akazaki.api.infrastructure.web.mapper.orderItem.OrderItemResponseMapper;
 import com.akazaki.api.infrastructure.web.mapper.orderStatus.OrderStatusResponseMapper;
-import com.akazaki.api.infrastructure.web.mapper.payment.PaymentResponseMapper;
 import com.akazaki.api.infrastructure.web.dto.response.OrderItemResponse;
 
 @Component
@@ -24,10 +23,6 @@ public class OrderResponseMapper {
     @Autowired
     private AddressResponseMapper addressMapper;
 
-    @Autowired
-    private PaymentResponseMapper paymentMapper;
-
-
     public OrderResponse toResponse(Order order) {
         List<OrderItemResponse> orderItems = orderItemMapper.toResponseList(order.getItems());
 
@@ -39,8 +34,7 @@ public class OrderResponseMapper {
             orderItems,
             order.getTotalPrice(),
             addressMapper.toResponse(order.getBillingAddress()),
-            addressMapper.toResponse(order.getShippingAddress()),
-            paymentMapper.toResponse(order.getPayment())
+            addressMapper.toResponse(order.getShippingAddress())
         );
     }
 }

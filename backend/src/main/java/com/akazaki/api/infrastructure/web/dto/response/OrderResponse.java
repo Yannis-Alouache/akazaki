@@ -11,6 +11,5 @@ public record OrderResponse(
     List<OrderItemResponse> items,
     double totalPrice,
     AddressResponse billingAddress,
-    AddressResponse shippingAddress,
-    PaymentResponse payment
+    AddressResponse shippingAddress
 ) {}
