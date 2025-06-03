@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.akazaki.api.application.commands.CreatePaymentCommandHandler;
+import com.akazaki.api.application.commands.DecreaseProductStockCommandHandler;
 import com.akazaki.api.application.commands.MarkOrderAsPaidCommandHandler;
 import com.akazaki.api.domain.ports.in.commands.CreatePaymentCommand;
+import com.akazaki.api.domain.ports.in.commands.DecreaseProductStockCommand;
 import com.akazaki.api.domain.ports.in.commands.MarkOrderAsPaidCommand;
 import com.akazaki.api.infrastructure.stripe.StripeWebhookService;
 
@@ -34,11 +36,13 @@ public class WebhookController {
     private final StripeWebhookService stripeWebhookService;
     private final MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler;
     private final CreatePaymentCommandHandler createPaymentCommandHandler;
+    private final DecreaseProductStockCommandHandler decreaseProductStockCommandHandler;
 
-    public WebhookController(StripeWebhookService stripeWebhookService, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler) {
+    public WebhookController(StripeWebhookService stripeWebhookService, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler) {
         this.stripeWebhookService = stripeWebhookService;
         this.markOrderAsPaidCommandHandler = markOrderAsPaidCommandHandler;
         this.createPaymentCommandHandler = createPaymentCommandHandler;
+        this.decreaseProductStockCommandHandler = decreaseProductStockCommandHandler;
     }
    
     @PostMapping("/stripe/webhook")
@@ -61,12 +65,15 @@ public class WebhookController {
                     Long orderId = Long.parseLong(paymentIntent.getMetadata().get("orderId"));
                     String paymentMethodId = paymentIntent.getPaymentMethod();
 
-
                     markOrderAsPaidCommandHandler.handle(
                         new MarkOrderAsPaidCommand(orderId)
                     );
                     createPaymentCommandHandler.handle(
                         new CreatePaymentCommand(orderId, paymentMethodId)
+                    );
+                    // Decrease stock of ordered products when payment succeeds
+                    decreaseProductStockCommandHandler.handle(
+                        new DecreaseProductStockCommand(orderId)
                     );
                     
                 break;

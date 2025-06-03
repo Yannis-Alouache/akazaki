@@ -20,16 +20,19 @@ public class OrderPersistenceMapper {
     private UserPersistenceMapper userMapper;
 
     public OrderEntity toEntity(Order order) {
-        return OrderEntity.builder()
+       OrderEntity orderEntity = OrderEntity.builder()
             .id(order.getId())
             .user(userMapper.toEntity(order.getUser()))
             .date(order.getDate())
             .status(order.getStatus())
-            .items(orderItemMapper.toEntityList(order.getItems()))
             .totalPrice(order.getTotalPrice())
             .billingAddress(addressMapper.toEntity(order.getBillingAddress()))
             .shippingAddress(addressMapper.toEntity(order.getShippingAddress()))
             .build();
+
+        orderEntity.setItems(orderItemMapper.toEntityList(order.getItems(), orderEntity));
+
+        return orderEntity;
     }
 
     public Order toDomain(OrderEntity entity) {

@@ -26,7 +26,7 @@ public class OrderRepositoryAdapter implements OrderRepository {
 
     @Override
     public Optional<Order> findById(Long orderId) {
-        Optional<OrderEntity> orderEntity = orderRepository.findById(orderId);
+        Optional<OrderEntity> orderEntity = orderRepository.findByIdWithItems(orderId);
         return orderEntity.map(mapper::toDomain);
     }
 }

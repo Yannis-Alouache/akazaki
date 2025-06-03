@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.akazaki.api.domain.model.OrderItem;
+import com.akazaki.api.infrastructure.persistence.Order.OrderEntity;
 import com.akazaki.api.infrastructure.persistence.Product.ProductPersistenceMapper;
 
 @Component
@@ -14,17 +15,18 @@ public class OrderItemPersistenceMapper {
     @Autowired
     private ProductPersistenceMapper productMapper;
 
-    public List<OrderItemEntity> toEntityList(List<OrderItem> items) {
+    public List<OrderItemEntity> toEntityList(List<OrderItem> items, OrderEntity orderEntity) {
         List<OrderItemEntity> entityList = new ArrayList<>();
-        items.forEach(item -> entityList.add(toEntity(item)));
+        items.forEach(item -> entityList.add(toEntity(item, orderEntity)));
         return entityList;
     }
 
-    public OrderItemEntity toEntity(OrderItem item) {
+    public OrderItemEntity toEntity(OrderItem item, OrderEntity orderEntity) {
         return OrderItemEntity.builder()
             .id(item.getId())
             .quantity(item.getQuantity())
             .price(item.getPrice())
+            .order(orderEntity)
             .product(productMapper.toEntity(item.getProduct()))
             .build();
     }
