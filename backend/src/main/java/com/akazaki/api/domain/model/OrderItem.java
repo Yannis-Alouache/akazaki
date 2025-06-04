@@ -41,8 +41,12 @@ public class OrderItem {
 
     public static List<OrderItem> fromCartItems(List<CartItem> cartItems) {
         return cartItems.stream()
-            .map(cartItem -> OrderItem.create(cartItem.getQuantity(), cartItem.getProduct().getPrice(), cartItem.getProduct()))
+            .map(cartItem -> OrderItem.create(cartItem.getQuantity(), calculatePrice(cartItem.getQuantity(), cartItem.getProduct().getPrice()), cartItem.getProduct()))
             .collect(Collectors.toList());
+    }
+
+    private static double calculatePrice(int quantity, double price) {
+        return Math.round(price * quantity * 100.0) / 100.0;
     }
 
     // Getters
