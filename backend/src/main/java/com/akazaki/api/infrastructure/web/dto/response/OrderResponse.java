@@ -21,7 +21,7 @@ public record OrderResponse(
     @Schema(description = "List of order items")
     List<OrderItemResponse> items,
     
-    @Schema(description = "Total price of the order", example = "29.99")
+    @Schema(description = "Total price of the order", example = "4.8")
     double totalPrice,
     
     @Schema(description = "Billing address")

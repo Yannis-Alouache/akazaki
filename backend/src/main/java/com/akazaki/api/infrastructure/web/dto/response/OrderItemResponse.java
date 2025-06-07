@@ -10,7 +10,7 @@ public record OrderItemResponse(
     @Schema(description = "Quantity of the product", example = "2")
     int quantity,
     
-    @Schema(description = "Price per unit", example = "12.99")
+    @Schema(description = "Price per unit", example = "4.80")
     double price,
     
     @Schema(description = "Product information")

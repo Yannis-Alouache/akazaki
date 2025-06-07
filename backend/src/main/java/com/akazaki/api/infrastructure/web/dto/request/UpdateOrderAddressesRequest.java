@@ -6,12 +6,12 @@ import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "Request to update order addresses")
 public record UpdateOrderAddressesRequest(
-    @Schema(description = "Billing address information")
+    @Schema(description = "Billing address information", implementation = AddressRequest.class)
     @NotNull(message = "L'adresse de facturation est obligatoire")
     @Valid
     AddressRequest billingAddress,
     
-    @Schema(description = "Shipping address information")
+    @Schema(description = "Shipping address information", implementation = AddressRequest.class)
     @NotNull(message = "L'adresse de livraison est obligatoire") 
     @Valid
     AddressRequest shippingAddress
