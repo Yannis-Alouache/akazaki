@@ -11,10 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.akazaki.api.domain.exceptions.PaymentIntentCreationFailedException;
 import com.akazaki.api.domain.model.Order;
 import com.akazaki.api.domain.model.PaymentMethodEnum;
 import com.akazaki.api.domain.ports.out.PaymentGateway;
+import com.akazaki.api.infrastructure.exceptions.PaymentIntentCreationFailedException;
+import com.akazaki.api.infrastructure.exceptions.PaymentMethodRetrievalFailedException;
 
 
 @Component
@@ -68,7 +69,8 @@ public class StripePaymentIntentsGateway implements PaymentGateway {
             PaymentMethod paymentMethod = PaymentMethod.retrieve(paymentMethodId);
             return paymentMethodMapper.toDomainEnum(paymentMethod.getType());
         } catch (StripeException e) {
-            throw new RuntimeException("Payment Method retrieval failed", e);
+            log.error("Payment Method retrieval failed", e);
+            throw new PaymentMethodRetrievalFailedException();
         }
     }
 }

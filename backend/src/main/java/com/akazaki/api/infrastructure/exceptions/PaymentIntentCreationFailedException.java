@@ -1,4 +1,4 @@
-package com.akazaki.api.domain.exceptions;
+package com.akazaki.api.infrastructure.exceptions;
 
 public class PaymentIntentCreationFailedException extends RuntimeException {
     public PaymentIntentCreationFailedException() {

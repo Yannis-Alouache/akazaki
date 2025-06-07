@@ -2,6 +2,8 @@ package com.akazaki.api.infrastructure.web.exception;
 
 import com.akazaki.api.domain.exceptions.*;
 import com.akazaki.api.infrastructure.exceptions.InvalidFileTypeException;
+import com.akazaki.api.infrastructure.exceptions.PaymentIntentCreationFailedException;
+import com.akazaki.api.infrastructure.exceptions.PaymentMethodRetrievalFailedException;
 import com.akazaki.api.infrastructure.exceptions.UnableToDeleteFileException;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
@@ -133,6 +135,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PaymentIntentCreationFailedException.class)
     public ResponseEntity<ErrorResponse> handlePaymentIntentCreationFailedException(PaymentIntentCreationFailedException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(PaymentMethodRetrievalFailedException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentMethodRetrievalFailedException(PaymentMethodRetrievalFailedException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
