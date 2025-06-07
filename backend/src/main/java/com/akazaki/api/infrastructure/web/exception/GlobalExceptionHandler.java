@@ -6,6 +6,8 @@ import com.akazaki.api.infrastructure.exceptions.PaymentIntentCreationFailedExce
 import com.akazaki.api.infrastructure.exceptions.PaymentMethodRetrievalFailedException;
 import com.akazaki.api.infrastructure.exceptions.UnableToDeleteFileException;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
+import com.akazaki.api.infrastructure.exceptions.WebhookParsingFailedException;
+import com.akazaki.api.infrastructure.exceptions.WebhookSignatureVerificationFailedException;
 import com.akazaki.api.infrastructure.web.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -144,4 +146,18 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(WebhookParsingFailedException.class)
+    public ResponseEntity<ErrorResponse> handleWebhookParsingFailedException(WebhookParsingFailedException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(WebhookSignatureVerificationFailedException.class)
+    public ResponseEntity<ErrorResponse> handleWebhookSignatureVerificationFailedException(WebhookSignatureVerificationFailedException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 }
