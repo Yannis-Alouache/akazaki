@@ -21,10 +21,16 @@ import com.akazaki.api.domain.ports.in.commands.DecreaseProductStockCommand;
 import com.akazaki.api.domain.ports.in.commands.MarkOrderAsPaidCommand;
 import com.akazaki.api.infrastructure.stripe.StripeWebhookService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 // TODO: Implement custom exception for stripe webhook
 
 @RestController
 @RequestMapping("/api/")
+@Tag(name = "Webhook", description = "External service webhook handlers")
 public class WebhookController {
 
     @Value("whsec_b2148f99137f118d81a59b2cce99e2561c1003f5b9a9e6f4572706d9d92e5498")
@@ -45,6 +51,24 @@ public class WebhookController {
         this.decreaseProductStockCommandHandler = decreaseProductStockCommandHandler;
     }
    
+    @Operation(
+        summary = "Handle Stripe webhook events",
+        description = "Processes webhook events from Stripe, particularly payment_intent.succeeded events to complete order processing"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Webhook event successfully processed"
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid webhook signature or payload"
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal server error processing webhook"
+        )
+    })
     @PostMapping("/stripe/webhook")
     public ResponseEntity<String> handleStripeWebhook(
         @RequestBody String payload,
