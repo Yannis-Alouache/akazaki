@@ -1,6 +1,5 @@
-package com.akazaki.api.application.query.GetCart;
+package com.akazaki.api.application.queries.GetCart;
 
-import com.akazaki.api.application.queries.GetCart.GetCartQueryHandler;
 import com.akazaki.api.config.fixtures.CartFixture;
 import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.exceptions.UserNotFoundException;

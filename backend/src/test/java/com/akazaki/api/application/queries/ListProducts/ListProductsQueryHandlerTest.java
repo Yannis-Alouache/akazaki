@@ -1,6 +1,5 @@
-package com.akazaki.api.application.query.ListProducts;
+package com.akazaki.api.application.queries.ListProducts;
 
-import com.akazaki.api.application.queries.ListProducts.ListProductsQueryHandler;
 import com.akazaki.api.config.fixtures.ProductFixture;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.queries.ListProductsQuery;

@@ -1,6 +1,5 @@
-package com.akazaki.api.application.query.GetAllCategories;
+package com.akazaki.api.application.queries.GetAllCategories;
 
-import com.akazaki.api.application.queries.GetAllCategories.GetAllCategoriesQueryHandler;
 import com.akazaki.api.config.fixtures.CategoryFixture;
 import com.akazaki.api.domain.model.Category;
 import com.akazaki.api.domain.ports.in.queries.GetAllCategoriesQuery;
