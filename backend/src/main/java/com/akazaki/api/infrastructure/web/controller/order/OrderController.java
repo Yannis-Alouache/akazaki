@@ -3,6 +3,7 @@ package com.akazaki.api.infrastructure.web.controller.order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,13 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.akazaki.api.application.commands.CreateOrder.CreateOrderCommandHandler;
 import com.akazaki.api.application.commands.UpdateOrderAddressesCommandHandler;
+import com.akazaki.api.application.queries.CheckStockAvailability.CheckStockAvailabilityQueryHandler;
 import com.akazaki.api.domain.model.Order;
+import com.akazaki.api.domain.model.StockAvailability;
 import com.akazaki.api.domain.ports.in.commands.CreateOrderCommand;
 import com.akazaki.api.domain.ports.in.commands.UpdateOrderAddressesCommand;
+import com.akazaki.api.domain.ports.in.queries.CheckStockAvailabilityQuery;
 import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 import com.akazaki.api.infrastructure.web.dto.request.UpdateOrderAddressesRequest;
 import com.akazaki.api.infrastructure.web.dto.response.OrderResponse;
+import com.akazaki.api.infrastructure.web.dto.response.StockAvailabilityResponse;
 import com.akazaki.api.infrastructure.web.mapper.order.OrderResponseMapper;
+import com.akazaki.api.infrastructure.web.mapper.stockAvailability.StockAvailabilityMapper;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,7 +44,9 @@ import lombok.RequiredArgsConstructor;
 public class OrderController {
     private final CreateOrderCommandHandler createOrderCommandHandler;
     private final UpdateOrderAddressesCommandHandler updateOrderAddressesCommandHandler;
+    private final CheckStockAvailabilityQueryHandler checkStockAvailabilityQueryHandler;
     private final OrderResponseMapper orderMapper;
+    private final StockAvailabilityMapper stockAvailabilityMapper;
     
     @Operation(
         summary = "Create a new order",
@@ -114,5 +122,35 @@ public class OrderController {
         OrderResponse orderResponse = orderMapper.toResponse(updatedOrder);
         
         return ResponseEntity.ok(orderResponse);
+    }
+
+    @Operation(
+        summary = "Check stock availability for an order",
+        description = "Verifies if all products in the order have sufficient stock available"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Stock availability checked successfully",
+            content = @Content(schema = @Schema(implementation = StockAvailabilityResponse.class))
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Order not found",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "Unauthorized",
+            content = @Content
+        )
+    })
+    @GetMapping("/{orderId}/stock-availability")
+    public ResponseEntity<StockAvailabilityResponse> checkStockAvailability(@PathVariable Long orderId) {
+        CheckStockAvailabilityQuery query = new CheckStockAvailabilityQuery(orderId);
+        StockAvailability stockAvailability = checkStockAvailabilityQueryHandler.handle(query);
+        StockAvailabilityResponse response = stockAvailabilityMapper.toResponse(stockAvailability);
+        
+        return ResponseEntity.ok(response);
     }
 }
