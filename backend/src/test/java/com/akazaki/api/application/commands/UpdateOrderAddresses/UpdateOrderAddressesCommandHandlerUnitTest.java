@@ -1,4 +1,4 @@
-package com.akazaki.api.application.commands;
+package com.akazaki.api.application.commands.UpdateOrderAddresses;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.akazaki.api.application.commands.UpdateOrderAddressesCommandHandler;
 import com.akazaki.api.config.fixtures.OrderFixture;
 import com.akazaki.api.domain.exceptions.OrderNotFoundException;
 import com.akazaki.api.domain.exceptions.UnauthorizedAccessException;
