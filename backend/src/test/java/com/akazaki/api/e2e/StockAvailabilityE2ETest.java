@@ -1,22 +1,15 @@
 package com.akazaki.api.e2e;
 
-import com.akazaki.api.application.queries.CheckStockAvailability.CheckStockAvailabilityQueryHandler;
-import com.akazaki.api.config.fixtures.ProductFixture;
-import com.akazaki.api.domain.exceptions.OrderNotFoundException;
 import com.akazaki.api.domain.model.Category;
-import com.akazaki.api.domain.model.MissingItem;
 import com.akazaki.api.domain.model.Order;
 import com.akazaki.api.domain.model.OrderItem;
 import com.akazaki.api.domain.model.OrderStatus;
 import com.akazaki.api.domain.model.Product;
-import com.akazaki.api.domain.model.StockAvailability;
 import com.akazaki.api.domain.model.User;
-import com.akazaki.api.domain.ports.in.queries.CheckStockAvailabilityQuery;
 import com.akazaki.api.domain.ports.out.CategoryRepository;
 import com.akazaki.api.domain.ports.out.OrderRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import com.akazaki.api.domain.ports.out.UserRepository;
-import com.akazaki.api.infrastructure.web.mapper.stockAvailability.StockAvailabilityMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
