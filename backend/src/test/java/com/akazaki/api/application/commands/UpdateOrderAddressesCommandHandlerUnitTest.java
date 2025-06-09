@@ -47,7 +47,7 @@ public class UpdateOrderAddressesCommandHandlerUnitTest {
     
     @Test
     @DisplayName("Should update order addresses successfully")
-    void shouldUpdateOrderAddressesSuccessfully() {
+    void should_update_order_addresses_successfully() {
         // Given
         UpdateOrderAddressesCommand command = new UpdateOrderAddressesCommand(
             testOrder.getId(), billingAddress, shippingAddress, testOrder.getUser().getId()
@@ -65,7 +65,7 @@ public class UpdateOrderAddressesCommandHandlerUnitTest {
     
     @Test
     @DisplayName("Should throw OrderNotFoundException when order does not exist")
-    void shouldThrowOrderNotFoundExceptionWhenOrderDoesNotExist() {
+    void should_throw_order_not_found_exception_when_order_does_not_exist() {
         // Given
         UpdateOrderAddressesCommand command = new UpdateOrderAddressesCommand(
             999L, billingAddress, shippingAddress, testOrder.getUser().getId()
@@ -79,7 +79,7 @@ public class UpdateOrderAddressesCommandHandlerUnitTest {
     
     @Test
     @DisplayName("Should throw UnauthorizedAccessException when user is not order owner")
-    void shouldThrowUnauthorizedAccessExceptionWhenUserIsNotOrderOwner() {
+    void should_throw_unauthorized_access_exception_when_user_is_not_order_owner() {
         // Given
         UpdateOrderAddressesCommand command = new UpdateOrderAddressesCommand(
             testOrder.getId(), billingAddress, shippingAddress, 999L
