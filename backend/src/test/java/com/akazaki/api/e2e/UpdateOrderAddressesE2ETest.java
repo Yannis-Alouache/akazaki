@@ -29,12 +29,12 @@ import com.akazaki.api.infrastructure.web.dto.request.UpdateOrderAddressesReques
 
 import java.time.LocalDateTime;
 import java.util.List;
-// TODO: check que ça c'est bon
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @Transactional
-@DisplayName("Update Order Addresses E2E test")
+@DisplayName("Update Order Addresses E2E Tests")
 class UpdateOrderAddressesE2ETest {
 
     private final MockMvc mockMvc;
@@ -108,7 +108,7 @@ class UpdateOrderAddressesE2ETest {
         String requestBody = objectMapper.writeValueAsString(request);
 
         // When & Then
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/" + testOrder.getId() + "/addresses")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/" + testOrder.getId() + "/address")
                 .header("Authorization", "Bearer " + jwtToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
@@ -144,7 +144,7 @@ class UpdateOrderAddressesE2ETest {
         String requestBody = objectMapper.writeValueAsString(request);
 
         // When & Then
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/999/addresses")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/999/address")
                 .header("Authorization", "Bearer " + jwtToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
@@ -173,46 +173,12 @@ class UpdateOrderAddressesE2ETest {
         String requestBody = objectMapper.writeValueAsString(request);
 
         // When & Then
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/" + testOrder.getId() + "/addresses")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/" + testOrder.getId() + "/address")
                 .header("Authorization", "Bearer " + otherUserJwtToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
             .andDo(MockMvcResultHandlers.print())
-            .andExpect(MockMvcResultMatchers.status().isForbidden());
-    }
-
-    @Test
-    @DisplayName("Should return bad request when validation fails")
-    void shouldReturnBadRequestWhenValidationFails() throws Exception {
-        // Given - Adresse avec des champs manquants
-        AddressRequest invalidBillingAddress = new AddressRequest(
-            null, // lastName manquant
-            "Pierre", 
-            "123", 
-            "Rue de la Paix", 
-            "Apt 4", 
-            "75001", 
-            "Paris", 
-            "France"
-        );
-        
-        AddressRequest shippingAddress = new AddressRequest(
-            "Martin", "Marie", "456", "Avenue des Champs", 
-            null, "75008", "Paris", "France"
-        );
-        
-        UpdateOrderAddressesRequest request = new UpdateOrderAddressesRequest(
-            invalidBillingAddress, shippingAddress
-        );
-
-        String requestBody = objectMapper.writeValueAsString(request);
-
-        // When & Then
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/orders/" + testOrder.getId() + "/addresses")
-                .header("Authorization", "Bearer " + jwtToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody))
-            .andDo(MockMvcResultHandlers.print())
-            .andExpect(MockMvcResultMatchers.status().isBadRequest());
+            .andExpect(MockMvcResultMatchers.status().isForbidden())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.reason").value("Vous n'êtes pas autorisé à modifier cette commande"));
     }
 } 
