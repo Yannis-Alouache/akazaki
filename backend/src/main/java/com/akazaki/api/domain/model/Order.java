@@ -71,6 +71,9 @@ public class Order {
     public Address getBillingAddress() { return billingAddress; }
     public Address getShippingAddress() { return shippingAddress; }
 
+    // Setters
+    public void setId(Long id) { this.id = id; }
+
     public static class Builder {
         private Long id;
         private User user;
