@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // https://docs.stripe.com/payments/accept-a-payment?ui=elements
 
 // TODO: Fix conflict github
+// TODO: Add webhook for stripe payment intent TEST
 @SpringBootApplication
 public class BackendApplication {
 	public static void main(String[] args) {
