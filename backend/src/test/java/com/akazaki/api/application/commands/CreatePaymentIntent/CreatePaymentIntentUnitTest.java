@@ -17,6 +17,7 @@ import com.akazaki.api.domain.model.User;
 import com.akazaki.api.domain.ports.in.commands.CreatePaymentIntentCommand;
 import com.akazaki.api.domain.ports.out.OrderRepository;
 import com.akazaki.api.domain.ports.out.UserRepository;
+import com.akazaki.api.infrastructure.exceptions.PaymentIntentCreationFailedException;
 import com.akazaki.api.infrastructure.persistence.Order.InMemoryOrderRepository;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 import com.akazaki.api.infrastructure.stripe.FakePaymentIntentGayeway;
@@ -25,12 +26,13 @@ import com.akazaki.api.infrastructure.stripe.FakePaymentIntentGayeway;
 public class CreatePaymentIntentUnitTest {
 
     private CreatePaymentIntentCommandHandler handler;
+    private FakePaymentIntentGayeway paymentGateway;
     private User user;
     private Order order;
 
     @BeforeEach
     void setUp() {
-        FakePaymentIntentGayeway paymentGateway = new FakePaymentIntentGayeway();
+        paymentGateway = new FakePaymentIntentGayeway();
         UserRepository userRepository = new InMemoryUserRepository();
         OrderRepository orderRepository = new InMemoryOrderRepository();
 
@@ -71,6 +73,17 @@ public class CreatePaymentIntentUnitTest {
 
         // When/Then
         assertThrows(UserNotFoundException.class, () -> handler.handle(command));
+    }
+
+    @Test
+    @DisplayName("Should throw PaymentIntentCreationFailedException when payment gateway fails")
+    void createPaymentIntentWithPaymentGatewayFailure() {
+        // Given
+        CreatePaymentIntentCommand command = new CreatePaymentIntentCommand(user.getId(), order.getId());
+        paymentGateway.simulatePaymentIntentCreationFailure();
+
+        // When/Then
+        assertThrows(PaymentIntentCreationFailedException.class, () -> handler.handle(command));
     }
 
 }
