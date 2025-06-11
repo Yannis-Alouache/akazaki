@@ -19,7 +19,7 @@ import com.akazaki.api.application.commands.MarkOrderAsPaidCommandHandler;
 import com.akazaki.api.domain.ports.in.commands.CreatePaymentCommand;
 import com.akazaki.api.domain.ports.in.commands.DecreaseProductStockCommand;
 import com.akazaki.api.domain.ports.in.commands.MarkOrderAsPaidCommand;
-import com.akazaki.api.infrastructure.stripe.StripeWebhookService;
+import com.akazaki.api.infrastructure.stripe.StripeWebhookGateway;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,13 +38,13 @@ public class WebhookController {
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    private final StripeWebhookService stripeWebhookService;
+    private final StripeWebhookGateway stripeWebhookGateway;
     private final MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler;
     private final CreatePaymentCommandHandler createPaymentCommandHandler;
     private final DecreaseProductStockCommandHandler decreaseProductStockCommandHandler;
 
-    public WebhookController(StripeWebhookService stripeWebhookService, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler) {
-        this.stripeWebhookService = stripeWebhookService;
+    public WebhookController(StripeWebhookGateway stripeWebhookGateway, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler) {
+        this.stripeWebhookGateway = stripeWebhookGateway;
         this.markOrderAsPaidCommandHandler = markOrderAsPaidCommandHandler;
         this.createPaymentCommandHandler = createPaymentCommandHandler;
         this.decreaseProductStockCommandHandler = decreaseProductStockCommandHandler;
@@ -74,12 +74,12 @@ public class WebhookController {
         @RequestHeader("Stripe-Signature") String sigHeader
     ) {
             Stripe.apiKey = stripeSecretKey;
-            Event event = stripeWebhookService.parseEvent(payload);
+            Event event = stripeWebhookGateway.parseEvent(payload);
 
             if(endpointSecret != null && sigHeader != null)
-                event = stripeWebhookService.verifySignature(payload, sigHeader);
+                event = stripeWebhookGateway.verifySignature(payload, sigHeader);
 
-            StripeObject stripeObject = stripeWebhookService.extractStripeObject(event);
+            StripeObject stripeObject = stripeWebhookGateway.extractStripeObject(event);
 
             // Handle the event
             switch (event.getType()) {
@@ -98,7 +98,6 @@ public class WebhookController {
                     decreaseProductStockCommandHandler.handle(
                         new DecreaseProductStockCommand(orderId)
                     );
-                    
                 break;
                 default:
                     System.out.println("Unhandled event type: " + event.getType());

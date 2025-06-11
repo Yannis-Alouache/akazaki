@@ -40,7 +40,6 @@ public class CreatePaymentIntentE2ETest {
     private final OrderRepository orderRepository;
     private final ObjectMapper objectMapper;
 
-
     private User testUser;
     private Order testOrder;
     private String jwtToken;

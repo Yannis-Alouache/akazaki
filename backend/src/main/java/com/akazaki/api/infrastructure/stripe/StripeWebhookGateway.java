@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.akazaki.api.domain.ports.out.WebhookGateway;
 import com.akazaki.api.infrastructure.exceptions.WebhookObjectExtractionFailedException;
 import com.akazaki.api.infrastructure.exceptions.WebhookParsingFailedException;
 import com.akazaki.api.infrastructure.exceptions.WebhookSignatureVerificationFailedException;
@@ -17,11 +18,11 @@ import com.stripe.net.ApiResource;
 import com.stripe.net.Webhook;
 
 @Service
-public class StripeWebhookService {
+public class StripeWebhookGateway implements WebhookGateway {
 
     @Value("whsec_b2148f99137f118d81a59b2cce99e2561c1003f5b9a9e6f4572706d9d92e5498")
     private String endpointSecret;
-    private final Logger log = LoggerFactory.getLogger(StripeWebhookService.class);
+    private final Logger log = LoggerFactory.getLogger(StripeWebhookGateway.class);
     
     public Event parseEvent(String payload) {
         try {
