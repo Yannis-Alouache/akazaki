@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{url}}/api/products?page=1&size=10
+  url: {{url}}/api/products?page=1&size=10&categories=Drinks
   body: none
   auth: none
 }
@@ -13,4 +13,5 @@ get {
 params:query {
   page: 1
   size: 10
+  categories: Drinks
 }

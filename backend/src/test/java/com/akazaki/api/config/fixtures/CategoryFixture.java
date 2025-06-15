@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
 public class CategoryFixture {
     public final static Category drink = new Category("Drink");
     public final static Category japan = new Category("Japan");
+    public final static Category snack = new Category("Snack");
 }

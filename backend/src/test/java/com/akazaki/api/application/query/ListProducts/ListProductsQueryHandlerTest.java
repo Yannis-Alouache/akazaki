@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("unit")
@@ -34,7 +36,7 @@ class ListProductsQueryHandlerTest {
         productRepository.save(ProductFixture.ultraIceTea);
 
         // When
-        Page<Product> result = listProductsQueryHandler.handle(new ListProductsQuery(1, 10));
+        Page<Product> result = listProductsQueryHandler.handle(new ListProductsQuery(1, 10, null));
 
         // Then
         assertThat(result).hasSize(2);
@@ -47,9 +49,51 @@ class ListProductsQueryHandlerTest {
     @DisplayName("Should return empty list when repository is empty")
     void shouldReturnEmptyListWhenRepositoryIsEmpty() {
         // When
-        Page<Product> result = listProductsQueryHandler.handle(new ListProductsQuery(1, 10));
+        Page<Product> result = listProductsQueryHandler.handle(new ListProductsQuery(1, 10, null));
 
         // Then
         assertThat(result).isEmpty();
     }
-} 
+
+    @Test
+    @DisplayName("Should return only products in the specified category")
+    void shouldReturnOnlyProductsInSpecifiedCategory() {
+        // Given
+        productRepository.save(ProductFixture.ramuneFraise);       // Japan
+        productRepository.save(ProductFixture.ultraIceTea);        // Japan
+        productRepository.save(ProductFixture.pockyChocolat);      // Snack
+
+        // When
+        Page<Product> resultJapan = listProductsQueryHandler.handle(
+                new ListProductsQuery(1, 10, List.of("Japan"))
+        );
+
+        Page<Product> resultSnack = listProductsQueryHandler.handle(
+                new ListProductsQuery(1, 10, List.of("Snack"))
+        );
+
+        // Then
+        assertThat(resultJapan).hasSize(2);
+        assertThat(resultJapan.getContent()).extracting(Product::getName)
+                .containsExactlyInAnyOrder("Ramune Fraise 🍓", "Ultra Ice Tea Dragon Ball Super Végéta 🥬");
+
+        assertThat(resultSnack).hasSize(1);
+        assertThat(resultSnack.getContent().get(0).getName()).isEqualTo("Pocky Chocolat 🍫");
+    }
+
+    @Test
+    @DisplayName("Should return empty list when filtering by non-existent category")
+    void shouldReturnEmptyListWhenFilteringByNonExistentCategory() {
+        // Given
+        productRepository.save(ProductFixture.ramuneFraise);
+        productRepository.save(ProductFixture.ultraIceTea);
+
+        // When
+        Page<Product> result = listProductsQueryHandler.handle(
+                new ListProductsQuery(1, 10, List.of("NonExistent"))
+        );
+
+        // Then
+        assertThat(result).isEmpty();
+    }
+}

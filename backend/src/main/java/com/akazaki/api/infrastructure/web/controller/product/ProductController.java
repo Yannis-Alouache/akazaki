@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/products")
@@ -72,7 +73,7 @@ public class ProductController {
     })
     @GetMapping
     public ResponseEntity<ProductListResponse> listProducts(@Valid ProductListRequest listProductsRequest) {
-        ListProductsQuery query = new ListProductsQuery(listProductsRequest.getPage(), listProductsRequest.getSize());
+        ListProductsQuery query = new ListProductsQuery(listProductsRequest.getPage(), listProductsRequest.getSize(), Arrays.asList(listProductsRequest.getCategories()));
         Page<Product> products = listProductsQueryHandler.handle(query);
         return ResponseEntity.ok(productListMapper.toResponse(products));
     }

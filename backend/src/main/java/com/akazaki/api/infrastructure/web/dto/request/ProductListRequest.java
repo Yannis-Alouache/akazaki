@@ -6,4 +6,5 @@ import lombok.Data;
 public class ProductListRequest {
     private int page = 0;
     private int size = 10;
+    private String[] categories;
 }

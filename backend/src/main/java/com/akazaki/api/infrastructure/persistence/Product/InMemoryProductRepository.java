@@ -47,4 +47,21 @@ public class InMemoryProductRepository implements ProductRepository {
     public Page<Product> findAll(Pageable pageable) {
         return new PageImpl<>(products, pageable, products.size());
     }
+
+    @Override
+    public Page<Product> findByCategories(List<String> categoryNames, Pageable pageable) {
+        List<Product> filtered = products.stream()
+                .filter(product -> product.getCategories().stream()
+                        .anyMatch(category -> categoryNames.contains(category.getName()))
+                )
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filtered.size());
+
+        List<Product> pagedList = filtered.subList(start, end);
+
+        return new PageImpl<>(pagedList, pageable, filtered.size());
+    }
+
 }

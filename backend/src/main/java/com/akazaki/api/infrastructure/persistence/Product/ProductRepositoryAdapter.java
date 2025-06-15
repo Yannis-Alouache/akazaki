@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -46,5 +47,11 @@ public class ProductRepositoryAdapter implements ProductRepository {
     public Page<Product> findAll(Pageable pageable) {
         return repository.findAll(pageable)
             .map(mapper::toDomain);
+    }
+
+    @Override
+    public Page<Product> findByCategories(List<String> categoryNames, Pageable pageable) {
+        return repository.findByCategoryNames(categoryNames, pageable)
+                .map(mapper::toDomain);
     }
 }
