@@ -24,6 +24,7 @@ public class AddToCartCommandHandler {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    
     public Cart handle(AddToCartCommand command) {
         int quantity = 1;
 

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.akazaki.api.domain.exceptions.ProductNotInCartException;
+
 
 public class Cart {
     private Long id;
@@ -41,9 +43,17 @@ public class Cart {
         CartItem cartItem = cartItems.stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+                .orElseThrow(ProductNotInCartException::new);
 
         cartItem.setQuantity(quantity);
+    }
+
+    public double getTotalPrice() {
+        double total = cartItems.stream()
+                .map(item -> item.getProduct().getPrice() * item.getQuantity())
+                .reduce(0.0, (a, b) -> a + b);
+                
+        return Math.round(total * 100.0) / 100.0;
     }
 
     public Long getId() {

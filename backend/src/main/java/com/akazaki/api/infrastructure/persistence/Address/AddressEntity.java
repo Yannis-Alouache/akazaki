@@ -2,11 +2,14 @@ package com.akazaki.api.infrastructure.persistence.Address;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "address")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressEntity {
@@ -30,7 +33,7 @@ public class AddressEntity {
     private String addressComplement;
 
     @Column(nullable = false)
-    private String postCode;
+    private String postalCode;
 
     @Column(nullable = false)
     private String city;

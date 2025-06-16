@@ -1,5 +1,6 @@
 package com.akazaki.api.application.commands;
 
+import com.akazaki.api.domain.exceptions.CartNotFoundException;
 import com.akazaki.api.domain.exceptions.InsufficientStockException;
 import com.akazaki.api.domain.exceptions.ProductNotFoundException;
 import com.akazaki.api.domain.model.Cart;
@@ -26,7 +27,7 @@ public class UpdateCartItemQuantityCommandHandler {
 
         // Récupérer le panier de l'utilisateur
         Cart cart = cartRepository.findByUserId(command.userId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+                .orElseThrow(CartNotFoundException::new);
 
         Cart updatedCart = cart.copy();
 

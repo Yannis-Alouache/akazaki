@@ -93,6 +93,26 @@ public class AdminProductController {
         return ResponseEntity.ok(productMapper.toResponse(product));
     }
 
+    @Operation(
+        summary = "Delete a product",
+        description = "Deletes a product by its ID"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "204",
+            description = "Product successfully deleted"
+        ),
+        @ApiResponse(
+            responseCode = "404", 
+            description = "Product not found",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid product ID",
+            content = @Content
+        )
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
         DeleteProductCommand deleteProductCommand = new DeleteProductCommand(id);
