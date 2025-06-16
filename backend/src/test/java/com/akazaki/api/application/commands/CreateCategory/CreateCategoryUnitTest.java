@@ -7,43 +7,43 @@ import com.akazaki.api.domain.ports.in.commands.CreateCategoryCommand;
 import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Tag("unit")
 @DisplayName("Create Category Unit Tests")
 class CreateCategoryUnitTest {
 
     private CreateCategoryCommandHandler handler;
-    private CategoryFixture categoryFixture;
 
     @BeforeEach
     void setUp() {
         InMemoryCategoryRepository repository = new InMemoryCategoryRepository();
         handler = new CreateCategoryCommandHandler(repository);
-        categoryFixture = new CategoryFixture(repository);
     }
 
     @Test
     @DisplayName("Create A Category Successfully")
     void createACategory() {
         // Given
-        CreateCategoryCommand command = new CreateCategoryCommand(categoryFixture.japan.getName());
+        CreateCategoryCommand command = new CreateCategoryCommand(CategoryFixture.japan.getName());
 
         // When
         Category result = handler.handle(command);
 
         // Then
         assertThat(result.getId()).isNotNull();
-        assertThat(result.getName()).isEqualTo(categoryFixture.japan.getName());
+        assertThat(result.getName()).isEqualTo(CategoryFixture.japan.getName());
     }
 
     @Test
     @DisplayName("Prevent Duplicate Categories")
     void preventDuplicateCategories() {
         // Given
-        CreateCategoryCommand command = new CreateCategoryCommand(categoryFixture.japan.getName());
+        CreateCategoryCommand command = new CreateCategoryCommand(CategoryFixture.japan.getName());
         
         // First creation should succeed
         handler.handle(command);

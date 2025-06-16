@@ -1,0 +1,15 @@
+meta {
+  name: Check stock availability
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{url}}/api/orders/5/stock-availability
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}

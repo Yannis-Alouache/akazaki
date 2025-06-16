@@ -3,6 +3,8 @@ package com.akazaki.api.infrastructure.persistence.Product;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.out.ProductRepository;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -38,5 +40,11 @@ public class ProductRepositoryAdapter implements ProductRepository {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return repository.findAll(pageable)
+            .map(mapper::toDomain);
     }
 }

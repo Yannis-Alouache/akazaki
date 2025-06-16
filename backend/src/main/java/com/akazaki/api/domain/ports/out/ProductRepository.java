@@ -1,6 +1,8 @@
 package com.akazaki.api.domain.ports.out;
 
 import com.akazaki.api.domain.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -9,4 +11,5 @@ public interface ProductRepository {
     Optional<Product> findById(Long id);
     boolean existsByName(String name);
     void deleteById(Long productId);
+    Page<Product> findAll(Pageable pageable);
 }

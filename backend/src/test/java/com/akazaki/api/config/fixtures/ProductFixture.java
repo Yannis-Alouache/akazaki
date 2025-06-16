@@ -1,27 +1,12 @@
 package com.akazaki.api.config.fixtures;
 
 import com.akazaki.api.domain.model.Product;
-import com.akazaki.api.domain.ports.out.ProductRepository;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 
 @Component
 public class ProductFixture {
-
-    private final ProductRepository productRepository;
-    public Product drink;
-
-    public ProductFixture(ProductRepository productRepository, CategoryFixture categoryFixture) {
-        this.productRepository = productRepository;
-        
-        categoryFixture.saveCategories();
-        this.drink = Product.create("Ramune Fraise", "the product description", 3.99, 30, "/uploads/image.png", List.of(categoryFixture.japan));
-    }
-
-    public void saveProducts() {
-       this.drink = productRepository.save(drink);
-    }
+    public static final Product ramuneFraise = Product.create("Ramune Fraise 🍓", "the product description", 3.99, 30, "/uploads/image.png", List.of(CategoryFixture.japan));
+    public static final Product ultraIceTea = Product.create("Ultra Ice Tea Dragon Ball Super Végéta 🥬", "the product description", 1.99, 10, "/uploads/image.png", List.of(CategoryFixture.japan));
 }

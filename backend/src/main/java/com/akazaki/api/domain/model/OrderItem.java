@@ -1,30 +1,67 @@
-/*
 package com.akazaki.api.domain.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private int quantity;
-
-    @Column(nullable = false)
-    private int unitPrice;
-
-    @ManyToOne
-    private Order order;
-
-    @ManyToOne
+    private double price;
     private Product product;
+
+
+    private OrderItem(
+        Long id,
+        int quantity,
+        double price,
+        Product product
+    ) {
+        this.id = id;
+        this.quantity = quantity;
+        this.price = price;
+        this.product = product;
+    }
+
+    public static OrderItem create(
+        int quantity,
+        double price,
+        Product product
+    ) {
+        return new OrderItem(null, quantity, price, product);
+    }
+
+    public static OrderItem restore(
+        Long id,
+        int quantity,
+        double price,
+        Product product
+    ) {
+        return new OrderItem(id, quantity, price, product);
+    }
+
+    public static List<OrderItem> fromCartItems(List<CartItem> cartItems) {
+        return cartItems.stream()
+            .map(cartItem -> OrderItem.create(cartItem.getQuantity(), calculatePrice(cartItem.getQuantity(), cartItem.getProduct().getPrice()), cartItem.getProduct()))
+            .collect(Collectors.toList());
+    }
+
+    private static double calculatePrice(int quantity, double price) {
+        return Math.round(price * quantity * 100.0) / 100.0;
+    }
+
+    // Getters
+    public Long getId() { return id; }
+    public int getQuantity() { return quantity; }
+    public double getPrice() { return price; }
+    public Product getProduct() { return product; }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                    "id=" + id +
+                    ", quantity=" + quantity +
+                    ", price=" + price +
+                    ", product=" + product +
+                '}';
+    }
 }
-*/

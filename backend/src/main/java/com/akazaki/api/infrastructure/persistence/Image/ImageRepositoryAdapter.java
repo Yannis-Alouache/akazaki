@@ -32,6 +32,7 @@ public class ImageRepositoryAdapter implements ImageRepository {
         Path destinationFile = Paths.get(uploadDir).resolve(uniqueFilename).normalize();
 
         try {
+            Files.createDirectories(destinationFile.getParent());
             Files.copy(image.imageStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new UnableToSaveFileException();

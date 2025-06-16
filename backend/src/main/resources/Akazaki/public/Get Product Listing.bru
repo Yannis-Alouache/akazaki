@@ -1,0 +1,16 @@
+meta {
+  name: Get Product Listing
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/api/products?page=1&size=10
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  size: 10
+}

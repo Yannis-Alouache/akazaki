@@ -24,6 +24,7 @@ public class AddToCartCommandHandler {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    
     public Cart handle(AddToCartCommand command) {
         int quantity = 1;
 
@@ -42,7 +43,7 @@ public class AddToCartCommandHandler {
             ProductNotFoundException::new
         );
 
-        if (product.getStock() < quantity) throw new ProductOutOfStockException();
+        if (quantity > product.getStock()) throw new ProductOutOfStockException();
 
         CartItem cartItem = CartItem.builder()
             .product(product)

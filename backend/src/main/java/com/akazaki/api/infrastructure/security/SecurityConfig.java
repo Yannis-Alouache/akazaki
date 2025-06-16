@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/api-docs/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/stripe/webhook").permitAll()
                         // OTHER ROUTES REQUIRE AUTHENTICATION
                         .anyRequest().authenticated()
                 )

@@ -2,20 +2,15 @@ package com.akazaki.api.application.commands.AddToCart;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 
-import com.akazaki.api.config.fixtures.CategoryFixture;
-import com.akazaki.api.infrastructure.persistence.Category.InMemoryCategoryRepository;
+import com.akazaki.api.config.fixtures.CartFixture;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
 import com.akazaki.api.config.fixtures.ProductFixture;
 import com.akazaki.api.config.fixtures.UserFixture;
 import com.akazaki.api.domain.model.Cart;
-import com.akazaki.api.domain.model.CartItem;
 import com.akazaki.api.domain.ports.in.commands.AddToCartCommand;
 import com.akazaki.api.domain.ports.out.CartRepository;
 import com.akazaki.api.domain.ports.out.ProductRepository;
@@ -24,12 +19,12 @@ import com.akazaki.api.infrastructure.persistence.Cart.InMemoryCartRepository;
 import com.akazaki.api.infrastructure.persistence.Product.InMemoryProductRepository;
 import com.akazaki.api.infrastructure.persistence.User.InMemoryUserRepository;
 
+@Tag("unit")
 @DisplayName("Add to cart Unit Tests")
 public class AddToCartUnitTest {
     private CartRepository cartRepository;
     private AddToCartCommandHandler handler;
-    private UserFixture userFixture;
-    private ProductFixture productFixture;
+
 
     @BeforeEach
     void setUp() {
@@ -38,11 +33,8 @@ public class AddToCartUnitTest {
         UserRepository userRepository = new InMemoryUserRepository();
         handler = new AddToCartCommandHandler(cartRepository, productRepository, userRepository);
 
-        userFixture = new UserFixture(userRepository);
-        productFixture = new ProductFixture(productRepository, new CategoryFixture(new InMemoryCategoryRepository()));
-
-        userFixture.saveUsers();
-        productFixture.saveProducts();
+        userRepository.save(UserFixture.adminUser);
+        productRepository.save(ProductFixture.ramuneFraise);
     }
 
     @Test
@@ -50,28 +42,19 @@ public class AddToCartUnitTest {
     public void addAProductToCartSuccesfully() {
         // given
         AddToCartCommand command = new AddToCartCommand(
-            userFixture.adminUser.getId(),
-            productFixture.drink.getId()
+            UserFixture.adminUser.getId(),
+            ProductFixture.ramuneFraise.getId()
         );
-
-        CartItem expectedCartItem = CartItem.builder()
-                .id(1L)
-                .product(productFixture.drink)
-                .quantity(1)
-                .build();
-        
-        Cart expectedCart = Cart.builder()
-                .id(1L)
-                .user(userFixture.adminUser)
-                .cartItems(List.of(expectedCartItem))
-                .build();
 
         // when
         handler.handle(command);
-        Cart cart = cartRepository.findByUserId(userFixture.adminUser.getId()).orElseThrow();
+        Cart cart = cartRepository.findByUserId(UserFixture.adminUser.getId()).orElseThrow();
 
         // then
-        assertThat(cart).isEqualTo(expectedCart);
+        assertThat(cart)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "user.id", "cartItems.id", "cartItems.product.id", "cartItems.product.categories.id")
+                .isEqualTo(CartFixture.adminUserCartWithDrinkItem);
     }
 
 }
