@@ -9,4 +9,6 @@ import java.util.List;
 public class ProductFixture {
     public static final Product ramuneFraise = Product.create("Ramune Fraise 🍓", "the product description", 3.99, 30, "/uploads/image.png", List.of(CategoryFixture.japan));
     public static final Product ultraIceTea = Product.create("Ultra Ice Tea Dragon Ball Super Végéta 🥬", "the product description", 1.99, 10, "/uploads/image.png", List.of(CategoryFixture.japan));
+    public static final Product pockyChocolat = Product.create("Pocky Chocolat 🍫", "delicious chocolate sticks", 2.49, 20, "/uploads/image.png", List.of(CategoryFixture.snack));
+
 }

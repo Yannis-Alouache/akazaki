@@ -4,6 +4,7 @@ import com.akazaki.api.domain.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
@@ -12,4 +13,5 @@ public interface ProductRepository {
     boolean existsByName(String name);
     void deleteById(Long productId);
     Page<Product> findAll(Pageable pageable);
+    Page<Product> findByCategories(List<String> categoryName, Pageable pageable);
 }

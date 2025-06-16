@@ -21,6 +21,11 @@ public class ListProductsQueryHandler {
         page = page != 0 ? page - 1 : page;
 
         PageRequest pageRequest = PageRequest.of(page, size);
+
+        if (query.getCategories() != null && !query.getCategories().isEmpty()) {
+            return productRepository.findByCategories(query.getCategories(), pageRequest);
+        }
         return productRepository.findAll(pageRequest);
     }
+
 } 
