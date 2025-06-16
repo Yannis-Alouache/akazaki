@@ -2,15 +2,19 @@ package com.akazaki.api.infrastructure.persistence.Payment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import com.akazaki.api.domain.model.PaymentMethodEnum;
 import com.akazaki.api.infrastructure.persistence.Order.OrderEntity;
 
 @Entity
+@Table(name = "payment")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentEntity {
@@ -25,8 +29,8 @@ public class PaymentEntity {
     private LocalDateTime date;
 
     @Column(nullable = false)
-    private int amount;
+    private double amount;
 
     @Column(nullable = false)
-    private String method;
+    private PaymentMethodEnum method;
 }

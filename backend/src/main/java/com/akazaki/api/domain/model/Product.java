@@ -166,6 +166,10 @@ public class Product {
     //     this.promotions = promotions;
     // }
 
+    public void decreaseStock(int quantity) {
+        this.stock -= quantity;
+    }
+
     public Product copy() {
         return new Product(id, name, description, price, stock, imageUrl, categories);
     }

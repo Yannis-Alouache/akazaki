@@ -2,7 +2,7 @@ package com.akazaki.api.domain.model;
 
 public enum OrderStatus {
     PENDING,
-    CONFIRMED,
+    PAID,
     SHIPPED,
     DELIVERED,
     CANCELLED

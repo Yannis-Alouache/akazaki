@@ -1,35 +1,59 @@
 package com.akazaki.api.domain.model;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class OrderItem {
     private Long id;
     private int quantity;
-    private int price;
-    private Order order;
+    private double price;
     private Product product;
 
 
     private OrderItem(
         Long id,
         int quantity,
-        int price,
-        Order order,
+        double price,
         Product product
     ) {
         this.id = id;
         this.quantity = quantity;
         this.price = price;
-        this.order = order;
         this.product = product;
     }
 
     public static OrderItem create(
         int quantity,
-        int price,
-        Order order,
+        double price,
         Product product
     ) {
-        return new OrderItem(null, quantity, price, order, product);
+        return new OrderItem(null, quantity, price, product);
     }
+
+    public static OrderItem restore(
+        Long id,
+        int quantity,
+        double price,
+        Product product
+    ) {
+        return new OrderItem(id, quantity, price, product);
+    }
+
+    public static List<OrderItem> fromCartItems(List<CartItem> cartItems) {
+        return cartItems.stream()
+            .map(cartItem -> OrderItem.create(cartItem.getQuantity(), calculatePrice(cartItem.getQuantity(), cartItem.getProduct().getPrice()), cartItem.getProduct()))
+            .collect(Collectors.toList());
+    }
+
+    private static double calculatePrice(int quantity, double price) {
+        return Math.round(price * quantity * 100.0) / 100.0;
+    }
+
+    // Getters
+    public Long getId() { return id; }
+    public int getQuantity() { return quantity; }
+    public double getPrice() { return price; }
+    public Product getProduct() { return product; }
 
     @Override
     public String toString() {
@@ -37,9 +61,7 @@ public class OrderItem {
                     "id=" + id +
                     ", quantity=" + quantity +
                     ", price=" + price +
-                    ", order=" + order +
                     ", product=" + product +
                 '}';
     }
-    
 }

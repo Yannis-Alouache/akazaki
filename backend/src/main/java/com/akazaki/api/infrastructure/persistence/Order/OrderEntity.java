@@ -2,6 +2,7 @@ package com.akazaki.api.infrastructure.persistence.Order;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +12,11 @@ import java.util.List;
 import com.akazaki.api.domain.model.OrderStatus;
 import com.akazaki.api.infrastructure.persistence.Address.AddressEntity;
 import com.akazaki.api.infrastructure.persistence.OrderItem.OrderItemEntity;
-import com.akazaki.api.infrastructure.persistence.Payment.PaymentEntity;
+import com.akazaki.api.infrastructure.persistence.User.UserEntity;
 
 @Entity
 @Table(name = "`order`")
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +24,10 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Column(nullable = false, name = "order_date")
     private LocalDateTime date;
@@ -33,14 +39,13 @@ public class OrderEntity {
     private List<OrderItemEntity> items;
 
     @Column(nullable = false)
-    private int totalPrice;
+    private double totalPrice;
 
-    @ManyToOne
+    // TODO: should be a @ManyToMany cause an order can have multiple billing addresses
+    @ManyToOne(cascade = CascadeType.ALL)
     private AddressEntity billingAddress;
 
-    @ManyToOne
+    // TODO: should be a @ManyToMany cause an order can have multiple shipping addresses
+    @ManyToOne(cascade = CascadeType.ALL)
     private AddressEntity shippingAddress;
-
-    @OneToOne
-    private PaymentEntity payment;
 }

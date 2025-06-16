@@ -1,0 +1,38 @@
+meta {
+  name: Update Order
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{url}}/api/orders/1/address
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+body:json {
+  {
+    "billingAddress": {
+      "lastName": "Alouache",
+      "firstName": "Yannis",
+      "city": "Lambersart",
+      "postalCode": "59130",
+      "streetNumber": "6",
+      "country": "france",
+      "street": "avenue du général de gaulle"
+    },
+    "shippingAddress": {
+      "lastName": "Alouache",
+      "firstName": "Yannis",
+      "city": "Lambersart",
+      "postalCode": "59130",
+      "streetNumber": "6",
+      "country": "france",
+      "street": "avenue du général de gaulle"
+    }
+  }
+}
