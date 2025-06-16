@@ -3,6 +3,8 @@ package com.akazaki.api.infrastructure.web.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 @Schema(description = "Request for paginated product list")
 @Data
 public class ProductListRequest {
@@ -11,5 +13,5 @@ public class ProductListRequest {
     
     @Schema(description = "Number of products per page", example = "10")
     private int size = 10;
-    private String[] categories;
+    private List<String> categories;
 }

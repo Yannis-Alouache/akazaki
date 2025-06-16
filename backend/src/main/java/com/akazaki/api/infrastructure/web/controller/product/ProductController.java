@@ -73,7 +73,7 @@ public class ProductController {
     })
     @GetMapping
     public ResponseEntity<ProductListResponse> listProducts(@Valid ProductListRequest listProductsRequest) {
-        ListProductsQuery query = new ListProductsQuery(listProductsRequest.getPage(), listProductsRequest.getSize(), Arrays.asList(listProductsRequest.getCategories()));
+        ListProductsQuery query = new ListProductsQuery(listProductsRequest.getPage(), listProductsRequest.getSize(), listProductsRequest.getCategories());
         Page<Product> products = listProductsQueryHandler.handle(query);
         return ResponseEntity.ok(productListMapper.toResponse(products));
     }
