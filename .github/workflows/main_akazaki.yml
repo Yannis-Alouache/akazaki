@@ -25,7 +25,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven (skip E2E tests)
-        run: mvn clean install -Dtest=\!*E2ETest -Dspring.profiles.active=test
+        run: mvn clean install -Dtest=\!*E2ETest
         working-directory: backend
 
       - name: Upload artifact for deployment job
