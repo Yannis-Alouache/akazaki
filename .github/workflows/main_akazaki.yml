@@ -24,8 +24,12 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
+      - name: Run tests
+        run: mvn test -Dgroups=unit
+        working-directory: backend
+
       - name: Build with Maven (skip E2E tests)
-        run: mvn clean install -Dtest=\!*E2ETest
+        run: mvn clean install -DskipTests
         working-directory: backend
 
       - name: Upload artifact for deployment job
