@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - akazaki
+name: Build and deploy JAR app to Azure Web App - akazaki
 
 on:
   push:
@@ -24,30 +24,23 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      - name: Run tests
-        run: mvn test -Dgroups=unit
-        working-directory: backend
-
-      - name: Build with Maven (skip E2E tests)
-        run: mvn clean install -DskipTests
-        working-directory: backend
+      - name: Build with Maven
+        run: mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/backend/target/*.war'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
-
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -57,9 +50,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_29A5B8E006CB46BFB823CE9668FA4F0C }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E8AD456A2618406A89B31E987B54E02A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63BF94730AEB454AA09AA8996CF2D48F }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_0970E3C751934E77AE59DA7725BDE729 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B4F0514203234F4796DB0C91E999A0E3 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9AC3E71D760146BF88CE47C1CDF02B3B }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -67,5 +60,5 @@ jobs:
         with:
           app-name: 'akazaki'
           slot-name: 'Production'
-          package: '*.war'
+          package: '*.jar'
           
