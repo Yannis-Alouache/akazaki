@@ -9,9 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.akazaki</groupId>
-	<artifactId>backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
+	<artifactId>java-app</artifactId>
+	<name>java-app</name>
 	<description>Api for akazaki e-commerce</description>
 	<url/>
 	<licenses>
