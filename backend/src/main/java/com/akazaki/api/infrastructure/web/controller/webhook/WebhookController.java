@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.akazaki.api.application.commands.CreatePaymentCommandHandler;
 import com.akazaki.api.application.commands.DecreaseProductStockCommandHandler;
 import com.akazaki.api.application.commands.MarkOrderAsPaidCommandHandler;
+import com.akazaki.api.domain.exceptions.OrderNotFoundException;
 import com.akazaki.api.domain.ports.in.commands.CreatePaymentCommand;
 import com.akazaki.api.domain.ports.in.commands.DecreaseProductStockCommand;
 import com.akazaki.api.domain.ports.in.commands.MarkOrderAsPaidCommand;
@@ -85,8 +86,14 @@ public class WebhookController {
             switch (event.getType()) {
                 case "payment_intent.succeeded":
                     PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
-                    Long orderId = Long.parseLong(paymentIntent.getMetadata().get("orderId"));
+                    Long orderId = null;
                     String paymentMethodId = paymentIntent.getPaymentMethod();
+
+                    try {
+                        orderId = Long.parseLong(paymentIntent.getMetadata().get("orderId"));    
+                    } catch (NumberFormatException e) {
+                        throw new OrderNotFoundException();
+                    }
 
                     markOrderAsPaidCommandHandler.handle(
                         new MarkOrderAsPaidCommand(orderId)
