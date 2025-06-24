@@ -20,8 +20,9 @@ import com.stripe.net.Webhook;
 @Service
 public class StripeWebhookGateway implements WebhookGateway {
 
-    @Value("whsec_b2148f99137f118d81a59b2cce99e2561c1003f5b9a9e6f4572706d9d92e5498")
+    @Value("${stripe.webhook.secret}")
     private String endpointSecret;
+
     private final Logger log = LoggerFactory.getLogger(StripeWebhookGateway.class);
     
     public Event parseEvent(String payload) {
