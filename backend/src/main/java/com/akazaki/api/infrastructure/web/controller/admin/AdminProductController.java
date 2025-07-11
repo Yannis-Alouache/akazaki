@@ -3,12 +3,15 @@ package com.akazaki.api.infrastructure.web.controller.admin;
 import com.akazaki.api.application.commands.CreateProduct.CreateProductCommandHandler;
 import com.akazaki.api.application.commands.DeleteProduct.DeleteProductCommandHandler;
 import com.akazaki.api.application.commands.StoreImage.StoreImageCommandHandler;
+import com.akazaki.api.application.commands.UpdateProduct.UpdateProductCommandHandler;
 import com.akazaki.api.domain.model.Product;
 import com.akazaki.api.domain.ports.in.commands.CreateProductCommand;
 import com.akazaki.api.domain.ports.in.commands.DeleteProductCommand;
 import com.akazaki.api.domain.ports.in.commands.StoreImageCommand;
+import com.akazaki.api.domain.ports.in.commands.UpdateProductCommand;
 import com.akazaki.api.infrastructure.exceptions.UnableToSaveFileException;
 import com.akazaki.api.infrastructure.web.dto.request.CreateProductRequest;
+import com.akazaki.api.infrastructure.web.dto.request.UpdateProductRequest;
 import com.akazaki.api.infrastructure.web.dto.response.ProductResponse;
 
 import com.akazaki.api.infrastructure.web.mapper.product.ProductResponseMapper;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @RestController
@@ -40,6 +44,7 @@ public class AdminProductController {
     private final CreateProductCommandHandler createProductCommandHandler;
     private final StoreImageCommandHandler storeImageCommandHandler;
     private final DeleteProductCommandHandler deleteProductCommandHandler;
+    private final UpdateProductCommandHandler updateProductCommandHandler;
     private final ProductResponseMapper productMapper;
 
     @Operation(
@@ -119,4 +124,25 @@ public class AdminProductController {
         deleteProductCommandHandler.handle(deleteProductCommand);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProductById(
+            @PathVariable Long id,
+            @ModelAttribute UpdateProductRequest request
+    ) {
+        logger.info("Received update product request for ID: {}", id);
+
+        UpdateProductCommand command = new UpdateProductCommand(
+                id,
+                request.getName(),
+                request.getDescription(),
+                request.getPrice(),
+                request.getStock(),
+                request.getCategoryIds(),
+                request.getFile()
+        );
+        updateProductCommandHandler.handle(command);
+        return ResponseEntity.noContent().build();
+    }
+
 }
