@@ -25,7 +25,11 @@ public class OrderPersistenceMapper {
             .user(userMapper.toEntity(order.getUser()))
             .date(order.getDate())
             .status(order.getStatus())
-            .totalPrice(order.getTotalPrice())
+            .totalPrice( // ici, recalculé
+                    order.getItems().stream()
+                            .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                            .sum()
+            )
             .billingAddress(addressMapper.toEntity(order.getBillingAddress()))
             .shippingAddress(addressMapper.toEntity(order.getShippingAddress()))
             .build();
@@ -42,7 +46,11 @@ public class OrderPersistenceMapper {
             .date(entity.getDate())
             .status(entity.getStatus())
             .items(orderItemMapper.toDomainList(entity.getItems()))
-            .totalPrice(entity.getTotalPrice())
+            .totalPrice( // ici aussi, recalculé
+                    entity.getItems().stream()
+                            .mapToDouble(i -> i.getPrice() * i.getQuantity())
+                            .sum()
+            )
             .billingAddress(addressMapper.toDomain(entity.getBillingAddress()))
             .shippingAddress(addressMapper.toDomain(entity.getShippingAddress()))
             .build();
