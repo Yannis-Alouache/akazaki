@@ -2,6 +2,7 @@ package com.akazaki.api.infrastructure.web.controller.webhook;
 
 import com.akazaki.api.application.commands.GenerateInvoice.GenerateInvoiceCommandHandler;
 
+import com.akazaki.api.application.commands.SendInvoice.SendInvoiceByEmailCommandHandler;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.StripeObject;
 import com.stripe.Stripe;
@@ -49,13 +50,15 @@ public class WebhookController {
     private final CreatePaymentCommandHandler createPaymentCommandHandler;
     private final DecreaseProductStockCommandHandler decreaseProductStockCommandHandler;
     private final GenerateInvoiceCommandHandler generateInvoiceCommandHandler;
+    private final SendInvoiceByEmailCommandHandler sendInvoiceByEmailCommandHandler;
 
-    public WebhookController(StripeWebhookGateway stripeWebhookGateway, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler, GenerateInvoiceCommandHandler generateInvoiceCommandHandler) {
+    public WebhookController(StripeWebhookGateway stripeWebhookGateway, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler, GenerateInvoiceCommandHandler generateInvoiceCommandHandler, SendInvoiceByEmailCommandHandler sendInvoiceByEmailCommandHandler) {
         this.stripeWebhookGateway = stripeWebhookGateway;
         this.markOrderAsPaidCommandHandler = markOrderAsPaidCommandHandler;
         this.createPaymentCommandHandler = createPaymentCommandHandler;
         this.decreaseProductStockCommandHandler = decreaseProductStockCommandHandler;
         this.generateInvoiceCommandHandler = generateInvoiceCommandHandler;
+        this.sendInvoiceByEmailCommandHandler = sendInvoiceByEmailCommandHandler;
     }
    
     @Operation(
@@ -112,7 +115,8 @@ public class WebhookController {
                     decreaseProductStockCommandHandler.handle(
                         new DecreaseProductStockCommand(orderId)
                     );
-                    generateInvoiceCommandHandler.handle(orderId);
+                    String pdfPath = generateInvoiceCommandHandler.handle(orderId);
+                    sendInvoiceByEmailCommandHandler.handle(orderId, pdfPath);
                 break;
                 default:
                     System.out.println("Unhandled event type: " + event.getType());

@@ -25,7 +25,7 @@ public class PdfInvoiceWriterAdapter implements PdfWriterInvoice {
     private String invoicePath;
 
     @Override
-    public void writeInvoice(Order order) throws FileNotFoundException {
+    public String writeInvoice(Order order) throws FileNotFoundException {
         String formattedDate = order.getDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String fileName = invoicePath + "facture_" + formattedDate + "_" + order.getId() + ".pdf";
 
@@ -41,6 +41,7 @@ public class PdfInvoiceWriterAdapter implements PdfWriterInvoice {
             document.add(new Paragraph("N° de commande : " + order.getId()));
             document.add(new Paragraph("Date : " + order.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
             document.add(new Paragraph("Client : " + order.getUser().getFirstName() + " " + order.getUser().getLastName()));
+            document.add(new Paragraph("Email : " + order.getUser().getEmail()));
             document.add(new Paragraph("Adresse : " +
                     order.getShippingAddress().getStreetNumber() + " " +
                     order.getShippingAddress().getStreet() + ", " +
@@ -78,5 +79,7 @@ public class PdfInvoiceWriterAdapter implements PdfWriterInvoice {
         } catch (IOException e) {
             throw new FileNotFoundException("Erreur lors de la génération du PDF : " + e.getMessage());
         }
+        return fileName;
     }
+
 }
