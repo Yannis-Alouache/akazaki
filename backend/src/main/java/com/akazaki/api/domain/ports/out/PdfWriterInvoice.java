@@ -5,5 +5,5 @@ import com.akazaki.api.domain.model.Order;
 import java.io.FileNotFoundException;
 
 public interface PdfWriterInvoice {
-    void writeInvoice(Order order) throws FileNotFoundException;
+    String writeInvoice(Order order) throws FileNotFoundException;
 }

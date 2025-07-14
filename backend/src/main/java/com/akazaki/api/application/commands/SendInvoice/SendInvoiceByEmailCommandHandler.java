@@ -1,24 +1,22 @@
-package com.akazaki.api.application.commands.GenerateInvoice;
+package com.akazaki.api.application.commands.SendInvoice;
 
 import com.akazaki.api.domain.model.Order;
+import com.akazaki.api.domain.ports.out.EmailSenderPort;
 import com.akazaki.api.domain.ports.out.OrderRepository;
-import com.akazaki.api.domain.ports.out.PdfWriterInvoice;
 import com.akazaki.api.infrastructure.exceptions.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
-
 @Component
 @RequiredArgsConstructor
-public class GenerateInvoiceCommandHandler {
-
+public class SendInvoiceByEmailCommandHandler {
     private final OrderRepository orderRepository;
-    private final PdfWriterInvoice pdfWriterInvoice;
+    private final EmailSenderPort emailSenderPort;
 
-    public String handle(Long orderId) throws FileNotFoundException {
+    public void handle(Long orderId, String pdfPath) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
-        return pdfWriterInvoice.writeInvoice(order);
+
+        emailSenderPort.sendInvoiceEmail(order, pdfPath);
     }
 }
