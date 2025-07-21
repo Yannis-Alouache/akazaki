@@ -1,68 +1,72 @@
-import { Button, ComponentErrorBoundary } from "../../components/common";
-import { ErrorTester } from "../../components/common/ErrorTester";
+import { Button } from "../../components/common";
 
 export function HomePage() {
+    return (
+        <div className="space-y-20">
+            {/* Hero Section */}
+            <section className="bg-card border border-border shadow-lg rounded-2xl p-12 text-center">
+                <h1 className="text-5xl font-extrabold text-foreground mb-4">
+                    Le goût du Japon, bouchée après bouchée 🍘
+                </h1>
+                <p className="text-xl text-muted-foreground mb-8">
+                    Découvrez notre sélection de snacks japonais authentiques,
+                    livrés directement chez vous.
+                </p>
+                <div className="flex justify-center gap-4 flex-wrap">
+                    <Button size="lg">
+                        <a href="/products">Acheter maintenant</a>
+                    </Button>
+                    <Button variant="secondary" size="lg">
+                        <a href="/about">Pourquoi Akazaki&nbsp;?</a>
+                    </Button>
+                </div>
+            </section>
 
-  return (
-    <div className="space-y-12">
-      {/* Hero Section */}
-      <section className="text-center py-12 bg-card rounded-2xl shadow-lg border border-border">
-        <h1 className="text-5xl font-bold text-foreground mb-4">
-          Welcome to Akazaki Snacks! 🍿
-        </h1>
-        <p className="text-xl text-muted-foreground mb-8">
-          Discover our delicious collection of authentic Japanese snacks
-        </p>
-        <div className="flex gap-4 justify-center">
-          <a href="/products">
-            <Button size="lg">
-              Browse Products
-            </Button>
-          </a>
-          <a href="/about">
-            <Button variant="secondary" size="lg">
-              Learn More
-            </Button>
-          </a>
-        </div>
-      </section>
+            {/* Featured Benefits */}
+            <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                    {
+                        icon: "🎌",
+                        title: "Sélectionné au Japon",
+                        desc: "Des friandises authentiques provenant directement des meilleurs artisans japonais.",
+                    },
+                    {
+                        icon: "🚚",
+                        title: "Livraison rapide & gratuite",
+                        desc: "Profitez de la livraison gratuite dans toute l’UE pour toute commande supérieure à 50€.",
+                    },
+                    {
+                        icon: "🌟",
+                        title: "Apprécié par 1 000+ clients",
+                        desc: "Note de 4,9/5 avec des centaines d’avis élogieux.",
+                    },
+                ].map(({ icon, title, desc }, index) => (
+                    <div
+                        key={index}
+                        className="bg-card rounded-xl border border-border shadow p-6 text-center"
+                    >
+                        <div className="text-5xl mb-4">{icon}</div>
+                        <h3 className="text-lg font-bold text-foreground mb-2">
+                            {title}
+                        </h3>
+                        <p className="text-muted-foreground">{desc}</p>
+                    </div>
+                ))}
+            </section>
 
-       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Error Boundary Testing</h2>
-        <ComponentErrorBoundary>
-          <ErrorTester />
-        </ComponentErrorBoundary>
-      </section>
 
-      {/* Features Section */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-card p-6 rounded-lg shadow border border-border text-center">
-          <div className="text-4xl mb-4">🚚</div>
-          <h3 className="text-lg font-semibold text-foreground mb-2">Free Shipping</h3>
-          <p className="text-muted-foreground">On orders over €50</p>
+            {/* Promo CTA */}
+            <section className="bg-primary text-primary-foreground rounded-2xl p-10 text-center space-y-4">
+                <h2 className="text-3xl font-bold">
+                    Obtenez 15% de réduction sur votre première commande
+                </h2>
+                <p className="text-xl">
+                    Utilisez le code <strong>AKAZAKI15</strong> lors de votre commande
+                </p>
+                <Button size="lg" variant="secondary">
+                    <a href="/products">Obtenir la réduction</a>
+                </Button>
+            </section>
         </div>
-        <div className="bg-card p-6 rounded-lg shadow border border-border text-center">
-          <div className="text-4xl mb-4">✨</div>
-          <h3 className="text-lg font-semibold text-foreground mb-2">Premium Quality</h3>
-          <p className="text-muted-foreground">Authentic Japanese snacks</p>
-        </div>
-        <div className="bg-card p-6 rounded-lg shadow border border-border text-center">
-          <div className="text-4xl mb-4">💖</div>
-          <h3 className="text-lg font-semibold text-foreground mb-2">Customer Love</h3>
-          <p className="text-muted-foreground">4.9/5 rating from happy customers</p>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-primary text-primary-foreground p-8 rounded-2xl text-center">
-        <h2 className="text-3xl font-bold mb-4">New Customer Special!</h2>
-        <p className="text-xl mb-6">Get 15% off your first order with code: AKAZAKI15</p>
-        <a href="/products">
-          <button className="bg-card text-card-foreground px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-            Shop Now
-          </button>
-        </a>
-      </section>
-    </div>
-  );
+    );
 }

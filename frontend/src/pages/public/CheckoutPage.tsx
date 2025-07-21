@@ -88,7 +88,7 @@ export function CheckoutPage() {
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-8 text-foreground">
-                Checkout
+                Paiement
             </h1>
 
             {error && (
@@ -104,11 +104,11 @@ export function CheckoutPage() {
                         {/* Shipping Address */}
                         <div className="bg-card rounded-lg shadow p-6 border border-border">
                             <h2 className="text-xl font-bold mb-4 text-card-foreground">
-                                Shipping Address
+                                Adresse de livraison
                             </h2>
                             <div className="grid grid-cols-2 gap-4">
                                 <Input
-                                    label="First Name"
+                                    label="Prénom"
                                     value={shippingAddress.firstName}
                                     onChange={(e) =>
                                         handleShippingChange(
@@ -119,7 +119,7 @@ export function CheckoutPage() {
                                     required
                                 />
                                 <Input
-                                    label="Last Name"
+                                    label="Nom de famille"
                                     value={shippingAddress.lastName}
                                     onChange={(e) =>
                                         handleShippingChange(
@@ -130,7 +130,7 @@ export function CheckoutPage() {
                                     required
                                 />
                                 <Input
-                                    label="Street Number"
+                                    label="Numéro de rue"
                                     value={shippingAddress.streetNumber}
                                     onChange={(e) =>
                                         handleShippingChange(
@@ -142,7 +142,7 @@ export function CheckoutPage() {
                                     className="col-span-1"
                                 />
                                 <Input
-                                    label="Street"
+                                    label="Rue"
                                     value={shippingAddress.street}
                                     onChange={(e) =>
                                         handleShippingChange(
@@ -154,7 +154,7 @@ export function CheckoutPage() {
                                     className="col-span-1"
                                 />
                                 <Input
-                                    label="Address Complement"
+                                    label="Complément d'adresse"
                                     value={
                                         shippingAddress.addressComplement || ""
                                     }
@@ -168,7 +168,7 @@ export function CheckoutPage() {
                                     placeholder="Apartment, suite, etc. (optional)"
                                 />
                                 <Input
-                                    label="Postal Code"
+                                    label="Code Postal"
                                     value={shippingAddress.postalCode}
                                     onChange={(e) =>
                                         handleShippingChange(
@@ -181,7 +181,7 @@ export function CheckoutPage() {
                                     placeholder="75001"
                                 />
                                 <Input
-                                    label="City"
+                                    label="Ville"
                                     value={shippingAddress.city}
                                     onChange={(e) =>
                                         handleShippingChange(
@@ -197,7 +197,7 @@ export function CheckoutPage() {
                         {/* Billing Address */}
                         <div className="bg-card rounded-lg shadow p-6 border border-border">
                             <h2 className="text-xl font-bold mb-4 text-card-foreground">
-                                Billing Address
+                                Adresse de facturation
                             </h2>
                             <label className="flex items-center mb-4 text-foreground">
                                 <input
@@ -208,7 +208,7 @@ export function CheckoutPage() {
                                     }
                                     className="mr-2"
                                 />
-                                <span>Same as shipping address</span>
+                                <span>Identique à l'adresse de livraison</span>
                             </label>
 
                             {!useSameAddress && (
@@ -224,7 +224,7 @@ export function CheckoutPage() {
                     <div className="lg:col-span-1">
                         <div className="bg-card rounded-lg shadow p-6 sticky top-20 border border-border">
                             <h2 className="text-xl font-bold mb-4 text-card-foreground">
-                                Order Summary
+                                Récapitulatif de la commande
                             </h2>
 
                             <div className="space-y-2 mb-4">
@@ -265,7 +265,7 @@ export function CheckoutPage() {
                                 isLoading={isProcessing}
                                 disabled={isProcessing}
                             >
-                                Place Order
+                                Passer la commande
                             </Button>
                         </div>
                     </div>

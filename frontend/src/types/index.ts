@@ -1,16 +1,16 @@
-import type { CartItemResponse, UserResponse } from './api.types';
+import type { CartItemResponse, UserResponse } from "./api.types";
 
 // Re-export all types for easier imports
-export * from './api.types';
+export * from "./api.types";
 
 // Additional app-specific types can go here
 export interface AuthState {
-  isAuthenticated: boolean;
-  user: UserResponse | null;
-  token: string | null;
+    isAuthenticated: boolean;
+    user: UserResponse | null;
+    token: string | null;
 }
 
 export interface CartState {
-  items: CartItemResponse[];
-  isLoading: boolean;
+    items: CartItemResponse[];
+    isLoading: boolean;
 }
