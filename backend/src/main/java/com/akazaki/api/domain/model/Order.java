@@ -129,6 +129,12 @@ public class Order {
         }
     }
 
+    public double calculateTotalPrice() {
+        return items.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

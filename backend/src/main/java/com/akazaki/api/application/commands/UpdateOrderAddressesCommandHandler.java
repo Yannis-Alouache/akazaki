@@ -30,7 +30,7 @@ public class UpdateOrderAddressesCommandHandler {
             .date(existingOrder.getDate())
             .status(existingOrder.getStatus())
             .items(existingOrder.getItems())
-            .totalPrice(existingOrder.getTotalPrice())
+            .totalPrice(existingOrder.calculateTotalPrice())
             .billingAddress(command.billingAddress())
             .shippingAddress(command.shippingAddress())
             .build();

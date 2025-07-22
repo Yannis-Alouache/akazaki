@@ -1,5 +1,8 @@
 package com.akazaki.api.infrastructure.web.controller.webhook;
 
+import com.akazaki.api.application.commands.GenerateInvoice.GenerateInvoiceCommandHandler;
+
+import com.akazaki.api.application.commands.SendInvoice.SendInvoiceByEmailCommandHandler;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.StripeObject;
 import com.stripe.Stripe;
@@ -27,6 +30,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 @RestController
 @RequestMapping("/api/")
@@ -43,12 +49,16 @@ public class WebhookController {
     private final MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler;
     private final CreatePaymentCommandHandler createPaymentCommandHandler;
     private final DecreaseProductStockCommandHandler decreaseProductStockCommandHandler;
+    private final GenerateInvoiceCommandHandler generateInvoiceCommandHandler;
+    private final SendInvoiceByEmailCommandHandler sendInvoiceByEmailCommandHandler;
 
-    public WebhookController(StripeWebhookGateway stripeWebhookGateway, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler) {
+    public WebhookController(StripeWebhookGateway stripeWebhookGateway, MarkOrderAsPaidCommandHandler markOrderAsPaidCommandHandler, CreatePaymentCommandHandler createPaymentCommandHandler, DecreaseProductStockCommandHandler decreaseProductStockCommandHandler, GenerateInvoiceCommandHandler generateInvoiceCommandHandler, SendInvoiceByEmailCommandHandler sendInvoiceByEmailCommandHandler) {
         this.stripeWebhookGateway = stripeWebhookGateway;
         this.markOrderAsPaidCommandHandler = markOrderAsPaidCommandHandler;
         this.createPaymentCommandHandler = createPaymentCommandHandler;
         this.decreaseProductStockCommandHandler = decreaseProductStockCommandHandler;
+        this.generateInvoiceCommandHandler = generateInvoiceCommandHandler;
+        this.sendInvoiceByEmailCommandHandler = sendInvoiceByEmailCommandHandler;
     }
    
     @Operation(
@@ -73,7 +83,7 @@ public class WebhookController {
     public ResponseEntity<String> handleStripeWebhook(
         @RequestBody String payload,
         @RequestHeader("Stripe-Signature") String sigHeader
-    ) {
+    ) throws FileNotFoundException {
             Stripe.apiKey = stripeSecretKey;
             Event event = stripeWebhookGateway.parseEvent(payload);
 
@@ -105,6 +115,8 @@ public class WebhookController {
                     decreaseProductStockCommandHandler.handle(
                         new DecreaseProductStockCommand(orderId)
                     );
+                    String pdfPath = generateInvoiceCommandHandler.handle(orderId);
+                    sendInvoiceByEmailCommandHandler.handle(orderId, pdfPath);
                 break;
                 default:
                     System.out.println("Unhandled event type: " + event.getType());
