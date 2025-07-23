@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+.mochiyPopOne {
+  font-family: "Mochiy Pop One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Define CSS custom properties for theming */
+:root {
+  /* Light theme colors (RGB values) */
+  --color-background: 250 250 250; /* gray-50 */
+  --color-foreground: 17 24 39; /* gray-900 */
+  --color-card: 255 255 255; /* white */
+  --color-card-foreground: 17 24 39; /* gray-900 */
+  --color-muted: 249 250 251; /* gray-100 */
+  --color-muted-foreground: 107 114 128; /* gray-500 */
+  --color-border: 229 231 235; /* gray-200 */
+  --color-primary: 249 115 22; /* orange-500 */
+  --color-primary-foreground: 255 255 255; /* white */
+  --color-accent: 239 68 68; /* red-500 */
+  --color-accent-foreground: 255 255 255; /* white */
+}
+
+.dark {
+  /* Dark theme colors (RGB values) */
+  --color-background: 17 24 39; /* gray-900 */
+  --color-foreground: 243 244 246; /* gray-100 */
+  --color-card: 31 41 55; /* gray-800 */
+  --color-card-foreground: 243 244 246; /* gray-100 */
+  --color-muted: 55 65 81; /* gray-700 */
+  --color-muted-foreground: 156 163 175; /* gray-400 */
+  --color-border: 75 85 99; /* gray-600 */
+  --color-primary: 251 146 60; /* orange-400 */
+  --color-primary-foreground: 17 24 39; /* gray-900 */
+  --color-accent: 248 113 113; /* red-400 */
+  --color-accent-foreground: 17 24 39; /* gray-900 */
+}
+
+/* Apply base styles directly */
+* {
+  border-color: rgb(var(--color-border));
+}
+
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Define custom utility classes */
+.bg-background {
+  background-color: rgb(var(--color-background));
+}
+
+.bg-card {
+  background-color: rgb(var(--color-card));
+}
+
+.bg-muted {
+  background-color: rgb(var(--color-muted));
+}
+
+.bg-primary {
+  background-color: rgb(var(--color-primary));
+}
+
+.bg-accent {
+  background-color: rgb(var(--color-accent));
+}
+
+/* Text colors */
+.text-foreground {
+  color: rgb(var(--color-foreground));
+}
+
+.text-card-foreground {
+  color: rgb(var(--color-card-foreground));
+}
+
+.text-muted-foreground {
+  color: rgb(var(--color-muted-foreground));
+}
+
+.text-primary {
+  color: rgb(var(--color-primary));
+}
+
+.text-primary-foreground {
+  color: rgb(var(--color-primary-foreground));
+}
+
+.text-accent {
+  color: rgb(var(--color-accent));
+}
+
+.text-accent-foreground {
+  color: rgb(var(--color-accent-foreground));
+}
+
+/* Border colors */
+.border-border {
+  border-color: rgb(var(--color-border));
+}
+
+.border-primary {
+  border-color: rgb(var(--color-primary));
+}
+
+.border-accent {
+  border-color: rgb(var(--color-accent));
+}
+
+/* Interactive states */
+.hover\:text-primary:hover {
+  color: rgb(var(--color-primary));
+}
+
+.hover\:bg-muted:hover {
+  background-color: rgb(var(--color-muted));
+}
+
+.hover\:opacity-90:hover {
+  opacity: 0.9;
+}
+
+.hover\:opacity-80:hover {
+  opacity: 0.8;
+}
+
+/* Focus states */
+.focus\:ring-primary:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(var(--color-primary) / var(--tw-ring-opacity));
+}
+
+.focus\:ring-accent:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(var(--color-accent) / var(--tw-ring-opacity));
+}
+
+/* Component classes */
+.card-hover {
+  transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.link-hover {
+  transition: color 0.2s ease;
+}
+
+.link-hover:hover {
+  color: rgb(var(--color-primary));
+}
+
+.hover-bright {
+  transition: opacity 0.2s ease;
+}
+
+.hover-bright:hover {
+  opacity: 0.9;
+}
+
+.hover-dim {
+  transition: opacity 0.2s ease;
+}
+
+.hover-dim:hover {
+  opacity: 0.8;
+}
